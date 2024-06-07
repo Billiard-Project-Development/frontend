@@ -6,15 +6,15 @@ import BookTable from "../components/BookTable";
 const Home = () => {
   return (
     <>
-      <section
-        style={{
-          backgroundImage: `url(${homebg1})`,
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover"
-        }}
-        className="border h-[1040px] bg-black "
-      >
-        <div className="flex items-center justify-center border border-white h-full">
+      <section>
+        <div
+          style={{
+            backgroundImage: `url(${homebg1})`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover"
+          }}
+          className="flex items-center justify-center border-white h-screen bg-black "
+        >
           <div className="flex flex-col gap-5 items-center justify-center max-w-[720px]">
             <h1 className="text-4xl font-bold text-white text-center">
               Shoot and Score! Reserve Your Table Now
