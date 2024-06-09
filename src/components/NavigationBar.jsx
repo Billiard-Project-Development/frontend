@@ -2,26 +2,20 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 const NavigationBar = () => {
-  const [prevScrollPosition, setPrevScrollPosition] = useState(0);
+  // const [prevScrollPosition, setPrevScrollPosition] = useState(0);
   const [visable, setVisable] = useState(true);
   const handleScroll = () => {
     const currentScrollPosition = window.scrollY;
-
-    if (currentScrollPosition > prevScrollPosition) {
-      setVisable(false);
-    } else {
-      setVisable(true);
-    }
-    setPrevScrollPosition(currentScrollPosition);
+    setVisable(currentScrollPosition === 0);
   };
-
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  });
+  }, []);
 
   const [currentPage, setCurrentPage] = useState("/");
   const location = useLocation();
+
   useEffect(() => {
     setCurrentPage(location.pathname);
   }, [location]);
@@ -43,7 +37,7 @@ const NavigationBar = () => {
             BILLIARD
           </Link>
         </div>
-        <div className="flex gap-3 text-xl">
+        <div className="flex gap-3 text-20">
           <Link
             id="navigateToHomeText"
             className={` hover:text-primaryOrange transition-all ease-in-out duration-200 rounded  ${
