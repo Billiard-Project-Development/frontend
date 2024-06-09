@@ -30,9 +30,9 @@ const data = [
 
 const Facility = () => {
   return (
-    <div className="flex flex-col items-center gap-10 pb-[500px]">
+    <div className="flex flex-col items-center gap-10">
       <div className="flex flex-col gap-5 items-center justify-center">
-        <h1 className="font-bold text-32 text-primaryBlack pt-32">Fasilitas</h1>
+        <h1 className="font-bold text-32 text-primaryBlack pt-32">FASILITAS</h1>
         <h2 className="text-24 text-center max-w-[1200px]">
           Dengan suasana yang ramah dan layanan yang prima, kami menawarkan
           fasilitas yang lengkap untuk memastikan pengalaman bermain Anda lebih

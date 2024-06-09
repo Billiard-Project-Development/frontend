@@ -3,10 +3,12 @@ import CardGallery from "../components/CardGallery";
 import homebg1 from "../assets/Hero/heroBackground.webp";
 import BookTable from "../components/BookTable";
 import Facility from "../components/Facility";
+import Events from "../components/Events";
+import Address from "../components/Address";
 
 const Home = () => {
   return (
-    <>
+    <div className="pb-[100px]">
       <section>
         <div
           style={{
@@ -35,7 +37,13 @@ const Home = () => {
       <section>
         <Facility />
       </section>
-    </>
+      <section>
+        <Events />
+      </section>
+      <section>
+        <Address />
+      </section>
+    </div>
   );
 };
 

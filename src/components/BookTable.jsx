@@ -38,7 +38,7 @@ const BookTable = () => {
       <div className="flex flex-col items-center gap-10">
         <div className="flex flex-col gap-5 items-center justify-center">
           <h1 className="font-bold text-32 text-primaryBlack pt-32">
-            Booking Meja
+            BOOKING MEJA
           </h1>
           <h2 className="text-24 text-center max-w-[1200px]">
             Pesan meja Anda dengan mudah dan cepat, pilih waktu Anda, dan kami
