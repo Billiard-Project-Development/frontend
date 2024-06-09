@@ -1,10 +1,10 @@
 import React from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick-theme.css";
+import "slick-carousel/slick/slick.css";
 import GalleryImage1 from "../assets/CardImageGallery/galleryImage1.webp";
 import GalleryImage2 from "../assets/CardImageGallery/galleryImage2.webp";
 import GalleryImage3 from "../assets/CardImageGallery/galleryImage3.webp";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 
 const CardGallery = () => {
   const data = [
@@ -46,7 +46,8 @@ const CardGallery = () => {
 
   return (
     <div className="w-full flex flex-col items-center gap-10 justify-center">
-      <h1 className="font-bold text-3xl text-primaryBlack pt-10">GALERI</h1>
+      <h1 className="font-bold text-32 text-primaryBlack pt-10">GALERI</h1>
+
       <div className="w-[1280px]">
         <Slider {...settings}>
           {data?.map((card, index) => (
