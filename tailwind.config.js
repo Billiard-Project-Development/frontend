@@ -1,4 +1,3 @@
-/** @type {import('tailwindcss').Config} */
 const withMT = require("@material-tailwind/react/utils/withMT");
 module.exports = withMT({
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
@@ -8,8 +7,8 @@ module.exports = withMT({
         primaryOrange: "#FF6B00",
         primaryWhite: "#FFFFFF",
         primaryBlack: "#303030",
-        primarySoftGrey: "#F0F0F0",
-        primaryDarkGrey: "#A0A0A0",
+        primarySoftgray: "#F0F0F0",
+        primaryDarkgray: "#A0A0A0",
         accentDarkOrange: "#D65A00",
         accentSoftOrange: "#FFC092",
         accentSoftOrange2: "#FFE0C9",
@@ -17,12 +16,13 @@ module.exports = withMT({
         accentGreen: "#00DF16",
         accentSoftGreen: "#ECFFEE",
         accentRed: "#FF6262",
-        accentRed2: "#FF6262"
+        bgWhite: "#FBFBFB"
       },
       fontFamily: {
         body: ["Montserrat"]
       },
       fontSize: {
+        8: "8px",
         10: "10px",
         12: "12px",
         14: "14px",

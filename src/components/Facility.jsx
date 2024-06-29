@@ -30,7 +30,7 @@ const data = [
 
 const Facility = () => {
   return (
-    <div className="flex flex-col items-center gap-10">
+    <div id="fasilitas" className="flex flex-col items-center gap-10">
       <div className="flex flex-col gap-5 items-center justify-center">
         <h1 className="font-bold text-32 text-primaryBlack pt-32">FASILITAS</h1>
         <h2 className="text-24 text-center max-w-[1200px]">

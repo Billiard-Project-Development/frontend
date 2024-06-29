@@ -8,7 +8,7 @@ import { Calendar, CaretLeft, CaretRight, Clock } from "@phosphor-icons/react";
 
 const TimeFilter = ({ onDateSelect }) => {
   const [currentWeek, setCurrentWeek] = useState(startOfDay(new Date()));
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [datePickerOpen, setDatePickerOpen] = useState(false);
 
   const daysOfWeek = Array.from({ length: 7 }).map((_, index) =>
@@ -58,17 +58,17 @@ const TimeFilter = ({ onDateSelect }) => {
             )}
           </div>
         </div>
-        <div className="flex items-center gap-3 border-l-2 border-r-2 border-primarySoftGrey px-5">
+        <div className="flex items-center gap-3 border-l-2 border-r-2 border-primarySoftgray px-5">
           <button
             onClick={handlePreviousWeek}
-            className="p-1 rounded-lg text-primaryDarkGrey hover:bg-primaryOrange hover:text-white transition-all ease-in-out duration-200"
+            className="p-1 rounded-lg text-primaryDarkgray hover:bg-primaryOrange hover:text-white transition-all ease-in-out duration-200"
           >
             <CaretLeft size={32} />
           </button>
           <div className="grid grid-cols-7 gap-2">
-            {daysOfWeek.map((date) => (
+            {daysOfWeek.map((date, index) => (
               <button
-                key={date}
+                key={index}
                 onClick={() => handleDateClick(date)}
                 className={`p-2 rounded-lg transition-all ease-in-out duration-300 flex flex-col items-center gap-1 ${
                   isSameDay(date, selectedDate)
@@ -83,7 +83,7 @@ const TimeFilter = ({ onDateSelect }) => {
           </div>
           <button
             onClick={handleNextWeek}
-            className="p-1 rounded-lg text-primaryDarkGrey hover:bg-primaryOrange hover:text-white transition-all ease-in-out duration-200"
+            className="p-1 rounded-lg text-primaryDarkgray hover:bg-primaryOrange hover:text-white transition-all ease-in-out duration-200"
           >
             <CaretRight size={32} />
           </button>

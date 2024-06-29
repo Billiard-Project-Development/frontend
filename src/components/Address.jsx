@@ -4,7 +4,7 @@ import { Envelope, InstagramLogo, WhatsappLogo } from "@phosphor-icons/react";
 import { YoutubeLogo } from "@phosphor-icons/react/dist/ssr";
 const Address = () => {
   return (
-    <div className="flex flex-col items-center gap-10">
+    <div id="kontak" className="flex flex-col items-center gap-10">
       <div className="flex flex-col gap-5 items-center justify-center">
         <h1 className="font-bold text-32 text-primaryBlack pt-32">ALAMAT</h1>
 
@@ -15,7 +15,7 @@ const Address = () => {
                 <Envelope size={48} />
               </div>
               <div className="flex flex-col gap-1">
-                <span className="text-24 font font-semibold">Email</span>
+                <span className="text-24 font font-semibold">Emaisssl</span>
                 <span className="">biliard@gmail.com</span>
               </div>
             </div>

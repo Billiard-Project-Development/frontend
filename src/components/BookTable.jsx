@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import meja1 from "../assets/CardImageGallery/galleryImage1.webp";
 import { Garage, MapPin } from "@phosphor-icons/react";
 import TimeFilter from "./TimeFilter";
+import { Link } from "react-router-dom";
 const BookTable = () => {
   const data = [
     {
@@ -35,7 +36,7 @@ const BookTable = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center gap-10">
+      <div id="booking" className="flex flex-col items-center gap-10">
         <div className="flex flex-col gap-5 items-center justify-center">
           <h1 className="font-bold text-32 text-primaryBlack pt-32">
             BOOKING MEJA
@@ -76,9 +77,12 @@ const BookTable = () => {
                   <MapPin className="text-primaryOrange" size={20} />
                   <span className="">Location</span>
                 </div>
-                <button className="flex items-center w-full justify-center bg-primaryOrange px-3 py-2 text-white hover:bg-accentDarkOrange transition-all ease-in-out duration-200 rounded-md">
+                <Link
+                  to="/booking-table"
+                  className="flex items-center w-full justify-center bg-primaryOrange px-3 py-2 text-white hover:bg-accentDarkOrange transition-all ease-in-out duration-200 rounded-md"
+                >
                   Booking Sekarang
-                </button>
+                </Link>
               </div>
             </div>
           ))}

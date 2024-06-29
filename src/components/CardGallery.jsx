@@ -45,7 +45,10 @@ const CardGallery = () => {
   };
 
   return (
-    <div className="w-full flex flex-col items-center gap-10 justify-center">
+    <div
+      id="galeri"
+      className="w-full flex flex-col items-center gap-10 justify-center"
+    >
       <h1 className="font-bold text-32 text-primaryBlack pt-10">GALERI</h1>
 
       <div className="w-[1280px]">
