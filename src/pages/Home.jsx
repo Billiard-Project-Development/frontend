@@ -1,13 +1,16 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import homebg1 from "../assets/Hero/heroBackground.webp";
 import Address from "../components/Address";
 import BookTable from "../components/BookTable";
 import CardGallery from "../components/CardGallery";
 import Events from "../components/Events";
 import Facility from "../components/Facility";
-import { Link } from "react-router-dom";
+import { getUserInfo } from "../utils/auth";
 
 const Home = () => {
+  const userInfo = getUserInfo();
+  console.log("userInfo:", userInfo);
   return (
     <div className="pb-[100px]">
       <section>
@@ -35,6 +38,7 @@ const Home = () => {
           </div>
         </div>
       </section>
+
       <section>
         <CardGallery />
       </section>

@@ -1,9 +1,72 @@
 // Dashboard.js
 
 import { Calendar, Table, VectorTwo, Wallet } from "@phosphor-icons/react";
-import React from "react";
+import React, { useMemo } from "react";
+import bookingList from "../../booking_list.json";
+import BasicTable from "../../components/admin/BasicTable";
+import transaction from "../../MOCK_DATA.json";
 
 const Dashboard = () => {
+  const transactionData = useMemo(() => transaction, []);
+  const bookingListData = useMemo(() => bookingList, []);
+  const transactionColumns = [
+    {
+      header: "Nama",
+      accessorKey: "name"
+    },
+    {
+      header: "No HP",
+      accessorKey: "phone"
+    },
+    {
+      header: "Lama Sewa",
+      accessorKey: "duration"
+    },
+    {
+      header: "Tanggal",
+      accessorKey: "date"
+    },
+    {
+      header: "Nominal",
+      accessorKey: "price"
+    },
+    {
+      header: "Meja",
+      accessorKey: "table"
+    },
+    {
+      header: "Metode Bayar",
+      accessorKey: "transaction_method"
+    }
+  ];
+
+  const bookingListColumns = [
+    {
+      header: "ID Booking",
+      accessorKey: "id_booking"
+    },
+    {
+      header: "Nama",
+      accessorKey: "name"
+    },
+    {
+      header: "No HP",
+      accessorKey: "phone"
+    },
+    {
+      header: "Durasi Sewa",
+      accessorKey: "rent_duration"
+    },
+    {
+      header: "Tanggal Booking",
+      accessorKey: "date"
+    },
+    {
+      header: "No Meja",
+      accessorKey: "table"
+    }
+  ];
+
   return (
     <div className="flex flex-col gap-10 w-full text-primaryBlack">
       <div className="flex items-center justify-between">
@@ -41,6 +104,12 @@ const Dashboard = () => {
             <p className="text-16 font-semibold">9</p>
           </div>
         </div>
+      </div>
+      <div className="w-full">
+        <BasicTable columns={transactionColumns} data={transactionData} />
+      </div>
+      <div className="w-full">
+        <BasicTable columns={bookingListColumns} data={bookingListData} />
       </div>
     </div>
   );

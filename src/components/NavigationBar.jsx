@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../assets/Logo/billiard_logo.webp";
+import { getUserInfo, handleLogout } from "../utils/auth";
+import { Coins, SignOut, User } from "@phosphor-icons/react";
 const NavigationBar = () => {
   // const [prevScrollPosition, setPrevScrollPosition] = useState(0);
   const [visible, setVisible] = useState(true);
   // const [showSideNav, setShowSideNav] = useState(false);
+
+  const userInfo = getUserInfo();
+  const navigate = useNavigate();
   const handleScroll = () => {
     const currentScrollPosition = window.scrollY;
     setVisible(currentScrollPosition === 0);
@@ -24,12 +29,17 @@ const NavigationBar = () => {
   // }, [location]);
 
   const [activeSection, setActiveSection] = useState(null);
+  const [userDropDown, setUserDropDown] = useState(false);
 
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
+  };
+
+  const logout = () => {
+    handleLogout(navigate);
   };
 
   console.log("visible:", visible);
@@ -125,14 +135,52 @@ const NavigationBar = () => {
             Kontak
           </Link>
         </div>
-        <div className="pl-40">
-          <Link
-            to="/sign-in"
-            className="flex bg-primaryOrange px-3 py-2 text-white hover:bg-accentDarkOrange transition-all ease-in-out duration-200 rounded-md"
-          >
-            Login
-          </Link>
-        </div>
+        {userInfo ? (
+          <div className="relative">
+            <button
+              onClick={() => {
+                setUserDropDown((current) => !current);
+              }}
+              className="flex items-center"
+            >
+              <User size={32} />
+            </button>
+            {userDropDown && (
+              <div className="absolute right-0 mt-2 w-64 bg-white rounded-md shadow-lg px-2 py-4 text-16 font-semibold text-primaryOrange">
+                <div className="flex flex-col gap-7">
+                  {" "}
+                  <Link
+                    to="/profile"
+                    className="flex items-center py-1 px-2 gap-3 hover:bg-primarySoftgray transition-all ease-in-out rounded-lg"
+                  >
+                    <User size={24} />
+                    <p> Profile</p>
+                  </Link>
+                  <button className="flex items-center py-1 px-2  gap-3 hover:bg-primarySoftgray transition-all ease-in-out rounded-lg">
+                    <Coins size={24} />
+                    <p>Riwayat Transaksi</p>
+                  </button>
+                  <button
+                    onClick={logout}
+                    className="flex items-center py-1 px-2  gap-3 w-full text-left hover:bg-primarySoftgray transition-all ease-in-out rounded-lg"
+                  >
+                    <SignOut size={24} />
+                    <p> Logout</p>
+                  </button>{" "}
+                </div>
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="pl-40">
+            <Link
+              to="/sign-in"
+              className="flex bg-primaryOrange px-3 py-2 text-white hover:bg-accentDarkOrange transition-all ease-in-out duration-200 rounded-md"
+            >
+              Login
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   );

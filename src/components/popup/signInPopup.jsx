@@ -5,10 +5,19 @@ import { Link } from "react-router-dom";
 import Logo from "../../assets/Signin-Signup/billiard_logo.webp";
 import InputText from "../InputText";
 import { X } from "@phosphor-icons/react";
+import { userLogin } from "../../redux/actions/auth/userAuth";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function SignInPopup(props) {
   const { isOpen, onClose, data, handleSwitchSignUp } = props;
   const [visiblePassword, setVisiblePassword] = useState(false);
+
+  const { userInfo, authLoading, authSuccess, authError } = useSelector(
+    (state) => state.auth
+  );
+
+  const dispatch = useDispatch();
+
   const toggleShowPassword = () => {
     setVisiblePassword(!visiblePassword);
   };
@@ -17,9 +26,15 @@ export default function SignInPopup(props) {
     handleSubmit,
     formState: { errors }
   } = useForm();
-  const sumbitform = async (data) => {
-    // await dispatch(userSignUp(data));
+  const submitForm = async (data) => {
+    try {
+      dispatch(userLogin(data));
+      console.log("Form data submitted:", data);
+    } catch (error) {
+      console.error("Form submission error:", error);
+    }
   };
+
   if (!isOpen) return null;
   return (
     <>
@@ -63,31 +78,21 @@ export default function SignInPopup(props) {
                       <h2 className="text-16 text-primaryBlack">
                         Masuk ke Akun Anda
                       </h2>
+                      {authLoading && (
+                        <div className="text-accentGreen font-semibold text-16">
+                          Loading...
+                        </div>
+                      )}
+                      {authError && (
+                        <div className="text-accentRed font-semibold text-16">
+                          {authError?.message}
+                        </div>
+                      )}
                     </div>
                     <form
-                      onSubmit={handleSubmit(sumbitform)}
+                      onSubmit={handleSubmit(submitForm)}
                       className="flex flex-col gap-6 w-full"
                     >
-                      {/* <div className="flex flex-col gap-1 text-primaryDarkgray">
-              <h3 className="pl-6">Email</h3>
-              <input
-                className="bg-primary3 border text-black border-primaryDarkgray focus:outline-none  rounded-lg w-full h-10 px-4"
-                // placeholder="Enter your email"
-                type="email"
-                id="emailInput"
-                {...register("email", {
-                  required: {
-                    value: true,
-                    message: "Input Email Required"
-                  },
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Email Format Wrong"
-                  }
-                })}
-              />
-            </div> */}
-
                       <InputText
                         label="Email"
                         name="email"
@@ -104,49 +109,13 @@ export default function SignInPopup(props) {
                           }
                         }}
                       />
-
-                      {/* <div className="flex flex-col gap-1 text-primaryDarkgray">
-              <h3 className="pl-6">Kata Sandi</h3>
-              <div className="flex bg-primary3 border text-black border-primaryDarkgray rounded-lg w-full h-10 px-4">
-                <input
-                  className="bg-transparent focus:outline-none w-full"
-                  // placeholder="Enter your Password"
-                  type={`${visiblePassword === false ? "password" : "text"}`}
-                  id="passwordInput"
-                  {...register("password", {
-                    required: {
-                      value: true,
-                      message: "Password Input Required"
-                    },
-                    minLength: {
-                      value: 8,
-                      message: "Password length 8 character of min"
-                    },
-                    maxLength: {
-                      value: 50,
-                      message: "Password length 50 character of max"
-                    },
-                    pattern: {
-                      value: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
-                      message:
-                        "Password must include with Uppercase or !@#$%^&*"
-                    }
-                  })}
-                />
-                <span
-                  className="flex items-center cursor-pointer"
-                  onClick={toggleShowPassword}
-                >
-                  {visiblePassword ? <Eye /> : <EyeClosed />}
-                </span>
-              </div>
-            </div> */}
-
+                      {errors.email && (
+                        <p className="text-red-500">{errors.email.message}</p>
+                      )}
                       <InputText
                         label="Password"
                         name="password"
-                        type="password"
-                        visiblePassword={visiblePassword}
+                        type={visiblePassword ? "text" : "password"}
                         register={register}
                         validation={{
                           required: {
@@ -160,15 +129,21 @@ export default function SignInPopup(props) {
                           maxLength: {
                             value: 50,
                             message: "Password length 50 characters maximum"
-                          },
-                          pattern: {
-                            value: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
-                            message:
-                              "Password must include an uppercase letter, a number, and a special character"
                           }
+                          // pattern: {
+                          //   value: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
+                          //   message:
+                          //     "Password must include an uppercase letter, a number, and a special character"
+                          // }
                         }}
+                        visiblePassword={visiblePassword}
                         toggleShowPassword={toggleShowPassword}
                       />
+                      {errors.password && (
+                        <p className="text-red-500">
+                          {errors.password.message}
+                        </p>
+                      )}
                       <button
                         id="signUpSubmitButton"
                         className="flex items-center justify-center bg-primaryOrange py-3 text-center text-white rounded-lg w-full hover:bg-accentDarkOrange transition duration-300 delay-100"

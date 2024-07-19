@@ -5,7 +5,7 @@ import success from "../../../src/assets/Signin-Signup/success.webp";
 import { useDispatch } from "react-redux";
 import { resetStateRegister } from "../../redux/features/auth/registerSlice";
 
-export default function SuccessRegistration(props) {
+export default function SuccessPopup(props) {
   const { isOpen, onClose, data, setPopupSuccess } = props;
   const dispatch = useDispatch();
   useEffect(() => {

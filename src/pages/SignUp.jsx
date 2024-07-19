@@ -1,10 +1,10 @@
 // @ts-nocheck
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Logo from "../assets/Signin-Signup/billiard_logo.webp";
 // import { userSignUp } from "@/redux/actions/auth/auth-action";
 // import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 // import { getToken } from "@/helpers/helpers";
 // import { resetSuccessState } from "@/redux/features/userSignUp/signup-slice";
@@ -12,9 +12,18 @@ import { CaretLeft } from "@phosphor-icons/react";
 import registerimg from "../assets/Signin-Signup/register.webp";
 import InputText from "../components/InputText";
 import SuccessRegistration from "../components/popup/successRegistration";
+import { useDispatch, useSelector } from "react-redux";
+import { userRegister } from "../redux/actions/auth/userAuth";
 
 const SignUp = () => {
-  //   const dispatch = useDispatch();
+  const { registerSuccess, registerLoading, registerResponse, registerError } =
+    useSelector((state) => state.register);
+
+  console.log("registerSuccess:", registerSuccess);
+  console.log("registerResponse:", registerResponse);
+  console.log("registerError:", registerError);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   //   const router = useRouter();
   const [visiblePassword, setVisiblePassword] = useState(false);
   const [visibleConfirm, setVisibleConfirm] = useState(false);
@@ -27,16 +36,29 @@ const SignUp = () => {
   };
 
   const sumbitform = async (data) => {
-    // await dispatch(userSignUp(data));
+    try {
+      await dispatch(userRegister(data));
+      console.log("data:", data);
+    } catch (error) {
+      console.error("Form submission error:", error);
+    }
   };
-
-  //   const token = getToken();
 
   const {
     register,
     handleSubmit,
     formState: { errors }
   } = useForm();
+
+  useEffect(() => {
+    if (registerSuccess === true) {
+      setPopupSuccess(true);
+
+      setTimeout(() => {
+        navigate("/sign-in");
+      }, 3000);
+    }
+  }, [registerSuccess]);
 
   return (
     <>
@@ -75,6 +97,16 @@ const SignUp = () => {
             <div className="flex flex-col gap-3 items-center  ">
               <img width={346} height={46} src={Logo} alt="" />
               <h2 className="text-xl text-lighttosca">Mulai Bergabung</h2>
+              {registerLoading && (
+                <div className="text-accentGreen font-semibold text-16">
+                  Loading...
+                </div>
+              )}
+              {registerError && (
+                <div className="text-accentRed font-semibold text-16">
+                  {registerError?.message}
+                </div>
+              )}
             </div>
             <form
               onSubmit={handleSubmit(sumbitform)}
@@ -96,9 +128,12 @@ const SignUp = () => {
                   }
                 }}
               />
+              {errors.email && (
+                <p className="text-red-500">{errors.email.message}</p>
+              )}
               <InputText
                 label="Nama"
-                name="name"
+                name="nama"
                 type="name"
                 register={register}
                 validation={{
@@ -116,17 +151,28 @@ const SignUp = () => {
                   }
                 }}
               />
+              {errors.nama && (
+                <p className="text-red-500">{errors.nama.message}</p>
+              )}
               <InputText
                 label="No HP"
-                name="phone"
+                name="noHp"
                 type="tel"
                 register={register}
+                validation={{
+                  required: {
+                    value: true,
+                    message: "phone Input Required"
+                  }
+                }}
               />
-
+              {errors.noHp && (
+                <p className="text-red-500">{errors.noHp.message}</p>
+              )}
               <InputText
                 label="Password"
                 name="password"
-                type="password"
+                type={visiblePassword ? "text" : "password"}
                 visiblePassword={visiblePassword}
                 register={register}
                 validation={{
@@ -141,19 +187,19 @@ const SignUp = () => {
                   maxLength: {
                     value: 50,
                     message: "Password length 50 characters maximum"
-                  },
-                  pattern: {
-                    value: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
-                    message:
-                      "Password must include an uppercase letter, a number, and a special character"
                   }
+                  // pattern: {
+                  //   value: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
+                  //   message:
+                  //     "Password must include an uppercase letter, a number, and a special character"
+                  // }
                 }}
                 toggleShowPassword={toggleShowPassword}
               />
+              {errors.password && (
+                <p className="text-red-500">{errors.password.message}</p>
+              )}
               <button
-                onClick={() => {
-                  setPopupSuccess(true);
-                }}
                 id="signUpSubmitButton"
                 className="flex items-center justify-center bg-primaryOrange py-3 text-center text-white rounded-lg w-full hover:bg-accentDarkOrange transition duration-300 delay-100"
                 aria-label="Toggle Submit"
