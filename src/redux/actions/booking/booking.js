@@ -1,14 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { getToken } from "../../../../utils/auth";
+import { getToken } from "../../../utils/auth";
 
-const getAllTransaction = createAsyncThunk(
-  "getAllTransaction",
+export const getAllBooking = createAsyncThunk(
+  "getAllBooking",
   async (_, { rejectWithValue }) => {
     try {
       const token = getToken();
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API}/transaksi/getAll`,
+        `${process.env.REACT_APP_API}/booking/getAll`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -26,13 +26,13 @@ const getAllTransaction = createAsyncThunk(
   }
 );
 
-const getTransactionByTransactionId = createAsyncThunk(
-  "getTransactionByTransactionId",
+export const getBookingByTransactionId = createAsyncThunk(
+  "getBookingByTransactionId",
   async (id, { rejectWithValue }) => {
     try {
       const token = getToken();
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API}/transaction/getTransaksiById?transaksiId=${id}`,
+        `${process.env.REACT_APP_API}/booking/getByTransaksiId?transaksiId=${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -50,38 +50,13 @@ const getTransactionByTransactionId = createAsyncThunk(
   }
 );
 
-const getTransactionByUserId = createAsyncThunk(
-  "getTransactionByUserId",
+export const getBookingByBookingId = createAsyncThunk(
+  "getBookingByBookingId",
   async (id, { rejectWithValue }) => {
     try {
       const token = getToken();
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API}/transaction/getTransaksiByUserId?userId=${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
-      return data;
-    } catch (error) {
-      if (error.response && error.response.data.message) {
-        return rejectWithValue(error.response.data.message);
-      } else {
-        return rejectWithValue(error.message);
-      }
-    }
-  }
-);
-
-const createTransaction = createAsyncThunk(
-  "createTransaction",
-  async (dataTransaction, { rejectWithValue }) => {
-    try {
-      const token = getToken();
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_API}/transaction/create`,
-        dataTransaction,
+        `${process.env.REACT_APP_API}/booking/getByBookingId?bookingId=${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`

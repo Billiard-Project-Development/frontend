@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import { getToken } from "../../../../utils/auth";
+import { getToken } from "../../../utils/auth";
 
-const getAllProduct = createAsyncThunk(
+export const getAllProduct = createAsyncThunk(
   "getAllProduct",
   async (_, { rejectWithValue }) => {
     try {
@@ -26,7 +26,7 @@ const getAllProduct = createAsyncThunk(
   }
 );
 
-const getProductByDate = createAsyncThunk(
+export const getProductByDate = createAsyncThunk(
   "getProductByDate",
   async (date, { rejectWithValue }) => {
     try {
@@ -50,7 +50,7 @@ const getProductByDate = createAsyncThunk(
   }
 );
 
-const getAllProductPhoto = createAsyncThunk(
+export const getAllProductPhoto = createAsyncThunk(
   "getAllProductPhoto",
   async (_, { rejectWithValue }) => {
     try {
@@ -74,7 +74,7 @@ const getAllProductPhoto = createAsyncThunk(
   }
 );
 
-const getProductPhotoById = createAsyncThunk(
+export const getProductPhotoById = createAsyncThunk(
   "getProductPhotoById",
   async (id, { rejectWithValue }) => {
     try {
@@ -98,7 +98,7 @@ const getProductPhotoById = createAsyncThunk(
   }
 );
 
-const addProduct = createAsyncThunk(
+export const addProduct = createAsyncThunk(
   "addProduct",
   async (dataAddProduct, { rejectWithValue }) => {
     try {
@@ -124,7 +124,7 @@ const addProduct = createAsyncThunk(
   }
 );
 
-const deleteProduct = createAsyncThunk(
+export const deleteProduct = createAsyncThunk(
   "deleteProduct",
   async (id, { rejectWithValue }) => {
     try {
