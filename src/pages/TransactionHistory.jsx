@@ -1,11 +1,41 @@
-import { CaretLeft, Check, X } from "@phosphor-icons/react";
-import React, { useState } from "react";
+import {
+  CaretLeft,
+  Check,
+  CheckCircle,
+  Coins,
+  X,
+  XCircle
+} from "@phosphor-icons/react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import InputText from "../components/InputText";
 import DetailTransaction from "../components/popup/detailTransaction";
-
+import { getUserInfo } from "../utils/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { getTransactionByUserId } from "../redux/actions/transaction/transaction";
+import { format } from "date-fns";
+import DetailTransactionHistory from "../components/popup/detailTransactionHistory";
 const TransactionHistory = () => {
+  const userInfo = getUserInfo();
+  const dispatch = useDispatch();
+
+  const {
+    getTransactionByUserIdLoading,
+    getTransactionByUserIdSuccess,
+    getTransactionByUserIdError,
+    getTransactionByUserIdResponse
+  } = useSelector((state) => state.getTransactionByUserId);
+
+  const dataTransactionHistory = getTransactionByUserIdResponse;
+
+  console.log("dataHistory:", dataTransactionHistory);
+
+  useEffect(() => {
+    dispatch(getTransactionByUserId(userInfo?.user_id));
+  }, [dispatch]);
+
+  console.log("userInfo:", userInfo);
   const data = [
     {
       status: true,
@@ -29,22 +59,22 @@ const TransactionHistory = () => {
     }
   ];
   const [openPopup, setOpenPopup] = useState(false);
-  const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const [selectedTransactionData, setSelectedTransactionData] = useState(null);
   const handleSelectTransaction = (data) => {
-    setSelectedTransaction(data);
+    setSelectedTransactionData(data);
     setOpenPopup(true);
   };
-
+  console.log("data ini:", selectedTransactionData);
   console.log("openPopup:", openPopup);
 
   return (
     <>
-      <DetailTransaction
+      <DetailTransactionHistory
         isOpen={openPopup}
         onClose={() => {
           setOpenPopup(false);
         }}
-        data={selectedTransaction}
+        data={selectedTransactionData}
       />
       <div className="px-20 text-primaryBlack">
         <div className="p-4 w-full">
@@ -70,16 +100,20 @@ const TransactionHistory = () => {
               />
             </div>
             <div className="mt-10 flex flex-col gap-10 w-full">
-              {data?.map((history, index) => (
+              {dataTransactionHistory?.data?.map((history, index) => (
                 <div
                   key={index}
                   className="p-5 flex flex-col gap-5 rounded-xl border border-primaryOrange"
                 >
                   <div className="flex justify-between">
-                    {history?.status === true ? (
+                    {history?.status_transaksi === "Success" ? (
                       <div className="flex items-center gap-3">
-                        <div className="flex items-center justify-center rounded-full bg-accentGreen p-1">
-                          <Check size={14} color="white" />
+                        <div className="flex items-center justify-center rounded-full">
+                          <CheckCircle
+                            size={32}
+                            color="#00df16"
+                            weight="fill"
+                          />
                         </div>
 
                         <p className="text-16 font-semibold">
@@ -88,8 +122,8 @@ const TransactionHistory = () => {
                       </div>
                     ) : (
                       <div className="flex items-center gap-3">
-                        <div className="flex items-center justify-center rounded-full bg-accentRed p-1">
-                          <X size={14} color="white" />
+                        <div className="flex items-center justify-center rounded-full ">
+                          <XCircle size={32} color="#ff6262" weight="fill" />
                         </div>
 
                         <p className="text-16 font-semibold">
@@ -99,20 +133,27 @@ const TransactionHistory = () => {
                     )}
 
                     <p className="text-16 text-primaryDarkgray font-semibold">
-                      Order ID {history?.orderId}
+                      Order ID {history?.transaksi_id}
                     </p>
                   </div>
                   <p className="text-20 font-medium">Biaya Sewa</p>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
+                      <Coins className="text-primaryOrange" size={12} />
                       <div className="rounded-lg w-[52px] h-[52px] bg-black"></div>
                       <div className="flex flex-col gap-1">
                         <p className="text-16 font-medium">
-                          {history?.tableName}
+                          Meja {history?.tableName}
                         </p>
                         <p className="text-16 font-medium text-primaryDarkgray">
-                          {history?.day}, {history?.date}•{history?.timeStart} -{" "}
-                          {history?.timeEnd}
+                          {format(
+                            new Date(history?.tanggal_transaksi),
+                            "dd MMM yyyy"
+                          )}{" "}
+                          -{" "}
+                          {history?.produk?.jamMain.map(
+                            (hour, index) => hour + " "
+                          )}
                         </p>
                       </div>
                     </div>
