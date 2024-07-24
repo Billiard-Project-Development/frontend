@@ -8,9 +8,10 @@ export const getAllBooking = createAsyncThunk(
     try {
       const token = getToken();
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API}/booking/getAll`,
+        `${process.env.REACT_APP_API}/booking/getBookingList`,
         {
           headers: {
+            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`
           }
         }

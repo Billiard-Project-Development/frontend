@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../assets/Logo/billiard_logo.webp";
 import { getUserInfo, handleLogout } from "../utils/auth";
 import { Coins, SignOut, User } from "@phosphor-icons/react";
+import { scrollToSection } from "../utils/scrollUtils";
 const NavigationBar = () => {
   // const [prevScrollPosition, setPrevScrollPosition] = useState(0);
   const [visible, setVisible] = useState(true);
@@ -30,13 +31,6 @@ const NavigationBar = () => {
 
   const [activeSection, setActiveSection] = useState(null);
   const [userDropDown, setUserDropDown] = useState(false);
-
-  const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   const logout = () => {
     handleLogout(navigate);

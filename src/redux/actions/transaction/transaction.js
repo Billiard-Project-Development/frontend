@@ -8,7 +8,7 @@ export const getAllTransaction = createAsyncThunk(
     try {
       const token = getToken();
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API}/transaksi/getAll`,
+        `${process.env.REACT_APP_API}/transaksi/getTransaksiList`,
         {
           headers: {
             Authorization: `Bearer ${token}`

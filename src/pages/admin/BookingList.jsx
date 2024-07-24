@@ -1,20 +1,81 @@
 import { Wallet } from "@phosphor-icons/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import AddTablePopup from "../../components/popup/addTablePopup";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllBooking } from "../../redux/actions/booking/booking";
+import ContinueLoader1 from "../../components/loaders/ContinueLoader1";
+import AdvancedTable from "../../components/admin/AdvancedTable";
 const BookingList = () => {
+  const tablesColumns = [
+    {
+      header: "ID Booking",
+      accessorKey: "bookingId"
+    },
+    {
+      header: "Nama",
+      accessorKey: "namaPenyewa"
+    },
+    {
+      header: "No HP",
+      accessorKey: "noHp"
+    },
+    {
+      header: "Lama Sewa",
+      accessorKey: "lamaSewa"
+    },
+    {
+      header: "Tanggal",
+      accessorKey: "tanggalBooking"
+    }
+  ];
+
+  const {
+    getAllBookingResponse,
+    getAllBookingLoading,
+    getAllBookingError,
+    getAllBookingSuccess
+  } = useSelector((state) => state.getAllBooking);
+
+  const data = getAllBookingResponse?.data;
+
+  const [openAddTablePopup, setOpenAddTablePopup] = useState(false);
+
+  const dispatch = useDispatch();
+  const handleOpentablePopup = () => {
+    setOpenAddTablePopup(true);
+  };
+
+  useEffect(() => {
+    dispatch(getAllBooking());
+  }, [dispatch]);
+
+  console.log("getAllBookingResponse:", getAllBookingResponse);
   return (
     <div>
-      <div className="flex w-[352px] p-3 bg-primaryWhite rounded-xl items-center gap-3">
-        <div className="bg-accentSoftOrange2 rounded-lg flex p-1 items-center text-primaryOrange">
-          <Wallet size={32} />
-        </div>
-
-        <div className="flex flex-col gap-1 justify-center">
-          <p className="text-12 font-normal">Total Transaksi</p>
-          <p className="text-16 font-semibold">5</p>
-        </div>
+      <AddTablePopup
+        isOpen={openAddTablePopup}
+        onClose={() => {
+          setOpenAddTablePopup(false);
+        }}
+      />
+      <div className="flex-1 h-screen overflow-y-auto">
+        {getAllBookingLoading ? (
+          <div className="mt-40  flex items-center justify-center">
+            <ContinueLoader1 />
+          </div>
+        ) : getAllBookingError ? (
+          <div className="mt-40  flex items-center justify-center">
+            {getAllBookingError}
+          </div>
+        ) : getAllBookingResponse !== null ? (
+          <AdvancedTable
+            columns={tablesColumns}
+            data={data}
+            tableName={"Meja Billiard"}
+            handleOpentablePopup={handleOpentablePopup}
+          />
+        ) : null}
       </div>
-
-      <Wallet size={32} />
     </div>
   );
 };

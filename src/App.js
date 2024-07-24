@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Navigate,
   Route,
@@ -15,10 +15,13 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import TransactionHistory from "./pages/TransactionHistory";
 import AdminLayoutPage from "./pages/admin/AdminLayoutPage";
+import { getUserInfo } from "./utils/auth";
 
 function App() {
   const isAuthenticated = true; // Assuming user is authenticated
-  const userRole = "admin";
+  const userInfo = getUserInfo();
+  const userRole = userInfo?.role;
+  console.log("userRole:", userRole);
 
   return (
     <div className="z-auto mx-auto font-body bg-bgWhite min-h-screen">
@@ -34,9 +37,11 @@ function App() {
             element={<TransactionHistoryNav />}
           />{" "}
           {/* Redirect to admin dashboard if authenticated as admin */}
-          <Route path="/admin" element={<Navigate to="/admin/dashboard" />} />
+          {isAuthenticated && userRole === 1 && (
+            <Route path="/admin" element={<Navigate to="/admin/dashboard" />} />
+          )}
           {/* Conditional rendering for admin dashboard */}
-          {isAuthenticated && userRole === "admin" ? (
+          {isAuthenticated && userRole === 1 ? (
             <Route path="/admin/*" element={<AdminLayoutPage />} />
           ) : (
             <Route path="/admin/*" element={<Navigate to="/sign-in" />} />

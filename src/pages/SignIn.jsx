@@ -7,6 +7,8 @@ import loginimg from "../assets/Signin-Signup/login.webp";
 import InputText from "../components/InputText";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../redux/actions/auth/userAuth";
+import { getUserInfo } from "../utils/auth";
+import { resetStateAuth } from "../redux/features/auth/authSlice";
 
 const SignIn = () => {
   const {
@@ -15,13 +17,14 @@ const SignIn = () => {
     formState: { errors }
   } = useForm();
 
-  const { userInfo, authLoading, authSuccess, authError } = useSelector(
+  const { authLoading, authSuccess, authError } = useSelector(
     (state) => state.auth
   );
+  const userInfo = getUserInfo();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [visiblePassword, setVisiblePassword] = useState(false);
-  console.log("userInfo:", userInfo);
+
   console.log("authError:", authError);
   const toggleShowPassword = () => {
     setVisiblePassword(!visiblePassword);
@@ -37,9 +40,12 @@ const SignIn = () => {
   };
 
   useEffect(() => {
-    if (authSuccess === true) {
+    if (authSuccess === true && userInfo?.role === 1) {
+      navigate("/admin");
+    } else if (authSuccess === true) {
       navigate("/");
     }
+    dispatch(resetStateAuth());
   }, [authSuccess]);
 
   return (

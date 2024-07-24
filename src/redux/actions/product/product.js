@@ -32,7 +32,7 @@ export const getProductByDate = createAsyncThunk(
     try {
       const token = getToken();
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API}/transaction/getAllAvailable?tanggal=${date}`,
+        `${process.env.REACT_APP_API}/product/getAllAvailable?tanggal=${date}`,
         {
           headers: {
             Authorization: `Bearer ${token}`

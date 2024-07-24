@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { setCookie } from "nookies";
+import { getToken } from "../../../utils/auth";
 
 export const userLogin = createAsyncThunk(
   "authLogin",
@@ -52,6 +53,56 @@ export const userRegister = createAsyncThunk(
         return rejectWithValue(data);
       }
 
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const resetPassword = createAsyncThunk(
+  "resetPassword",
+  async (dataResetPassword, { rejectWithValue }) => {
+    try {
+      const token = getToken();
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_API}/user/resetPassword`,
+        dataResetPassword,
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const requestOTP = createAsyncThunk(
+  "requestOTP",
+  async (dataRequestOTP, { rejectWithValue }) => {
+    try {
+      const token = getToken();
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_API}/auth/requestOTP`,
+        dataRequestOTP,
+        {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        }
+      );
       return data;
     } catch (error) {
       if (error.response && error.response.data.message) {

@@ -1,48 +1,93 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdvancedTable from "../../components/admin/AdvancedTable";
 import mData from "../../MOCK_DATA.json"; // Import the data here
 import AddTablePopup from "../../components/popup/addTablePopup";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllTransaction } from "../../redux/actions/transaction/transaction";
+import ContinueLoader1 from "../../components/loaders/ContinueLoader1";
 
 const Transaction = () => {
   const transactionColumns = [
     {
+      header: "ID Transaksi",
+      accessorKey: "transaksiId"
+    },
+    {
       header: "Nama",
-      accessorKey: "name"
+      accessorKey: "namaPenyewa"
     },
     {
       header: "No HP",
-      accessorKey: "phone"
+      accessorKey: "noHp"
     },
     {
       header: "Lama Sewa",
-      accessorKey: "duration"
+      accessorKey: "lamaSewa"
     },
     {
       header: "Tanggal",
-      accessorKey: "date"
+      accessorKey: "tanggalTransaksi"
     },
     {
       header: "Nominal",
-      accessorKey: "price"
+      accessorKey: "totalHarga"
     },
     {
       header: "Meja",
-      accessorKey: "table"
+      accessorKey: "noMeja"
     },
     {
       header: "Metode Bayar",
-      accessorKey: "transaction_method"
+      accessorKey: "paymentMethod"
     }
   ];
 
+  const {
+    getAllTransactionResponse,
+    getAllTransactionLoading,
+    getAllTransactionError,
+    getAllTransactionSuccess
+  } = useSelector((state) => state.getAllTransaction);
+
+  const [openAddTablePopup, setOpenAddTablePopup] = useState(false);
+
+  const dispatch = useDispatch();
+  const handleOpentablePopup = () => {
+    setOpenAddTablePopup(true);
+  };
+
+  useEffect(() => {
+    dispatch(getAllTransaction());
+  }, [dispatch]);
+
+  const data = getAllTransactionResponse?.data;
+
+  console.log("getAllTransactionResponse:", getAllTransactionResponse);
   return (
     <div>
-      <div className="w-full">
-        <AdvancedTable
-          columns={transactionColumns}
-          data={mData}
-          tableName={"Transaksi Masuk"}
-        />
+      <AddTablePopup
+        isOpen={openAddTablePopup}
+        onClose={() => {
+          setOpenAddTablePopup(false);
+        }}
+      />
+      <div className="flex-1 h-screen overflow-y-auto">
+        {getAllTransactionLoading ? (
+          <div className="mt-40  flex items-center justify-center">
+            <ContinueLoader1 />
+          </div>
+        ) : getAllTransactionError ? (
+          <div className="mt-40  flex items-center justify-center">
+            {getAllTransactionError}
+          </div>
+        ) : getAllTransactionResponse !== null ? (
+          <AdvancedTable
+            columns={transactionColumns}
+            data={data}
+            tableName={"Transaksi Masuk"}
+            handleOpentablePopup={handleOpentablePopup}
+          />
+        ) : null}
       </div>
     </div>
   );

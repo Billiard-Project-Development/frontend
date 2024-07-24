@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdvancedTable from "../../components/admin/AdvancedTable";
 import mData from "../../TABLE_DATA.json";
 import AddTablePopup from "../../components/popup/addTablePopup";
+import { getAllProduct } from "../../redux/actions/product/product";
+import { useDispatch, useSelector } from "react-redux";
+import ContinueLoader1 from "../../components/loaders/ContinueLoader1";
 
 const Tables = () => {
   const tablesColumns = [
     {
       header: "ID Meja",
-      accessorKey: "id_meja"
+      accessorKey: "product_id"
     },
     {
       header: "Nama",
@@ -33,6 +36,18 @@ const Tables = () => {
   };
   console.log("mData:", mData); // Debugging: Check the data structure
   console.log("openAddTablePopup:", openAddTablePopup);
+  const {
+    getAllProductResponse,
+    getAllProductLoading,
+    getAllProductError,
+    getAllProductSuccess
+  } = useSelector((state) => state.getAllProduct);
+  const data = getAllProductResponse?.data;
+  console.log("getAllProductResponse:", getAllProductResponse);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllProduct());
+  }, [dispatch]);
 
   return (
     <div>
@@ -43,12 +58,24 @@ const Tables = () => {
         }}
       />
       <div className="flex-1 h-screen overflow-y-auto">
-        <AdvancedTable
-          columns={tablesColumns}
-          data={mData}
-          tableName={"Meja Billiard"}
-          handleOpentablePopup={handleOpentablePopup}
-        />
+        {getAllProductLoading ? (
+          <div className="mt-40  flex items-center justify-center">
+            <ContinueLoader1 />
+          </div>
+        ) : getAllProductError ? (
+          <div className="mt-40  flex items-center justify-center">
+            {getAllProductError}
+          </div>
+        ) : getAllProductResponse !== null ? (
+          <AdvancedTable
+            columns={tablesColumns}
+            data={data}
+            tableName={"Meja Billiard"}
+            handleOpentablePopup={handleOpentablePopup}
+          />
+        ) : (
+          <></>
+        )}
       </div>
     </div>
   );

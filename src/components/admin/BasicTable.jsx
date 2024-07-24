@@ -17,7 +17,7 @@ import {
 } from "@phosphor-icons/react";
 
 export default function BasicTable(props) {
-  const { columns, data } = props;
+  const { columns, data, tableName } = props;
 
   const [sorting, setSorting] = useState([]);
   const [filtering, setFiltering] = useState("");
@@ -43,7 +43,7 @@ export default function BasicTable(props) {
       <div className="w-full max-h-full p-5 bg-primaryWhite rounded-xl border border-primarySoftgray">
         <div className="flex flex-col gap-5">
           <div className="w-full divide-y">
-            <p className="text-16 font-medium">Transaksi Masuk</p>
+            <p className="text-16 font-medium">{tableName}</p>
           </div>
           <div className="w-full border flex items-center gap-3 px-6 py-2 rounded-xl">
             <MagnifyingGlass size={24} />

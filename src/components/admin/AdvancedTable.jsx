@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   useReactTable,
   getCoreRowModel,
@@ -21,6 +21,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import * as XLSX from "xlsx";
 import CustomDateInput from "./CustomDateInput"; // Import the custom input component
+import { se } from "date-fns/locale";
 
 export default function AdvancedTable({
   columns,
@@ -32,13 +33,14 @@ export default function AdvancedTable({
   const [filtering, setFiltering] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedRows, setSelectedRows] = useState(new Set());
+
+  const [selectedTransactionId, setSelectedTransactionId] = useState(null);
+  const [selectedBookingId, setSelectedBookingId] = useState(null);
+  const [selectAll, setSelectAll] = useState(false);
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 10
   });
-
-  console.log("AdvancedTable data:", data); // Debugging: Check the data prop
-  console.log("AdvancedTable columns:", columns); // Debugging: Check the columns prop
 
   const handleExport = () => {
     const ws = XLSX.utils.json_to_sheet(data);
@@ -47,7 +49,11 @@ export default function AdvancedTable({
     XLSX.writeFile(wb, "data.xlsx");
   };
 
-  const handleRowSelect = (rowId) => {
+  console.log("selectedRows:", selectedRows);
+  console.log("data ini:", data);
+  const handleRowSelect = (rowId, index) => {
+    const transactionId = data?.[index]?.transaksiId;
+    const bookingId = data?.[index]?.bookingId;
     const newSelectedRows = new Set(selectedRows);
     if (newSelectedRows.has(rowId)) {
       newSelectedRows.delete(rowId);
@@ -55,24 +61,72 @@ export default function AdvancedTable({
       newSelectedRows.add(rowId);
     }
     setSelectedRows(newSelectedRows);
+
+    setSelectedTransactionId(transactionId);
+    setSelectedBookingId(bookingId);
+    // Log the value directly
   };
+  const handleSelectAll = () => {
+    if (selectAll) {
+      setSelectedRows(new Set());
+    } else {
+      const allRowIds = new Set(data.map((_, index) => index));
+      setSelectedRows(allRowIds);
+    }
+    setSelectAll(!selectAll);
+  };
+
+  console.log("yas data:", data);
+  console.log("yas selectAll:", selectAll);
+
+  const columnsWithImage = useMemo(
+    () =>
+      columns.map((column) => {
+        if (column.header === "Foto Meja") {
+          return {
+            ...column,
+            cell: ({ row }) => (
+              <div className="w-full flex items-center justify-center">
+                {" "}
+                <img
+                  src={`data:${row.original.mime_type};base64,${row.original.foto_product}`}
+                  alt="Foto Meja"
+                  className="w-16 h-14 rounded-xl object-cover"
+                />
+              </div>
+            )
+          };
+        }
+        return column;
+      }),
+    [columns]
+  );
 
   const table = useReactTable({
     data,
-    columns: [
-      {
-        header: "Select",
-        id: "select",
-        cell: ({ row }) => (
-          <input
-            type="checkbox"
-            checked={selectedRows.has(row.id)}
-            onChange={() => handleRowSelect(row.id)}
-          />
-        )
-      },
-      ...columns
-    ],
+    columns: useMemo(
+      () => [
+        {
+          header: ({ table }) => (
+            <input
+              type="checkbox"
+              checked={selectAll}
+              onChange={handleSelectAll}
+            />
+          ),
+          id: "select",
+          cell: ({ row }) => (
+            <input
+              type="checkbox"
+              checked={selectedRows.has(row.id)}
+              onChange={() => handleRowSelect(row.id, row.index)}
+            />
+          )
+        },
+        ...columnsWithImage
+      ],
+      [columnsWithImage, selectedRows, selectAll]
+    ),
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
