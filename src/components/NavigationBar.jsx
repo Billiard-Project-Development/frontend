@@ -143,17 +143,21 @@ const NavigationBar = () => {
               <div className="absolute right-0 mt-2 w-64 bg-white rounded-md shadow-lg px-2 py-4 text-16 font-semibold text-primaryOrange">
                 <div className="flex flex-col gap-7">
                   {" "}
-                  <Link
+                  {/* <Link
                     to="/profile"
                     className="flex items-center py-1 px-2 gap-3 hover:bg-primarySoftgray transition-all ease-in-out rounded-lg"
                   >
                     <User size={24} />
                     <p> Profile</p>
-                  </Link>
-                  <button className="flex items-center py-1 px-2  gap-3 hover:bg-primarySoftgray transition-all ease-in-out rounded-lg">
+                  </Link> */}
+                  <Link
+                    to="/transaction-history"
+                    onClick={() => setUserDropDown(false)}
+                    className="flex items-center py-1 px-2  gap-3 hover:bg-primarySoftgray transition-all ease-in-out rounded-lg"
+                  >
                     <Coins size={24} />
                     <p>Riwayat Transaksi</p>
-                  </button>
+                  </Link>
                   <button
                     onClick={logout}
                     className="flex items-center py-1 px-2  gap-3 w-full text-left hover:bg-primarySoftgray transition-all ease-in-out rounded-lg"

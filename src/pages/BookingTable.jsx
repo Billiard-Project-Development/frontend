@@ -9,77 +9,81 @@ import SignInPopup from "../components/popup/signInPopup";
 import SignUpPopup from "../components/popup/signUpPopup";
 import { productAvailable } from "../redux/actions/product/product";
 import { getUserInfo } from "../utils/auth";
+import DetailTransaction from "../components/popup/detailTransaction";
 
 const BookingTable = () => {
   const initialData = [
     {
       minuetes: "60",
       status: "unbooked",
+      jamAvail: "11:00 - 12:00",
+      price: 50000
+    },
+    {
+      minuetes: "60",
+      status: "unbooked",
+      jamAvail: "12:00 - 13:00",
+      price: 50000
+    },
+    {
+      minuetes: "60",
+      status: "unbooked",
       jamAvail: "13:00 - 14:00",
-      price: "50.000"
+      price: 50000
     },
     {
-      minuetes: "90",
+      minuetes: "60",
       status: "unbooked",
-      jamAvail: "14:00 - 15:30",
-      price: "75.000"
+      jamAvail: "13:00 - 14:00",
+      price: 75000
     },
     {
-      minuetes: "120",
+      minuetes: "60",
       status: "unbooked",
-      jamAvail: "15:30 - 16:00",
-
-      price: "100.000"
+      jamAvail: "14:00 - 15:00",
+      price: 100000
     },
     {
-      minuetes: "120",
+      minuetes: "60",
       status: "unbooked",
-      jamAvail: "15:30 - 16:00",
-      price: "100.000"
+      jamAvail: "15:00 - 16:00",
+      price: 100000
     },
     {
-      minuetes: "120",
+      minuetes: "60",
       status: "unbooked",
-      jamAvail: "15:30 - 16:00",
-
-      price: "100.000"
+      jamAvail: "16:00 - 17:00",
+      price: 100000
     },
     {
-      minuetes: "120",
+      minuetes: "60",
       status: "unbooked",
-      jamAvail: "15:30 - 16:00",
-      price: "100.000"
+      jamAvail: "17:00 - 18:00",
+      price: 100000
     },
     {
-      minuetes: "120",
-      status: "booked",
-      jamAvail: "15:30 - 16:00",
-      price: "100.000"
+      minuetes: "60",
+      status: "unbooked",
+      jamAvail: "18:00 - 19:00",
+      price: 100000
     },
     {
-      minuetes: "120",
-      status: "booked",
-      jamAvail: "15:30 - 16:00",
-      price: "100.000"
+      minuetes: "60",
+      status: "unbooked",
+      jamAvail: "19:00 - 20:00",
+      price: 100000
     },
     {
-      minuetes: "120",
-      status: "booked",
-      jamAvail: "15:30- 16:00",
-
-      price: "100.000"
+      minuetes: "60",
+      status: "unbooked",
+      jamAvail: "20:00 - 21:00",
+      price: 100000
     },
     {
-      minuetes: "120",
-      status: "booked",
-      jamAvail: "15:30 - 16:00",
-      price: "100.000"
-    },
-    {
-      minuetes: "120",
-      status: "booked",
-      jamAvail: "15:30 - 16:00",
-      price: "100.000"
+      minuetes: "60",
+      status: "unbooked",
+      jamAvail: "21:00 - 22:00",
+      price: 100000
     }
   ];
 
@@ -104,14 +108,47 @@ const BookingTable = () => {
     productAvailableLoading
   } = useSelector((state) => state.productAvailable);
   const [selectedCardIndices, setSelectedCardIndices] = useState([]);
+  const [selectedTimes, setSelectedTimes] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
   const [signInPopup, setSignInPopup] = useState(false);
   const [signUpPopup, setSignUpPopup] = useState(false);
+  const [detailTransactionPopup, setDetailTransactionPopup] = useState(false);
+  const [bookingData, setBookingData] = useState(null);
+  const [errorSelect, setErrorSelect] = useState(null);
 
   const handleCardClick = (index) => {
     if (selectedCardIndices.includes(index)) {
-      setSelectedCardIndices(selectedCardIndices.filter((i) => i !== index));
+      const newSelectedIndices = selectedCardIndices.filter((i) => i !== index);
+      setSelectedCardIndices(newSelectedIndices);
+
+      const newSelectedTimes = selectedTimes.filter(
+        (time) => time.jamAvail !== initialData[index].jamAvail
+      );
+      setSelectedTimes(newSelectedTimes);
+
+      const newTotalPrice = newSelectedTimes.reduce(
+        (acc, time) => acc + time.price,
+        0
+      );
+      setTotalPrice(newTotalPrice);
     } else {
-      setSelectedCardIndices([...selectedCardIndices, index]);
+      const newSelectedIndices = [...selectedCardIndices, index];
+      setSelectedCardIndices(newSelectedIndices);
+
+      const newSelectedTimes = [
+        ...selectedTimes,
+        {
+          jamAvail: initialData[index].jamAvail,
+          price: initialData[index].price
+        }
+      ];
+      setSelectedTimes(newSelectedTimes);
+
+      const newTotalPrice = newSelectedTimes.reduce(
+        (acc, time) => acc + time.price,
+        initialData[index].price
+      );
+      setTotalPrice(newTotalPrice);
     }
   };
 
@@ -128,12 +165,30 @@ const BookingTable = () => {
   const handleBooking = () => {
     if (!userInfo) {
       setSignInPopup(true);
+      setErrorSelect(null);
+    } else if (selectedCardIndices.length === 0) {
+      setErrorSelect("Pilih jam yang tersedia");
+    } else {
+      const bookingData = {
+        nama: userInfo.name,
+        email: userInfo.email,
+        noHp: userInfo.no_hp,
+        produk: {
+          produk_id: productId,
+          totalHarga: totalPrice,
+          jamMain: selectedTimes.map((time) => time.jamAvail),
+          tanggalMain: date
+        }
+      };
+      setDetailTransactionPopup(true);
+      setBookingData(bookingData);
+      setErrorSelect(null);
     }
   };
 
   useEffect(() => {
     dispatch(productAvailable({ produkId: productId, tanggal: date }));
-  }, [dispatch]);
+  }, [dispatch, productId, date]);
 
   console.log("productId:", productId);
   console.log("date:", date);
@@ -141,6 +196,21 @@ const BookingTable = () => {
   const dataAvailable = productAvailableResponse?.data;
 
   console.log("dataAvailable:", dataAvailable);
+
+  const compareData = (initialData, dataAvailable) => {
+    const availableTimes = dataAvailable.jamAvail;
+    return initialData.map((data) => {
+      if (availableTimes.includes(data.jamAvail)) {
+        return { ...data, status: "unbooked" };
+      } else {
+        return { ...data, status: "booked" };
+      }
+    });
+  };
+
+  const updatedInitialData = dataAvailable
+    ? compareData(initialData, dataAvailable)
+    : initialData;
 
   return (
     <>
@@ -158,6 +228,13 @@ const BookingTable = () => {
         }}
         handleSwitchSignIn={handleSwitchSignIn}
       />
+      <DetailTransaction
+        isOpen={detailTransactionPopup}
+        onClose={() => {
+          setDetailTransactionPopup(false);
+        }}
+        bookingData={bookingData}
+      />
       <div className="px-20 text-primaryBlack">
         {productAvailableLoading ? (
           <div className="flex justify-center items-center h-screen">
@@ -165,23 +242,19 @@ const BookingTable = () => {
           </div>
         ) : productAvailableResponse ? (
           <div className="p-4">
-            {/* Back Button */}
             <Link to={"/"} className=" flex gap-3 items-center ">
               <CaretLeft size={32} />
               <p className="text-20 font-medium">Kembali</p>
             </Link>
 
-            {/* Table Header */}
             <h1 className="mt-2 text-32 font-semibold text-center">
               {dataAvailable?.produk[0]?.nama}
             </h1>
 
-            {/* Choose Time Header */}
             <h2 className="mt-10 text-24 font-semibold">Pilih Waktu</h2>
 
-            {/* Time Selection Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 mt-4 mx-auto">
-              {initialData?.map((table, index) => {
+              {updatedInitialData?.map((table, index) => {
                 const isBooked = table?.status === "booked";
                 const isSelected = selectedCardIndices.includes(index);
                 return (
@@ -212,7 +285,7 @@ const BookingTable = () => {
                         isBooked ? "text-primaryDarkgray" : "text-primaryOrange"
                       } text-12 font-semibold`}
                     >
-                      Rp. {dataAvailable?.produk[0]?.harga}
+                      Rp. {table?.price}
                     </p>
                   </div>
                 );
@@ -226,8 +299,7 @@ const BookingTable = () => {
               </p>
             </div>
 
-            {/* Renter Data Input */}
-            <div className="mt-20">
+            {/* <div className="mt-20">
               <label className="block mb-2 text-sm font-medium">
                 Data Penyewa
               </label>
@@ -245,15 +317,16 @@ const BookingTable = () => {
                   maxWidth={512}
                 />
               </div>
-            </div>
+            </div> */}
 
-            {/* Proceed Button */}
             <button
               onClick={handleBooking}
               className="mt-20 flex bg-primaryOrange px-3 py-2 text-white hover:bg-accentDarkOrange transition-all ease-in-out duration-200 rounded-md"
             >
               Lanjutkan Pembayaran
             </button>
+
+            <p className="text-red-500">{errorSelect}</p>
           </div>
         ) : (
           <div className="flex justify-center items-center h-screen">

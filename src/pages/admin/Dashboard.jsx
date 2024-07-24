@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllTransaction } from "../../redux/actions/transaction/transaction";
 import { getAllBooking } from "../../redux/actions/booking/booking";
 import ContinueLoader1 from "../../components/loaders/ContinueLoader1";
+import { getAllProduct } from "../../redux/actions/product/product";
 
 const Dashboard = () => {
   const {
@@ -24,8 +25,16 @@ const Dashboard = () => {
     getAllTransactionSuccess
   } = useSelector((state) => state.getAllTransaction);
 
+  const {
+    getAllProductResponse,
+    getAllProductLoading,
+    getAllProductError,
+    getAllProductSuccess
+  } = useSelector((state) => state.getAllProduct);
+
   const dataBooking = getAllBookingResponse?.data;
   const dataTransaction = getAllTransactionResponse?.data;
+  const dataProduct = getAllProductResponse?.data;
 
   const transactionData = useMemo(() => transaction, []);
   const bookingListData = useMemo(() => bookingList, []);
@@ -90,6 +99,7 @@ const Dashboard = () => {
   useEffect(() => {
     dispatch(getAllTransaction());
     dispatch(getAllBooking());
+    dispatch(getAllProduct());
   }, [dispatch]);
 
   const totalHargaSum = dataTransaction?.reduce(
@@ -133,7 +143,7 @@ const Dashboard = () => {
           </div>
           <div className="flex flex-col justify-between">
             <p className="text-12">Meja Tersedia</p>
-            <p className="text-16 font-semibold">{dataBooking?.length || 0}</p>
+            <p className="text-16 font-semibold">{dataProduct?.length || 0}</p>
           </div>
         </div>
       </div>

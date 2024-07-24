@@ -39,15 +39,15 @@ const SignIn = () => {
     }
   };
 
-  useEffect(() => {
-    if (userInfo !== null) {
-      if (userInfo?.role === 1) {
-        navigate("/admin");
-      } else if (userInfo?.role !== 1) {
-        navigate("/");
-      }
-    }
-  }, [userInfo]);
+  // useEffect(() => {
+  //   if (userInfo !== null) {
+  //     if (userInfo?.role === 1) {
+  //       navigate("/admin");
+  //     } else if (userInfo?.role !== 1) {
+  //       navigate("/");
+  //     }
+  //   }
+  // }, [userInfo]);
 
   useEffect(() => {
     if (authSuccess) {

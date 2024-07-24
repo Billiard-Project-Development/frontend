@@ -42,7 +42,7 @@ export const userRegister = createAsyncThunk(
     try {
       const { data } = await axios.post(
         `${process.env.REACT_APP_API}/auth/register`,
-        { user_id: "user_97", nama, email, noHp, password, role: 1 },
+        { nama, email, noHp, password, role: 2 },
         {
           headers: {
             "Content-Type": "application/json"
