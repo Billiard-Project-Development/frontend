@@ -68,26 +68,6 @@ export default function SignUpPopup(props) {
                       onSubmit={handleSubmit(sumbitform)}
                       className="flex flex-col gap-6 w-full"
                     >
-                      {/* <div className="flex flex-col gap-1 text-primaryDarkgray">
-              <h3 className="pl-6">Email</h3>
-              <input
-                className="bg-primary3 border text-black border-primaryDarkgray focus:outline-none  rounded-lg w-full h-10 px-4"
-                // placeholder="Enter your email"
-                type="email"
-                id="emailInput"
-                {...register("email", {
-                  required: {
-                    value: true,
-                    message: "Input Email Required"
-                  },
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Email Format Wrong"
-                  }
-                })}
-              />
-            </div> */}
-
                       <InputText
                         label="Email"
                         name="email"
@@ -104,9 +84,12 @@ export default function SignUpPopup(props) {
                           }
                         }}
                       />
+                      {errors.email && (
+                        <p className="text-red-500">{errors.email.message}</p>
+                      )}
                       <InputText
                         label="Nama"
-                        name="name"
+                        name="nama"
                         type="name"
                         register={register}
                         validation={{
@@ -124,17 +107,28 @@ export default function SignUpPopup(props) {
                           }
                         }}
                       />
+                      {errors.nama && (
+                        <p className="text-red-500">{errors.nama.message}</p>
+                      )}
                       <InputText
                         label="No HP"
-                        name="phone"
+                        name="noHp"
                         type="tel"
                         register={register}
+                        validation={{
+                          required: {
+                            value: true,
+                            message: "phone Input Required"
+                          }
+                        }}
                       />
-
+                      {errors.noHp && (
+                        <p className="text-red-500">{errors.noHp.message}</p>
+                      )}
                       <InputText
                         label="Password"
                         name="password"
-                        type="password"
+                        type={visiblePassword ? "text" : "password"}
                         visiblePassword={visiblePassword}
                         register={register}
                         validation={{
@@ -149,15 +143,20 @@ export default function SignUpPopup(props) {
                           maxLength: {
                             value: 50,
                             message: "Password length 50 characters maximum"
-                          },
-                          pattern: {
-                            value: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
-                            message:
-                              "Password must include an uppercase letter, a number, and a special character"
                           }
+                          // pattern: {
+                          //   value: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
+                          //   message:
+                          //     "Password must include an uppercase letter, a number, and a special character"
+                          // }
                         }}
                         toggleShowPassword={toggleShowPassword}
                       />
+                      {errors.password && (
+                        <p className="text-red-500">
+                          {errors.password.message}
+                        </p>
+                      )}
                       <button
                         id="signUpSubmitButton"
                         className="flex items-center justify-center bg-primaryOrange py-3 text-center text-white rounded-lg w-full hover:bg-accentDarkOrange transition duration-300 delay-100"

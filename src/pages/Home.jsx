@@ -1,13 +1,17 @@
 import React from "react";
-import homebg1 from "../assets/Hero/heroBackground.webp";
-import Address from "../components/Address";
-import BookTable from "../components/BookTable";
-import CardGallery from "../components/CardGallery";
-import Events from "../components/Events";
-import Facility from "../components/Facility";
 import { Link } from "react-router-dom";
+import homebg1 from "../assets/Hero/heroBackground.webp";
+import AddressSection from "../components/AddressSection";
+import BookTableSection from "../components/BookTableSection";
+import CardGallerySection from "../components/CardGallerySection";
+import EventsSection from "../components/EventsSection";
+import FacilitySection from "../components/FacilitySection";
+import { getUserInfo } from "../utils/auth";
+import { scrollToSection } from "../utils/scrollUtils";
 
 const Home = () => {
+  const userInfo = getUserInfo();
+  console.log("userInfo:", userInfo);
   return (
     <div className="pb-[100px]">
       <section>
@@ -26,29 +30,30 @@ const Home = () => {
               <br />
               Reserve Your Table Now
             </h1>
-            <Link
-              to="/booking-table"
+            <button
+              onClick={() => scrollToSection("booking")}
               className="flex bg-primaryOrange px-3 py-2 text-white hover:bg-accentDarkOrange transition-all ease-in-out duration-200 rounded-md"
             >
               Booking Sekarang
-            </Link>
+            </button>
           </div>
         </div>
       </section>
+
       <section>
-        <CardGallery />
+        <CardGallerySection />
       </section>
       <section>
-        <BookTable />
+        <BookTableSection />
       </section>
       <section>
-        <Facility />
+        <FacilitySection />
       </section>
       <section>
-        <Events />
+        <EventsSection />
       </section>
       <section>
-        <Address />
+        <AddressSection />
       </section>
     </div>
   );

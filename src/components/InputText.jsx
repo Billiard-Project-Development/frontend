@@ -14,6 +14,9 @@ const InputText = (props) => {
     register,
     validation
   } = props;
+
+  console.log("visiblePassword:", visiblePassword);
+
   return (
     <div
       className="w-full"
@@ -21,25 +24,23 @@ const InputText = (props) => {
     >
       <div className="relative w-full mb-4 border rounded-lg">
         <input
-          type={
-            visiblePassword ? "text" : type === "password" ? "password" : type
-          }
+          type={type}
           value={value}
           onChange={onChange}
           name={name}
-          className="h-10 w-full  border-primaryDarkgray text-gray-900 placeholder-transparent focus:outline-none focus:border-primaryOrange rounded-lg p-4"
+          className="h-10 w-full border-primaryDarkgray text-gray-900 placeholder-transparent focus:outline-none focus:border-primaryOrange rounded-lg p-4 pr-10" // Adjusted padding for icon
           placeholder=" " // placeholder to trigger the label
           {...(register ? register(name, validation) : {})}
         />
         <label
           htmlFor={name}
-          className="absolute -top-3 left-4  transition-all text-14 text-primaryDarkgray cursor-default select-none bg-bgWhite"
+          className="absolute -top-3 left-4 transition-all text-14 text-primaryDarkgray cursor-default select-none bg-bgWhite px-1"
         >
           {label}
         </label>
-        {type === "password" && (
+        {label === "Password" && (
           <span
-            className="absolute right-4 top-3 cursor-pointer"
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
             onClick={toggleShowPassword}
           >
             {visiblePassword ? <Eye /> : <EyeClosed />}

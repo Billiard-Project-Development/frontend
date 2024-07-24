@@ -1,10 +1,11 @@
 import { CaretLeft, CheckCircle } from "@phosphor-icons/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import InputText from "../components/InputText";
 import SignInPopup from "../components/popup/signInPopup";
 import SignUpPopup from "../components/popup/signUpPopup";
-
+import { useForm } from "react-hook-form";
+import { getUserInfo } from "../utils/auth";
 const BookingTable = () => {
   const data = [
     {
@@ -86,8 +87,16 @@ const BookingTable = () => {
     }
   ];
 
+  const userInfo = getUserInfo();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm();
+
   const [selectedCardIndex, setSelectedCardIndex] = useState(null);
-  const [signInPopup, setSignInPopup] = useState(true);
+  const [signInPopup, setSignInPopup] = useState(false);
   const [signUpPopup, setSignUpPopup] = useState(false);
   const handleCardClick = (index) => {
     setSelectedCardIndex(index);
@@ -103,7 +112,11 @@ const BookingTable = () => {
     setSignUpPopup(true);
   };
 
-  console.log("selectedCardIndex:", selectedCardIndex);
+  const handleBooking = () => {
+    if (!userInfo) {
+      setSignInPopup(true);
+    }
+  };
 
   return (
     <>
@@ -208,7 +221,10 @@ const BookingTable = () => {
           </div>
 
           {/* Proceed Button */}
-          <button className="mt-20 flex bg-primaryOrange px-3 py-2 text-white hover:bg-accentDarkOrange transition-all ease-in-out duration-200 rounded-md">
+          <button
+            onClick={handleBooking}
+            className="mt-20 flex bg-primaryOrange px-3 py-2 text-white hover:bg-accentDarkOrange transition-all ease-in-out duration-200 rounded-md"
+          >
             Lanjutkan Pembayaran
           </button>
         </div>

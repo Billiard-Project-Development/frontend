@@ -15,7 +15,7 @@ const AdminLayoutPage = () => {
   return (
     <div className="flex">
       <Sidebar isOpen={isOpenSidebar} setIsOpen={setIsOpenSidebar} />
-      <div className="flex-1 ">
+      <div className="flex-1 h-screen overflow-y-auto">
         <NavAdmin isOpenSidebar={isOpenSidebar} handleSidebar={handleSidebar} />
         <div className="p-8">
           <Routes>
