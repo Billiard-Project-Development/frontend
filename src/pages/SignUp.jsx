@@ -104,7 +104,7 @@ const SignUp = () => {
               )}
               {registerError && (
                 <div className="text-accentRed font-semibold text-16">
-                  {registerError?.message}
+                  {registerError}
                 </div>
               )}
             </div>

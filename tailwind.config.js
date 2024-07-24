@@ -3,6 +3,9 @@ module.exports = withMT({
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      boxShadow: {
+        cardShadow1: "0 0 40px 0 rgba(48, 48, 48, 0.04)"
+      },
       colors: {
         primaryOrange: "#FF6B00",
         primaryWhite: "#FFFFFF",

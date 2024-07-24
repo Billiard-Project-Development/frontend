@@ -87,10 +87,10 @@ const BookTable = () => {
               {dataProductByDate?.map((table, index) => (
                 <div
                   key={index}
-                  className="flex flex-col gap-3 items-center justify-center w-[320px] h-[487px] bg-primaryWhite rounded-2xl p-5"
+                  className="flex flex-col gap-3 items-center justify-center w-[320px] h-[487px] bg-primaryWhite rounded-2xl p-5 shadow-cardShadow1"
                 >
                   <img
-                    className="w-[280px] h-[240px]"
+                    className="w-[280px] h-[240px] rounded-2xl"
                     src={`data:image/jpeg;base64,${table?.foto_product}`}
                     alt="meja1"
                   />
