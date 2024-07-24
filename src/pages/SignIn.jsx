@@ -40,13 +40,25 @@ const SignIn = () => {
   };
 
   useEffect(() => {
-    if (authSuccess === true && userInfo?.role === 1) {
-      navigate("/admin");
-    } else if (authSuccess === true) {
-      navigate("/");
+    if (userInfo !== null) {
+      if (userInfo?.role === 1) {
+        navigate("/admin");
+      } else if (userInfo?.role !== 1) {
+        navigate("/");
+      }
     }
-    dispatch(resetStateAuth());
-  }, [authSuccess]);
+  }, [userInfo]);
+
+  useEffect(() => {
+    if (authSuccess) {
+      if (userInfo?.role === 1) {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+      dispatch(resetStateAuth());
+    }
+  }, [authSuccess, userInfo, navigate, dispatch]);
 
   return (
     <div className="flex flex-row lg:white bg-bgWhite lg:bg-accentSoftOrange h-full w-full justify-center">
@@ -80,9 +92,9 @@ const SignIn = () => {
                 Loading...
               </div>
             )}
-            {authError && (
+            {authError !== null && (
               <div className="text-accentRed font-semibold text-16">
-                {authError?.message}
+                {authError}
               </div>
             )}
           </div>

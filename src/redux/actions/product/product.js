@@ -148,3 +148,28 @@ export const deleteProduct = createAsyncThunk(
     }
   }
 );
+
+export const productAvailable = createAsyncThunk(
+  "productAvailable",
+  async (dataProduct, { rejectWithValue }) => {
+    try {
+      const token = getToken();
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_API}/product/getProdukJamAvailable`,
+        dataProduct,
+        {
+          headers: {
+            "content-type": "application/json"
+          }
+        }
+      );
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
