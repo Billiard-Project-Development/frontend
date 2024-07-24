@@ -14,7 +14,7 @@ import getBookingByBookingIdSlice from "./features/booking/getBookingByBookingId
 import getAllBookingSlice from "./features/booking/getAllBookingSlice";
 import resetPasswordSlice from "./features/auth/resetPasswordSlice";
 import requestOTPSlice from "./features/auth/requestOTPSlice";
-
+import productAvailableSlice from "./features/product/productAvailableSlice";
 const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -32,7 +32,8 @@ const store = configureStore({
     getBookingByBookingId: getBookingByBookingIdSlice,
     getAllBooking: getAllBookingSlice,
     resetPassword: resetPasswordSlice,
-    requestOTP: requestOTPSlice
+    requestOTP: requestOTPSlice,
+    productAvailable: productAvailableSlice
   }
 });
 

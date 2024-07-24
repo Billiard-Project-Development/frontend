@@ -107,6 +107,7 @@ const BookTable = () => {
                     </div>
                     <Link
                       to={`/booking-table?productId=${table?.product_id}`}
+                      state={{ date: selectedDate }}
                       className="flex items-center w-full justify-center bg-primaryOrange px-3 py-2 text-white hover:bg-accentDarkOrange transition-all ease-in-out duration-200 rounded-md"
                     >
                       Booking Sekarang
