@@ -196,7 +196,6 @@ const BookingTable = () => {
   const dataAvailable = productAvailableResponse?.data;
 
   console.log("dataAvailable:", dataAvailable);
-
   const compareData = (initialData, dataAvailable) => {
     const availableTimes = dataAvailable.jamAvail;
     return initialData.map((data) => {
