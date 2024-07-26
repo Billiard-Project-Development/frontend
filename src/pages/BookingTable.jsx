@@ -107,6 +107,9 @@ const BookingTable = () => {
     productAvailableSuccess,
     productAvailableLoading
   } = useSelector((state) => state.productAvailable);
+
+  const dataAvailable = productAvailableResponse?.data;
+
   const [selectedCardIndices, setSelectedCardIndices] = useState([]);
   const [selectedTimes, setSelectedTimes] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -162,6 +165,13 @@ const BookingTable = () => {
     setSignUpPopup(true);
   };
 
+  const handleSwitchDetail = () => {
+    setSignInPopup(false);
+    setSignUpPopup(false);
+    handleBooking();
+    setDetailTransactionPopup(true);
+  };
+
   const handleBooking = () => {
     if (!userInfo) {
       setSignInPopup(true);
@@ -177,7 +187,8 @@ const BookingTable = () => {
           produk_id: productId,
           totalHarga: totalPrice,
           jamMain: selectedTimes.map((time) => time.jamAvail),
-          tanggalMain: date
+          tanggalMain: date,
+          foto_product: dataAvailable?.produk[0]?.foto_product
         }
       };
       setDetailTransactionPopup(true);
@@ -192,8 +203,6 @@ const BookingTable = () => {
 
   console.log("productId:", productId);
   console.log("date:", date);
-
-  const dataAvailable = productAvailableResponse?.data;
 
   console.log("dataAvailable:", dataAvailable);
   const compareData = (initialData, dataAvailable) => {
@@ -219,6 +228,7 @@ const BookingTable = () => {
           setSignInPopup(false);
         }}
         handleSwitchSignUp={handleSwitchSignUp}
+        handleSwitchDetail={handleSwitchDetail}
       />
       <SignUpPopup
         isOpen={signUpPopup}
@@ -233,6 +243,7 @@ const BookingTable = () => {
           setDetailTransactionPopup(false);
         }}
         bookingData={bookingData}
+        handleSwitchDetail={handleSwitchDetail}
       />
       <div className="px-20 text-primaryBlack">
         {productAvailableLoading ? (

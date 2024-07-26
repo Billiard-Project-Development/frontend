@@ -71,7 +71,7 @@ const BookingList = () => {
           <AdvancedTable
             columns={tablesColumns}
             data={data}
-            tableName={"Meja Billiard"}
+            tableName={"Booking List"}
             handleOpentablePopup={handleOpentablePopup}
           />
         ) : null}

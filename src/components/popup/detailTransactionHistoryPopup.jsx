@@ -1,17 +1,44 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { CheckCircle, Coins, X, XCircle } from "@phosphor-icons/react";
+import {
+  CheckCircle,
+  Coins,
+  MinusCircle,
+  X,
+  XCircle
+} from "@phosphor-icons/react";
 import { format } from "date-fns";
-import React, { Fragment } from "react";
+import React, { Fragment, useRef } from "react";
 import { useDispatch } from "react-redux";
+import { parseCustomDate } from "../../utils/dateUtils";
+import html2canvas from "html2canvas";
 
-export default function DetailTransactionHistory(props) {
+export default function DetailTransactionHistoryPopup(props) {
   const { isOpen, onClose, data } = props;
 
   const dispatch = useDispatch();
+  const printRef = React.useRef();
 
   console.log("data popup:", data);
 
   const biayaTransaksi = 2000;
+  const handleDownloadInvoice = async () => {
+    const element = printRef.current;
+    const canvas = await html2canvas(element);
+
+    const data = canvas.toDataURL("image/jpg");
+    const link = document.createElement("a");
+
+    if (typeof link.download === "string") {
+      link.href = data;
+      link.download = "image.jpg";
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      window.open(data);
+    }
+  };
 
   if (!isOpen) return null;
   return (
@@ -52,10 +79,10 @@ export default function DetailTransactionHistory(props) {
                       <X size={24} />
                     </button>
                   </div>
-                  <div className="flex flex-col gap-10 pt-2">
+                  <div ref={printRef} className="flex flex-col gap-10 pt-2">
                     <div className="flex flex-col gap-5 divide-y-2 divide-primarySoftgray">
                       <div className="flex items-center justify-between ">
-                        {data?.status_transaksi === "Success" ? (
+                        {data?.statusTransaksi === "Success" ? (
                           <div className="flex items-center gap-3">
                             <div className="flex items-center justify-center rounded-full ">
                               <CheckCircle
@@ -68,6 +95,20 @@ export default function DetailTransactionHistory(props) {
                             <h1 className="text-20 font-semibold">
                               Transaksi Berhasil
                             </h1>
+                          </div>
+                        ) : data?.statusTransaksi ? (
+                          <div className="flex items-center gap-3">
+                            <div className="flex items-center justify-center rounded-full">
+                              <MinusCircle
+                                size={32}
+                                color="#ff6b00"
+                                weight="fill"
+                              />
+                            </div>
+
+                            <p className="text-16 font-semibold">
+                              Transaksi Pending
+                            </p>
                           </div>
                         ) : (
                           <div className="flex items-center gap-3">
@@ -86,7 +127,7 @@ export default function DetailTransactionHistory(props) {
                         )}
 
                         <p className="text-12 text-primaryDarkgray font-semibold">
-                          {data?.transaksi_id}
+                          {data?.transaksiId}
                         </p>
                       </div>
                       <div className="flex items-center justify-between pt-5">
@@ -97,8 +138,8 @@ export default function DetailTransactionHistory(props) {
                         <p className="text-16 ">
                           {" "}
                           {format(
-                            new Date(data?.tanggal_transaksi),
-                            "dd MMMM yyyy"
+                            parseCustomDate(data?.tanggalTransaksi),
+                            "dd MMM yyyy"
                           )}
                         </p>
                       </div>
@@ -112,11 +153,11 @@ export default function DetailTransactionHistory(props) {
                           <p className="text-12">Data Penyewa</p>
                           <div className="flex flex-col gap-1">
                             <p className="text-14 font-semibold">
-                              {data?.nama_penyewa}
+                              {data?.namaPenyewa}
                             </p>
 
                             <p className="text-12 text-primaryDarkgray font-semibold">
-                              {data?.no_hp}
+                              {data?.noHp}
                             </p>
                           </div>
                         </div>
@@ -125,14 +166,17 @@ export default function DetailTransactionHistory(props) {
                           <div className="flex items-center justify-between ">
                             <div className="flex items-center gap-3">
                               <Coins className="text-primaryOrange" size={12} />
-                              <div className="rounded-lg w-[52px] h-[52px] bg-black"></div>
+                              <img
+                                className="rounded-lg w-[52px] h-[52px] bg-black"
+                                src={`data:image/jpeg;base64,${data?.fotoProduct}`}
+                              />
                               <div className="flex flex-col gap-1">
                                 <p className="text-12">
-                                  Meja {data?.produk?.produk_id}
+                                  Meja {data?.productId}
                                 </p>
                                 <p className="text-12 font-medium text-primaryDarkgray">
                                   {format(
-                                    new Date(data?.tanggal_transaksi),
+                                    parseCustomDate(data?.tanggalTransaksi),
                                     "dd MMM yyyy"
                                   )}{" "}
                                   {data?.produk?.jamMain.map(
@@ -142,7 +186,7 @@ export default function DetailTransactionHistory(props) {
                               </div>
                             </div>
                             <p className="text-16 font-semibold">
-                              Rp. {data?.total_harga}
+                              Rp. {data?.totalHarga}
                             </p>
                           </div>
                         </div>
@@ -165,12 +209,12 @@ export default function DetailTransactionHistory(props) {
                     <div className="flex items-center justify-between">
                       <p className="text-16 font-semibold">Total</p>
                       <p className="text-16 font-semibold">
-                        Rp. {data?.total_harga + biayaTransaksi}
+                        Rp. {data?.totalHarga + biayaTransaksi}
                       </p>
                     </div>
                     <div className="flex flex-col gap-8 w-full ">
                       <button
-                        onClick={onClose}
+                        onClick={handleDownloadInvoice}
                         id="downloadInvoiceButton"
                         className="flex items-center justify-center bg-primaryOrange py-3 text-center text-white rounded-lg w-full hover:bg-accentDarkOrange transition duration-300 delay-100"
                         aria-label="Toggle Submit"

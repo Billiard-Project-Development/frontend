@@ -29,6 +29,7 @@ export default function DetailTransaction(props) {
     ...bookingData,
     produk: { ...bookingData?.produk }
   };
+  delete dataPayment?.produk?.foto_product;
   delete dataPayment?.produk?.tanggalMain;
 
   const handlePayment = () => {
@@ -109,7 +110,10 @@ export default function DetailTransaction(props) {
                           <p className="text-12 font-semibold">Biaya Sewa</p>
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
-                              <div className="rounded-lg w-[52px] h-[52px] bg-black"></div>
+                              <img
+                                className="rounded-lg w-[52px] h-[52px] bg-black"
+                                src={`data:image/jpeg;base64,${bookingData?.produk?.foto_product}`}
+                              />
                               <div className="flex flex-col gap-1">
                                 <p className="text-12 font-medium">Meja 2</p>
                                 <p className="text-12 font-medium text-primaryDarkgray">

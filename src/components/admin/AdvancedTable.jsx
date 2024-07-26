@@ -118,7 +118,7 @@ export default function AdvancedTable({
           cell: ({ row }) => (
             <input
               type="checkbox"
-              checked={selectedRows.has(row.id)}
+              checked={selectedRows.has(row.id) || selectAll}
               onChange={() => handleRowSelect(row.id, row.index)}
             />
           )
@@ -176,7 +176,7 @@ export default function AdvancedTable({
               <input
                 type="text"
                 className="w-full focus:outline-none"
-                placeholder="Cari Nama"
+                placeholder="Cari Data"
                 value={filtering}
                 onChange={(e) => setFiltering(e.target.value)}
               />
@@ -210,11 +210,15 @@ export default function AdvancedTable({
                 </button>
               </div>
             )}
-
-            <button className="flex items-center gap-2 px-3 py-2 border-2 border-primarySoftgray rounded-xl">
-              <TrashSimple className="text-accentRed" size={24} />
-              <p className="text-12 font-medium text-accentRed">Hapus Semua</p>
-            </button>
+            {(tableName === "Meja Billiard" ||
+              tableName === "Transaksi Masuk") && (
+              <button className="flex items-center gap-2 px-3 py-2 border-2 border-primarySoftgray rounded-xl">
+                <TrashSimple className="text-accentRed" size={24} />
+                <p className="text-12 font-medium text-accentRed">
+                  Hapus Semua
+                </p>
+              </button>
+            )}
           </div>
         </div>
         <table className="w-full divide-y text-center text-12 font-medium">

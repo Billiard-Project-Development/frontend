@@ -1,5 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import Logo from "../../assets/Signin-Signup/billiard_logo.webp";
@@ -7,9 +7,11 @@ import InputText from "../InputText";
 import { X } from "@phosphor-icons/react";
 import { userLogin } from "../../redux/actions/auth/userAuth";
 import { useDispatch, useSelector } from "react-redux";
+import { resetStateAuth } from "../../redux/features/auth/authSlice";
 
 export default function SignInPopup(props) {
-  const { isOpen, onClose, data, handleSwitchSignUp } = props;
+  const { isOpen, onClose, data, handleSwitchSignUp, handleSwitchDetail } =
+    props;
   const [visiblePassword, setVisiblePassword] = useState(false);
 
   const { userInfo, authLoading, authSuccess, authError } = useSelector(
@@ -34,6 +36,15 @@ export default function SignInPopup(props) {
       console.error("Form submission error:", error);
     }
   };
+
+  console.log("userInfo:", userInfo);
+  useEffect(() => {
+    if (authSuccess && userInfo) {
+      //reload current page
+      window.location.reload();
+      dispatch(resetStateAuth());
+    }
+  }, [authSuccess, userInfo, dispatch]);
 
   if (!isOpen) return null;
   return (

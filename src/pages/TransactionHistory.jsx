@@ -1,21 +1,21 @@
 import {
   CaretLeft,
-  Check,
   CheckCircle,
   Coins,
-  X,
+  MinusCircle,
   XCircle
 } from "@phosphor-icons/react";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import InputText from "../components/InputText";
-import DetailTransaction from "../components/popup/detailTransaction";
-import { getUserInfo } from "../utils/auth";
+import { format, isValid, parse } from "date-fns";
 import { useDispatch, useSelector } from "react-redux";
+import InputText from "../components/InputText";
+import ContinueLoader1 from "../components/loaders/ContinueLoader1";
+import DetailTransactionHistoryPopup from "../components/popup/detailTransactionHistoryPopup";
 import { getTransactionByUserId } from "../redux/actions/transaction/transaction";
-import { format } from "date-fns";
-import DetailTransactionHistory from "../components/popup/detailTransactionHistory";
+import { getUserInfo } from "../utils/auth";
+import { parseCustomDate } from "../utils/dateUtils";
 const TransactionHistory = () => {
   const userInfo = getUserInfo();
   const dispatch = useDispatch();
@@ -66,10 +66,11 @@ const TransactionHistory = () => {
   };
   console.log("data ini:", selectedTransactionData);
   console.log("openPopup:", openPopup);
+  console.log("getTransactionByUserIdLoading:", getTransactionByUserIdLoading);
 
   return (
     <>
-      <DetailTransactionHistory
+      <DetailTransactionHistoryPopup
         isOpen={openPopup}
         onClose={() => {
           setOpenPopup(false);
@@ -101,72 +102,101 @@ const TransactionHistory = () => {
             </div>
             <div className="mt-10 flex flex-col gap-10 w-full">
               {dataTransactionHistory?.data?.map((history, index) => (
-                <div
-                  key={index}
-                  className="p-5 flex flex-col gap-5 rounded-xl border border-primaryOrange"
-                >
-                  <div className="flex justify-between">
-                    {history?.status_transaksi === "Success" ? (
-                      <div className="flex items-center gap-3">
-                        <div className="flex items-center justify-center rounded-full">
-                          <CheckCircle
-                            size={32}
-                            color="#00df16"
-                            weight="fill"
+                <>
+                  {getTransactionByUserIdLoading ? (
+                    <div>
+                      <ContinueLoader1 />
+                    </div>
+                  ) : (
+                    <div
+                      key={index}
+                      className="p-5 flex flex-col gap-5 rounded-xl border border-primaryOrange"
+                    >
+                      <div className="flex justify-between">
+                        {history?.statusTransaksi === "Success" ? (
+                          <div className="flex items-center gap-3">
+                            <div className="flex items-center justify-center rounded-full">
+                              <CheckCircle
+                                size={32}
+                                color="#00df16"
+                                weight="fill"
+                              />
+                            </div>
+
+                            <p className="text-16 font-semibold">
+                              Transaksi Berhasil
+                            </p>
+                          </div>
+                        ) : history?.statusTransaksi === "pending" ? (
+                          <div className="flex items-center gap-3">
+                            <div className="flex items-center justify-center rounded-full">
+                              <MinusCircle
+                                size={32}
+                                color="#ff6b00"
+                                weight="fill"
+                              />
+                            </div>
+
+                            <p className="text-16 font-semibold">
+                              Transaksi Pending
+                            </p>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-3">
+                            <div className="flex items-center justify-center rounded-full ">
+                              <XCircle
+                                size={32}
+                                color="#ff6262"
+                                weight="fill"
+                              />
+                            </div>
+
+                            <p className="text-16 font-semibold">
+                              Transaksi Dibatalkan
+                            </p>
+                          </div>
+                        )}
+
+                        <p className="text-16 text-primaryDarkgray font-semibold">
+                          {history?.transaksiId}
+                        </p>
+                      </div>
+                      <p className="text-20 font-medium">Biaya Sewa</p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <Coins className="text-primaryOrange" size={12} />
+                          <img
+                            className="rounded-lg w-[52px] h-[52px] bg-black"
+                            src={`data:image/jpeg;base64,${history?.fotoProduct}`}
                           />
+                          <div className="flex flex-col gap-1">
+                            <p className="text-16 font-medium">
+                              Meja {history?.tableName}
+                            </p>
+                            <p className="text-16 font-medium text-primaryDarkgray">
+                              {format(
+                                parseCustomDate(history?.tanggalTransaksi),
+                                "dd MMM yyyy"
+                              )}{" "}
+                              -{" "}
+                              {history?.produk?.jamMain.map(
+                                (hour, index) => hour + " "
+                              )}
+                            </p>
+                          </div>
                         </div>
-
-                        <p className="text-16 font-semibold">
-                          Transaksi Berhasil
-                        </p>
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-3">
-                        <div className="flex items-center justify-center rounded-full ">
-                          <XCircle size={32} color="#ff6262" weight="fill" />
-                        </div>
-
-                        <p className="text-16 font-semibold">
-                          Transaksi Dibatalkan
-                        </p>
-                      </div>
-                    )}
-
-                    <p className="text-16 text-primaryDarkgray font-semibold">
-                      Order ID {history?.transaksi_id}
-                    </p>
-                  </div>
-                  <p className="text-20 font-medium">Biaya Sewa</p>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <Coins className="text-primaryOrange" size={12} />
-                      <div className="rounded-lg w-[52px] h-[52px] bg-black"></div>
-                      <div className="flex flex-col gap-1">
-                        <p className="text-16 font-medium">
-                          Meja {history?.tableName}
-                        </p>
-                        <p className="text-16 font-medium text-primaryDarkgray">
-                          {format(
-                            new Date(history?.tanggal_transaksi),
-                            "dd MMM yyyy"
-                          )}{" "}
-                          -{" "}
-                          {history?.produk?.jamMain.map(
-                            (hour, index) => hour + " "
-                          )}
-                        </p>
+                        <button
+                          onClick={() => {
+                            handleSelectTransaction(history);
+                          }}
+                          className="flex bg-primaryOrange px-3 py-2 text-white hover:bg-accentDarkOrange transition-all ease-in-out duration-200 rounded-md"
+                        >
+                          Lihat Detail Transaksi
+                        </button>
                       </div>
                     </div>
-                    <button
-                      onClick={() => {
-                        handleSelectTransaction(history);
-                      }}
-                      className="flex bg-primaryOrange px-3 py-2 text-white hover:bg-accentDarkOrange transition-all ease-in-out duration-200 rounded-md"
-                    >
-                      Lihat Detail Transaksi
-                    </button>
-                  </div>
-                </div>
+                  )}
+                </>
               ))}
             </div>
           </div>

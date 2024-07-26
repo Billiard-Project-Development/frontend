@@ -49,13 +49,12 @@ const SignIn = () => {
   //   }
   // }, [userInfo]);
 
+  console.log("authSuccess:", authSuccess);
+
   useEffect(() => {
-    if (authSuccess) {
-      if (userInfo?.role === 1) {
-        navigate("/admin");
-      } else {
-        navigate("/");
-      }
+    if (authSuccess && userInfo) {
+      const redirectLocation = userInfo?.role === 1 ? "/admin" : "/";
+      window.location.href = redirectLocation;
       dispatch(resetStateAuth());
     }
   }, [authSuccess, userInfo, navigate, dispatch]);

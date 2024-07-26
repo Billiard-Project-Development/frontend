@@ -18,10 +18,9 @@ import AdminLayoutPage from "./pages/admin/AdminLayoutPage";
 import { getUserInfo } from "./utils/auth";
 
 function App() {
-  const isAuthenticated = true; // Assuming user is authenticated
   const userInfo = getUserInfo();
   const userRole = userInfo?.role;
-  console.log("userRole:", userRole);
+  console.log("userRole app.js:", userRole);
 
   return (
     <div className="z-auto mx-auto font-body bg-bgWhite min-h-screen">
@@ -32,16 +31,23 @@ function App() {
           <Route path="/sign-in" element={<SignIn />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/booking-table" element={<BookTableNav />} />
-          <Route
-            path="/transaction-history"
-            element={<TransactionHistoryNav />}
-          />{" "}
+          {userRole !== undefined ? (
+            <Route
+              path="/transaction-history"
+              element={<TransactionHistoryNav />}
+            />
+          ) : (
+            <Route
+              path="/transaction-history"
+              element={<Navigate to="/sign-in" />}
+            />
+          )}
           {/* Redirect to admin dashboard if authenticated as admin */}
-          {isAuthenticated && userRole === 1 && (
+          {userRole === 1 && (
             <Route path="/admin" element={<Navigate to="/admin/dashboard" />} />
           )}
           {/* Conditional rendering for admin dashboard */}
-          {isAuthenticated && userRole === 1 ? (
+          {userRole === 1 ? (
             <Route path="/admin/*" element={<AdminLayoutPage />} />
           ) : (
             <Route path="/admin/*" element={<Navigate to="/sign-in" />} />
