@@ -50,7 +50,7 @@ export default function BasicTable(props) {
             <input
               type="text"
               className="w-full focus:outline-none"
-              placeholder="Cari Nama"
+              placeholder="Cari Data"
               value={filtering}
               onChange={(e) => setFiltering(e.target.value)}
             />

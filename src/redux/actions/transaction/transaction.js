@@ -56,7 +56,7 @@ export const getTransactionByUserId = createAsyncThunk(
     try {
       const token = getToken();
       const { data } = await axios.get(
-        `${process.env.REACT_APP_API}/transaction/getTransaksiByUserId?userId=${id}`,
+        `${process.env.REACT_APP_API}/transaksi/getTransaksiByUserId?userId=${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`

@@ -87,7 +87,7 @@ const BookTable = () => {
               {dataProductByDate?.map((table, index) => (
                 <div
                   key={index}
-                  className="flex flex-col gap-3 items-center justify-center w-[320px] h-[487px] bg-primaryWhite rounded-2xl p-5 shadow-cardShadow1"
+                  className="flex flex-col gap-3 items-center justify-between w-[320px] h-[487px] bg-primaryWhite rounded-2xl p-5 shadow-cardShadow1"
                 >
                   <img
                     className="w-[280px] h-[240px] rounded-2xl"
@@ -96,23 +96,26 @@ const BookTable = () => {
                   />
                   <div className="flex flex-col gap-3 w-full">
                     <h3 className="font-semibold text-24">{table?.nama}</h3>
-                    <p className="text-12">{table?.desc}</p>
-                    <div className="flex gap-3 itemx-center">
+                    <p className="text-12">{table?.deskripsi}</p>
+                    {/* <div className="flex gap-3 itemx-center">
                       <Garage className="text-primaryOrange" size={20} />
                       <span className="">Billiard</span>
                     </div>
                     <div className="flex gap-3 itemx-center">
                       <MapPin className="text-primaryOrange" size={20} />
                       <span className="">Location</span>
-                    </div>
-                    <Link
-                      to={`/booking-table?productId=${table?.product_id}`}
-                      state={{ date: selectedDate }}
-                      className="flex items-center w-full justify-center bg-primaryOrange px-3 py-2 text-white hover:bg-accentDarkOrange transition-all ease-in-out duration-200 rounded-md"
-                    >
-                      Booking Sekarang
-                    </Link>
+                    </div> */}{" "}
                   </div>
+                  <Link
+                    to={`/booking-table?productId=${table?.product_id}`}
+                    state={{
+                      date: selectedDate,
+                      foto_product: table?.foto_product
+                    }}
+                    className="flex items-center w-full justify-center bg-primaryOrange px-3 py-2 text-white hover:bg-accentDarkOrange transition-all ease-in-out duration-200 rounded-md"
+                  >
+                    Booking Sekarang
+                  </Link>
                 </div>
               ))}
             </div>
