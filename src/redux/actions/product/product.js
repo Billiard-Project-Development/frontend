@@ -126,19 +126,45 @@ export const addProduct = createAsyncThunk(
 
 export const deleteProduct = createAsyncThunk(
   "deleteProduct",
-  async (id, { rejectWithValue }) => {
+  async (deleteBody, { rejectWithValue }) => {
     try {
       const token = getToken();
-      const { data } = await axios.delete(
-        `${process.env.REACT_APP_API}/product/deleteById`,
-        id,
+      const { data } = await axios.request({
+        method: "delete",
+        url: `${process.env.REACT_APP_API}/product/deleteById`,
+        data: deleteBody,
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      });
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const updateProduct = createAsyncThunk(
+  "updateProduct",
+  async (updateBody, { rejectWithValue }) => {
+    try {
+      const token = getToken();
+      const { data } = await axios.patch(
+        `${process.env.REACT_APP_API}/product/updateProduk`,
+        updateBody,
         {
-          header: {
-            "content-type": "application/json",
+          headers: {
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`
           }
         }
       );
+      return data;
     } catch (error) {
       if (error.response && error.response.data.message) {
         return rejectWithValue(error.response.data.message);

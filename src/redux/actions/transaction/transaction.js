@@ -98,3 +98,51 @@ export const createTransaction = createAsyncThunk(
     }
   }
 );
+
+export const deleteTransactionById = createAsyncThunk(
+  "deleteTransactionById",
+  async (id, { rejectWithValue }) => {
+    try {
+      const token = getToken();
+      const { data } = await axios.delete(
+        `${process.env.REACT_APP_API}/transaksi/deleteTransaksi?transaksiId=${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const deleteAllTransaction = createAsyncThunk(
+  "deleteAllTransaction",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = getToken();
+      const { data } = await axios.delete(
+        `${process.env.REACT_APP_API}/transaksi/deleteAllTransaksi`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+      return data;
+    } catch (error) {
+      if (error.response && error.response.data.message) {
+        return rejectWithValue(error.response.data.message);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);

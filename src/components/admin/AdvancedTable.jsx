@@ -1,13 +1,4 @@
 // @ts-nocheck
-import React, { useMemo, useState } from "react";
-import {
-  useReactTable,
-  getCoreRowModel,
-  flexRender,
-  getPaginationRowModel,
-  getSortedRowModel,
-  getFilteredRowModel
-} from "@tanstack/react-table";
 import {
   CaretLeft,
   CaretRight,
@@ -17,25 +8,35 @@ import {
   Plus,
   TrashSimple
 } from "@phosphor-icons/react";
+import {
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable
+} from "@tanstack/react-table";
+import React, { useMemo, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import * as XLSX from "xlsx";
 import CustomDateInput from "./CustomDateInput"; // Import the custom input component
-import { se } from "date-fns/locale";
 
 export default function AdvancedTable({
   columns,
   data,
   tableName,
-  handleOpentablePopup
+  handleOpenAddtablePopup,
+  handleDeleteSelected,
+  idNameToSelect,
+  selectedId,
+  setSelectedId
 }) {
   const [sorting, setSorting] = useState([]);
   const [filtering, setFiltering] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedRows, setSelectedRows] = useState(new Set());
 
-  const [selectedTransactionId, setSelectedTransactionId] = useState(null);
-  const [selectedBookingId, setSelectedBookingId] = useState(null);
   const [selectAll, setSelectAll] = useState(false);
   const [pagination, setPagination] = useState({
     pageIndex: 0,
@@ -51,30 +52,47 @@ export default function AdvancedTable({
 
   console.log("selectedRows:", selectedRows);
   console.log("data ini:", data);
-  const handleRowSelect = (rowId, index) => {
-    const transactionId = data?.[index]?.transaksiId;
-    const bookingId = data?.[index]?.bookingId;
-    const newSelectedRows = new Set(selectedRows);
-    if (newSelectedRows.has(rowId)) {
-      newSelectedRows.delete(rowId);
-    } else {
-      newSelectedRows.add(rowId);
-    }
-    setSelectedRows(newSelectedRows);
 
-    setSelectedTransactionId(transactionId);
-    setSelectedBookingId(bookingId);
-    // Log the value directly
+  const handleRowSelect = (rowId, index) => {
+    const id = data?.[index]?.[idNameToSelect];
+
+    setSelectedRows((prevSelectedRows) => {
+      const newSelectedRows = new Set(prevSelectedRows);
+      const newselectedIds = new Set(selectedId);
+
+      if (newSelectedRows.has(rowId)) {
+        newSelectedRows.delete(rowId);
+        newselectedIds.delete(id);
+
+        setSelectAll(false); // Set selectAll to false when unselecting a row
+      } else {
+        newSelectedRows.add(rowId);
+        newselectedIds.add(id);
+      }
+
+      setSelectedId(Array.from(newselectedIds));
+
+      return newSelectedRows;
+    });
   };
+
   const handleSelectAll = () => {
     if (selectAll) {
       setSelectedRows(new Set());
+      setSelectedId([]);
     } else {
       const allRowIds = new Set(data.map((_, index) => index));
+      const allIds = data.map((item) => item?.[idNameToSelect]);
+
       setSelectedRows(allRowIds);
+      setSelectedId(allIds);
     }
     setSelectAll(!selectAll);
   };
+
+  console.log("selectedId", selectedId);
+
+  const handleDeleteById = () => {};
 
   console.log("yas data:", data);
   console.log("yas selectAll:", selectAll);
@@ -102,29 +120,28 @@ export default function AdvancedTable({
     [columns]
   );
 
+  let selectColumn = null;
+
+  if (tableName !== "Booking List") {
+    selectColumn = {
+      header: ({ table }) => (
+        <input type="checkbox" checked={selectAll} onChange={handleSelectAll} />
+      ),
+      id: "select",
+      cell: ({ row }) => (
+        <input
+          type="checkbox"
+          checked={selectedRows.has(row.index)}
+          onChange={() => handleRowSelect(row.index, row.index)}
+        />
+      )
+    };
+  }
   const table = useReactTable({
     data,
     columns: useMemo(
-      () => [
-        {
-          header: ({ table }) => (
-            <input
-              type="checkbox"
-              checked={selectAll}
-              onChange={handleSelectAll}
-            />
-          ),
-          id: "select",
-          cell: ({ row }) => (
-            <input
-              type="checkbox"
-              checked={selectedRows.has(row.id) || selectAll}
-              onChange={() => handleRowSelect(row.id, row.index)}
-            />
-          )
-        },
-        ...columnsWithImage
-      ],
+      () =>
+        selectColumn ? [selectColumn, ...columnsWithImage] : columnsWithImage,
       [columnsWithImage, selectedRows, selectAll]
     ),
     getCoreRowModel: getCoreRowModel(),
@@ -183,7 +200,7 @@ export default function AdvancedTable({
             </div>
             {tableName === "Meja Billiard" ? (
               <button
-                onClick={handleOpentablePopup}
+                onClick={handleOpenAddtablePopup}
                 className="flex items-center gap-2 px-3 py-2 border-2 border-primarySoftgray rounded-xl"
               >
                 <Plus className="text-accentGreen" size={24} />
@@ -212,7 +229,11 @@ export default function AdvancedTable({
             )}
             {(tableName === "Meja Billiard" ||
               tableName === "Transaksi Masuk") && (
-              <button className="flex items-center gap-2 px-3 py-2 border-2 border-primarySoftgray rounded-xl">
+              <button
+                onClick={handleDeleteSelected}
+                className="flex items-center gap-2 px-3 py-2 border-2 border-primarySoftgray rounded-xl "
+                disabled={selectedId?.length === 0}
+              >
                 <TrashSimple className="text-accentRed" size={24} />
                 <p className="text-12 font-medium text-accentRed">
                   Hapus Semua

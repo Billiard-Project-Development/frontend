@@ -12,7 +12,7 @@ const getAllTransactionSlice = createSlice({
   name: "getAllTransactionSlice",
   initialState,
   reducers: {
-    resetStateDeleteProduct: (state) => initialState
+    resetStateGetAllTransaction: (state) => initialState
   },
   extraReducers: (builder) => {
     builder
@@ -37,5 +37,5 @@ const getAllTransactionSlice = createSlice({
   }
 });
 
-export const { resetStateDeleteProduct } = getAllTransactionSlice.actions;
+export const { resetStateGetAllTransaction } = getAllTransactionSlice.actions;
 export default getAllTransactionSlice.reducer;

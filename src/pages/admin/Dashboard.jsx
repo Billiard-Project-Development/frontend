@@ -10,6 +10,7 @@ import { getAllTransaction } from "../../redux/actions/transaction/transaction";
 import { getAllBooking } from "../../redux/actions/booking/booking";
 import ContinueLoader1 from "../../components/loaders/ContinueLoader1";
 import { getAllProduct } from "../../redux/actions/product/product";
+import { getFormattedDateAndTime } from "../../utils/dateUtils";
 
 const Dashboard = () => {
   const {
@@ -107,13 +108,15 @@ const Dashboard = () => {
     0
   );
 
+  const currentDateAndTime = getFormattedDateAndTime();
+
   return (
     <div className="flex flex-col gap-10 w-full text-primaryBlack">
       <div className="flex items-center justify-between">
         <h1 className="text-24 font-semibold">Dashboard</h1>
         <div className="flex items-center gap-3 justify-center p-2 bg-white rounded-lg border border-primarySoftGray">
           <Calendar size={24} />
-          <p className="font-medium">Senin, 13 Mei 2024 • 15:30 WIB</p>
+          <p className="font-medium">{currentDateAndTime}</p>
         </div>
       </div>
       <div className="flex gap-10 w-full">
@@ -162,6 +165,7 @@ const Dashboard = () => {
             columns={transactionColumns}
             data={dataTransaction}
             tableName={"Transaksi Masuk"}
+            tableLink={"/admin/transaction"}
           />
         ) : null}
       </div>
@@ -179,6 +183,7 @@ const Dashboard = () => {
             columns={bookingListColumns}
             data={dataBooking}
             tableName={"Booking List"}
+            tableLink={"/admin/booking-list"}
           />
         ) : null}
       </div>
