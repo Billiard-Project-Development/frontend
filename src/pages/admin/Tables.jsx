@@ -2,11 +2,19 @@ import React, { useEffect, useState } from "react";
 import AdvancedTable from "../../components/admin/AdvancedTable";
 import mData from "../../TABLE_DATA.json";
 import AddTablePopup from "../../components/popup/addTablePopup";
-import { getAllProduct } from "../../redux/actions/product/product";
+import {
+  deleteProduct,
+  getAllProduct
+} from "../../redux/actions/product/product";
 import { useDispatch, useSelector } from "react-redux";
 import ContinueLoader1 from "../../components/loaders/ContinueLoader1";
+import { accordion } from "@material-tailwind/react";
+import { PencilSimple, TrashSimple } from "@phosphor-icons/react";
+import UpdateTablePopup from "../../components/popup/updateTablePopup";
 
 const Tables = () => {
+  const dispatch = useDispatch();
+
   const tablesColumns = [
     {
       header: "ID Meja",
@@ -27,15 +35,68 @@ const Tables = () => {
     {
       header: "Foto Meja",
       accessorKey: "foto_meja"
+    },
+    {
+      header: "Aksi",
+      accesorKey: "product_id",
+      cell: ({ row }) => (
+        <div className="flex items-center justify-center gap-3">
+          <button
+            onClick={() => handleOpenUpdateTablePopup(row.original)}
+            className="flex items-center justify-center px-3 py-2 rounded-xl border-2 border-primarySoftgray"
+          >
+            <PencilSimple className="text-primaryBlack" size={24} />
+          </button>
+          <button
+            onClick={() => handleDeleteRow(row.original.product_id)}
+            className="flex items-center justify-center px-3 py-2 rounded-xl border-2 border-primarySoftgray"
+          >
+            <TrashSimple className="text-accentRed" size={24} />
+          </button>
+        </div>
+      )
     }
   ];
 
+  const handleDeleteRow = async (rowId) => {
+    console.log("dis row:", rowId);
+    const deleteBody = {
+      produkId: rowId
+    };
+    await dispatch(deleteProduct(deleteBody));
+    setTimeout(() => {
+      dispatch(getAllProduct());
+    }, 1000);
+  };
+
+  const handleDeleteSelected = () => {
+    selectedId?.forEach((element, i) => {
+      const deleteBody = {
+        produkId: element
+      };
+
+      console.log("element:", element);
+      dispatch(deleteProduct(deleteBody));
+    });
+  };
+
   const [openAddTablePopup, setOpenAddTablePopup] = useState(false);
-  const handleOpentablePopup = () => {
+  const [openUpdateTablePopup, setOpenUpdateTablePopup] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState(null);
+  const [selectedData, setSelectedData] = useState(null);
+
+  const [selectedId, setSelectedId] = useState([]);
+
+  const handleOpenAddtablePopup = () => {
     setOpenAddTablePopup(true);
   };
-  console.log("mData:", mData); // Debugging: Check the data structure
-  console.log("openAddTablePopup:", openAddTablePopup);
+  const handleOpenUpdateTablePopup = async (data) => {
+    await setSelectedData(data);
+    setOpenUpdateTablePopup(true);
+
+    console.log("selectedProductId", selectedProductId);
+  };
+
   const {
     getAllProductResponse,
     getAllProductLoading,
@@ -44,7 +105,7 @@ const Tables = () => {
   } = useSelector((state) => state.getAllProduct);
   const data = getAllProductResponse?.data;
   console.log("getAllProductResponse:", getAllProductResponse);
-  const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getAllProduct());
   }, [dispatch]);
@@ -57,7 +118,16 @@ const Tables = () => {
           setOpenAddTablePopup(false);
         }}
       />
-      <div className="flex-1 h-screen overflow-y-auto">
+      <UpdateTablePopup
+        isOpen={openUpdateTablePopup}
+        onClose={() => {
+          setOpenUpdateTablePopup(false);
+        }}
+        selectedProductId={selectedProductId}
+        selectedData={selectedData}
+      />
+
+      <div className="flex-1">
         {getAllProductLoading ? (
           <div className="mt-40  flex items-center justify-center">
             <ContinueLoader1 />
@@ -71,7 +141,11 @@ const Tables = () => {
             columns={tablesColumns}
             data={data}
             tableName={"Meja Billiard"}
-            handleOpentablePopup={handleOpentablePopup}
+            handleOpenAddtablePopup={handleOpenAddtablePopup}
+            idNameToSelect={"product_id"}
+            selectedId={selectedId}
+            setSelectedId={setSelectedId}
+            handleDeleteSelected={handleDeleteSelected}
           />
         ) : (
           <></>

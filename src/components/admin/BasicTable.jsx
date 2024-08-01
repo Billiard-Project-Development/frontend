@@ -15,9 +15,10 @@ import {
   CaretUpDown,
   MagnifyingGlass
 } from "@phosphor-icons/react";
+import { Link } from "react-router-dom";
 
 export default function BasicTable(props) {
-  const { columns, data, tableName } = props;
+  const { columns, data, tableName, tableLink = "/admin/tables" } = props;
 
   const [sorting, setSorting] = useState([]);
   const [filtering, setFiltering] = useState("");
@@ -42,8 +43,15 @@ export default function BasicTable(props) {
     <>
       <div className="w-full max-h-full p-5 bg-primaryWhite rounded-xl border border-primarySoftgray">
         <div className="flex flex-col gap-5">
-          <div className="w-full divide-y">
+          <div className="w-full flex items-center justify-between">
             <p className="text-16 font-medium">{tableName}</p>
+            <Link
+              className="flex items-center gap-1 text-primaryOrange text-12"
+              to={tableLink}
+            >
+              <p>Lebih Lanjut</p>
+              <CaretRight size={20} />
+            </Link>
           </div>
           <div className="w-full border flex items-center gap-3 px-6 py-2 rounded-xl">
             <MagnifyingGlass size={24} />

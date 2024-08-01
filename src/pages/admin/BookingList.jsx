@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllBooking } from "../../redux/actions/booking/booking";
 import ContinueLoader1 from "../../components/loaders/ContinueLoader1";
 import AdvancedTable from "../../components/admin/AdvancedTable";
+import { deleteTransactionById } from "../../redux/actions/transaction/transaction";
 const BookingList = () => {
   const tablesColumns = [
     {
@@ -45,6 +46,12 @@ const BookingList = () => {
     setOpenAddTablePopup(true);
   };
 
+  // const handleDeleteSelected = () => {
+  //   selectedTransactionId?.forEach((element, i) => {
+  //     dispatch(deleteTransactionById(element));
+  //   });
+  // };
+
   useEffect(() => {
     dispatch(getAllBooking());
   }, [dispatch]);
@@ -73,6 +80,7 @@ const BookingList = () => {
             data={data}
             tableName={"Booking List"}
             handleOpentablePopup={handleOpentablePopup}
+            // handleDeleteSelected={handleDeleteSelected}
           />
         ) : null}
       </div>

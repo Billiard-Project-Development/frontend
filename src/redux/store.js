@@ -15,6 +15,9 @@ import getAllBookingSlice from "./features/booking/getAllBookingSlice";
 import resetPasswordSlice from "./features/auth/resetPasswordSlice";
 import requestOTPSlice from "./features/auth/requestOTPSlice";
 import productAvailableSlice from "./features/product/productAvailableSlice";
+import deleteTransactionByIdSlice from "./features/transaction/deleteTransactionByIdSlice";
+import deleteAllTransactionSlice from "./features/transaction/deleteAllTransactionSlice";
+import updateProductSlice from "./features/product/updateProductSlice";
 const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -29,11 +32,14 @@ const store = configureStore({
     getAllProductPhoto: getAllProductPhotoSlice,
     deleteProduct: deleteProductSlice,
     addProduct: addProductSlice,
+    updateProduct: updateProductSlice,
     getBookingByBookingId: getBookingByBookingIdSlice,
     getAllBooking: getAllBookingSlice,
     resetPassword: resetPasswordSlice,
     requestOTP: requestOTPSlice,
-    productAvailable: productAvailableSlice
+    productAvailable: productAvailableSlice,
+    deleteTransactionById: deleteTransactionByIdSlice,
+    deleteAllTransaction: deleteAllTransactionSlice
   }
 });
 

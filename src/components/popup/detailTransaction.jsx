@@ -42,8 +42,13 @@ export default function DetailTransaction(props) {
         createTransactionData?.responseMidtrans?.response?.redirect_url;
       window.open(url, "blank", "noreferrer");
       dispatch(resetStateCreateTransaction());
+    } else if (createTransactionError) {
+      alert(createTransactionError);
     }
   }, [createTransactionData]);
+
+  console.log("createTransactionError:", createTransactionError);
+
   if (!isOpen) return null;
   return (
     <>

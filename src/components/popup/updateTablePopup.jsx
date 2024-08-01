@@ -1,18 +1,31 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Plus, UploadSimple, X } from "@phosphor-icons/react";
+import { PencilSimple, UploadSimple, X } from "@phosphor-icons/react";
 import React, { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { addProduct, getAllProduct } from "../../redux/actions/product/product";
-import ContinueLoader1 from "../loaders/ContinueLoader1";
 import successState from "../../assets/StateImage/success_state.webp";
+import {
+  addProduct,
+  getAllProduct,
+  updateProduct
+} from "../../redux/actions/product/product";
 import { resetStateAddProduct } from "../../redux/features/product/addProductSlice";
+import ContinueLoader1 from "../loaders/ContinueLoader1";
+import { resetStateUpdateProduct } from "../../redux/features/product/updateProductSlice";
 
-export default function AddTablePopup(props) {
-  const { isOpen, onClose, data, handleSwitchSignUp } = props;
+export default function UpdateTablePopup(props) {
+  const {
+    isOpen,
+    onClose,
+    data,
+    handleSwitchSignUp,
+    selectedProductId,
+    selectedData
+  } = props;
   const [visiblePassword, setVisiblePassword] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [pricePerHour, setPricePerHour] = useState("");
+  const [tableNumber, setTableNumber] = useState("");
 
   const dispatch = useDispatch();
 
@@ -20,20 +33,31 @@ export default function AddTablePopup(props) {
     setVisiblePassword(!visiblePassword);
   };
 
+  const splitTableNumber = selectedData?.nama?.split(" ");
+
+  const splitedTableNumber = selectedData ? splitTableNumber[1] : null;
+
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors }
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      noMeja: splitedTableNumber,
+      harga: selectedData?.harga,
+      deskripsi: selectedData?.deskripsi
+    }
+  });
 
-  const { addProductResponse, addProductLoading, addProductSuccess } =
-    useSelector((state) => state.addProduct);
+  const { updateProductResponse, updateProductLoading, updateProductSuccess } =
+    useSelector((state) => state.updateProduct);
 
-  const submitForm = (dataAddProduct) => {
-    dataAddProduct.foto_produk = selectedFile;
-    dispatch(addProduct(dataAddProduct));
-    console.log("dataAddProduct:", dataAddProduct);
+  const submitForm = (dataUpdateProduct) => {
+    dataUpdateProduct.foto_produk = selectedFile;
+    dataUpdateProduct.produkId = selectedProductId;
+    dispatch(updateProduct(dataUpdateProduct));
+    console.log("dataUpdateProduct:", dataUpdateProduct);
   };
 
   console.log("selectedFile:", selectedFile);
@@ -55,7 +79,23 @@ export default function AddTablePopup(props) {
     console.log("value:", value);
   };
 
+  const handleTableNumberChange = (event) => {
+    const value = event.target.value.replace(/[^0-9]/g, "");
+    setTableNumber(value);
+    console.log("value:", value);
+  };
+
   console.log("pricePerHour:", pricePerHour);
+
+  useEffect(() => {
+    if (selectedData) {
+      setValue("noMeja", splitedTableNumber);
+      setValue("harga", selectedData.harga);
+      setValue("deskripsi", selectedData.deskripsi);
+      setPricePerHour(selectedData.harga || "");
+      setTableNumber(splitedTableNumber || "");
+    }
+  }, [selectedData, setValue, splitedTableNumber]);
 
   const handleOkeSuccess = () => {
     dispatch(getAllProduct());
@@ -65,8 +105,11 @@ export default function AddTablePopup(props) {
     }, 1000);
   };
 
-  console.log("addProductSuccess:", addProductSuccess);
-  console.log("addProductLoading:", addProductLoading);
+  useEffect(() => {
+    dispatch(resetStateUpdateProduct());
+  }, [isOpen]);
+
+  console.log("selectedDatapopup:", selectedData);
 
   if (!isOpen) return null;
   return (
@@ -98,14 +141,14 @@ export default function AddTablePopup(props) {
               >
                 <Dialog.Panel
                   className={`w-full ${
-                    addProductSuccess ? "max-w-[600px]" : "max-w-[400px]"
+                    updateProductSuccess ? "max-w-[600px]" : "max-w-[400px]"
                   }  transform overflow-hidden rounded-2xl bg-white p-5 text-left align-middle shadow-xl transition-all`}
                 >
-                  {!(addProductLoading || addProductSuccess) && (
+                  {!(updateProductLoading || updateProductSuccess) && (
                     <div className="flex items-center  justify-between">
                       <div className="flex items-center gap-3">
-                        <Plus size={24} />
-                        <p className="text-20 font-medium">Tambah Meja</p>
+                        <PencilSimple size={24} />
+                        <p className="text-20 font-medium">Edit Meja</p>
                       </div>
 
                       <button
@@ -119,11 +162,11 @@ export default function AddTablePopup(props) {
                     </div>
                   )}
                   <div className="flex flex-col gap-8 w-full ">
-                    {addProductLoading ? (
+                    {updateProductLoading ? (
                       <div className="w-full h-full flex items-center justify-center">
                         <ContinueLoader1 />
                       </div>
-                    ) : addProductSuccess ? (
+                    ) : updateProductSuccess ? (
                       <div className="flex flex-col items-center justify-center text-center gap-10">
                         <img
                           className="w-[320px] h-[320px]"
@@ -131,7 +174,7 @@ export default function AddTablePopup(props) {
                         />
                         <div className="flex flex-col gap-3">
                           <p className="text-20 font-semibold">
-                            Berhasil Menambahkan Meja!
+                            Berhasil Mengedit Meja!
                           </p>
                           <p className="text-20">
                             Cek lebih lanjut pada tabel Meja Billiard
@@ -157,6 +200,8 @@ export default function AddTablePopup(props) {
                               type="text"
                               id="tableNumber"
                               {...register("noMeja")}
+                              value={tableNumber}
+                              onChange={handleTableNumberChange}
                             />
                           </div>
                           <div className="flex flex-col gap-1 text-primaryDarkgray">
@@ -216,14 +261,23 @@ export default function AddTablePopup(props) {
                             </div>
                           </div>
                         </div>
-                        <button
-                          id="submitFormButton"
-                          className="flex items-center justify-center bg-primaryOrange py-3 text-center text-white rounded-lg w-full hover:bg-accentDarkOrange transition duration-300 delay-100"
-                          aria-label="Toggle Submit"
-                          type="submit"
-                        >
-                          Tambah Meja
-                        </button>
+                        <div className="flex w-full items-center justify-center gap-3">
+                          <button
+                            id="submitFormButton"
+                            className="flex items-center justify-center bg-primaryOrange py-3 text-center text-white rounded-lg w-full hover:bg-accentDarkOrange transition duration-300 delay-100"
+                            aria-label="Toggle Submit"
+                            type="submit"
+                          >
+                            Simpan
+                          </button>{" "}
+                          <button
+                            onClick={onClose}
+                            id="cancelButton"
+                            className="flex items-center justify-center bg-primaryWhite py-3 text-center border border-accentRed text-accentRed rounded-lg w-full hover:bg-accentSoftOrange2 transition duration-300 delay-100"
+                          >
+                            Batalkan
+                          </button>
+                        </div>
                       </form>
                     )}
                   </div>
