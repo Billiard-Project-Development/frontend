@@ -1,4 +1,4 @@
-import { Bell, CaretLeft, List } from "@phosphor-icons/react";
+import { CaretLeft, List } from "@phosphor-icons/react";
 import React from "react";
 import user from "../../assets/Ava/user1.webp";
 import Logo from "../../assets/Logo/billiard_logo_black.webp";

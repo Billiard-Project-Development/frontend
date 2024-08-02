@@ -1,10 +1,9 @@
 import { Dialog, Transition } from "@headlessui/react";
+import { X } from "@phosphor-icons/react";
 import React, { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
 import Logo from "../../assets/Signin-Signup/billiard_logo.webp";
 import InputText from "../InputText";
-import { X } from "@phosphor-icons/react";
 
 export default function SignUpPopup(props) {
   const { isOpen, onClose, data, handleSwitchSignIn } = props;

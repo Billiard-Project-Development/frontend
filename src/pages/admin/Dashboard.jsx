@@ -1,21 +1,15 @@
 // Dashboard.js
 
-import {
-  Calendar,
-  Desk,
-  Table,
-  VectorTwo,
-  Wallet
-} from "@phosphor-icons/react";
+import { Calendar, Desk, VectorTwo, Wallet } from "@phosphor-icons/react";
 import React, { useEffect, useMemo } from "react";
-import bookingList from "../../booking_list.json";
-import BasicTable from "../../components/admin/BasicTable";
-import transaction from "../../MOCK_DATA.json";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllTransaction } from "../../redux/actions/transaction/transaction";
-import { getAllBooking } from "../../redux/actions/booking/booking";
+
+import BasicTable from "../../components/admin/BasicTable";
 import ContinueLoader1 from "../../components/loaders/ContinueLoader1";
+
+import { getAllBooking } from "../../redux/actions/booking/booking";
 import { getAllProduct } from "../../redux/actions/product/product";
+import { getAllTransaction } from "../../redux/actions/transaction/transaction";
 import { getFormattedDateAndTime } from "../../utils/dateUtils";
 
 const Dashboard = () => {
@@ -43,8 +37,6 @@ const Dashboard = () => {
   const dataTransaction = getAllTransactionResponse?.data;
   const dataProduct = getAllProductResponse?.data;
 
-  const transactionData = useMemo(() => transaction, []);
-  const bookingListData = useMemo(() => bookingList, []);
   const transactionColumns = [
     {
       header: "Nama",

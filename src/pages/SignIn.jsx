@@ -1,14 +1,14 @@
-import { Link, useNavigate } from "react-router-dom";
-import Logo from "../assets/Signin-Signup/billiard_logo.webp";
+import { CaretLeft } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { CaretLeft } from "@phosphor-icons/react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import Logo from "../assets/Signin-Signup/billiard_logo.webp";
 import loginimg from "../assets/Signin-Signup/login.webp";
 import InputText from "../components/InputText";
-import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../redux/actions/auth/userAuth";
-import { getUserInfo } from "../utils/auth";
 import { resetStateAuth } from "../redux/features/auth/authSlice";
+import { getUserInfo } from "../utils/auth";
 
 const SignIn = () => {
   const {

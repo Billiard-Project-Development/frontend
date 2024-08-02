@@ -1,8 +1,8 @@
+import { ListChecks, Power, Table, VectorTwo } from "@phosphor-icons/react";
+import { SquaresFour } from "@phosphor-icons/react/dist/ssr";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom"; // Ensure you have React Router imported
 import Logo from "../../assets/Logo/billiard_logo_black.webp";
-import { SquaresFour } from "@phosphor-icons/react/dist/ssr";
-import { ListChecks, Power, Table, VectorTwo } from "@phosphor-icons/react";
 import { handleLogout } from "../../utils/auth";
 const Sidebar = (props) => {
   const { isOpen } = props;
@@ -73,12 +73,10 @@ const Sidebar = (props) => {
         <p className="text-16">Lainnya</p>
         <button
           onClick={logout}
-
           className="mt-4 flex gap-3 px-2 py-1 w-full items-center text-start cursor-pointer text-accentRed rounded-lg transition-all ease-in-out duration-200 hover:bg-accentSoftOrange2"
         >
           <Power size={21} />
           <p className="font font-semibold w-full">Keluar</p>
-
         </button>
       </div>
     </div>

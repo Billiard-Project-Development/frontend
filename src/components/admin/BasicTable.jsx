@@ -1,20 +1,19 @@
 // @ts-nocheck
 import {
-  useReactTable,
-  getCoreRowModel,
-  flexRender,
-  getPaginationRowModel,
-  getSortedRowModel,
-  getFilteredRowModel
-} from "@tanstack/react-table";
-import mData from "../../MOCK_DATA.json";
-import { useMemo, useState } from "react";
-import {
   CaretLeft,
   CaretRight,
   CaretUpDown,
   MagnifyingGlass
 } from "@phosphor-icons/react";
+import {
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable
+} from "@tanstack/react-table";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export default function BasicTable(props) {

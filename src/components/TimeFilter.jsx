@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { format, addDays, startOfDay, isSameDay } from "date-fns";
+import { Calendar, CaretLeft, CaretRight, Clock } from "@phosphor-icons/react";
+import { addDays, format, isSameDay, startOfDay } from "date-fns";
 import { id } from "date-fns/locale";
+import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Calendar, CaretLeft, CaretRight, Clock } from "@phosphor-icons/react";
 // import { FaCalendarAlt } from "react-icons/fa";
 
 const TimeFilter = ({ onDateSelect }) => {

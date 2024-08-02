@@ -1,16 +1,14 @@
+import { PencilSimple, TrashSimple } from "@phosphor-icons/react";
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import AdvancedTable from "../../components/admin/AdvancedTable";
-import mData from "../../TABLE_DATA.json";
+import ContinueLoader1 from "../../components/loaders/ContinueLoader1";
 import AddTablePopup from "../../components/popup/addTablePopup";
+import UpdateTablePopup from "../../components/popup/updateTablePopup";
 import {
   deleteProduct,
   getAllProduct
 } from "../../redux/actions/product/product";
-import { useDispatch, useSelector } from "react-redux";
-import ContinueLoader1 from "../../components/loaders/ContinueLoader1";
-import { accordion } from "@material-tailwind/react";
-import { PencilSimple, TrashSimple } from "@phosphor-icons/react";
-import UpdateTablePopup from "../../components/popup/updateTablePopup";
 
 const Tables = () => {
   const dispatch = useDispatch();

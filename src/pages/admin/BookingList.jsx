@@ -1,11 +1,9 @@
-import { Wallet } from "@phosphor-icons/react";
 import React, { useEffect, useState } from "react";
-import AddTablePopup from "../../components/popup/addTablePopup";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllBooking } from "../../redux/actions/booking/booking";
-import ContinueLoader1 from "../../components/loaders/ContinueLoader1";
 import AdvancedTable from "../../components/admin/AdvancedTable";
-import { deleteTransactionById } from "../../redux/actions/transaction/transaction";
+import ContinueLoader1 from "../../components/loaders/ContinueLoader1";
+import AddTablePopup from "../../components/popup/addTablePopup";
+import { getAllBooking } from "../../redux/actions/booking/booking";
 const BookingList = () => {
   const tablesColumns = [
     {
@@ -42,7 +40,7 @@ const BookingList = () => {
   const [openAddTablePopup, setOpenAddTablePopup] = useState(false);
 
   const dispatch = useDispatch();
-  const handleOpentablePopup = () => {
+  const handleOpenAddtablePopup = () => {
     setOpenAddTablePopup(true);
   };
 
@@ -79,7 +77,7 @@ const BookingList = () => {
             columns={tablesColumns}
             data={data}
             tableName={"Booking List"}
-            handleOpentablePopup={handleOpentablePopup}
+            handleOpenAddtablePopup={handleOpenAddtablePopup}
             // handleDeleteSelected={handleDeleteSelected}
           />
         ) : null}

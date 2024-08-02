@@ -3,13 +3,12 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
-import InputText from "../components/InputText";
 import ContinueLoader1 from "../components/loaders/ContinueLoader1";
+import DetailTransaction from "../components/popup/detailTransaction";
 import SignInPopup from "../components/popup/signInPopup";
 import SignUpPopup from "../components/popup/signUpPopup";
 import { productAvailable } from "../redux/actions/product/product";
 import { getUserInfo } from "../utils/auth";
-import DetailTransaction from "../components/popup/detailTransaction";
 
 const BookingTable = () => {
   const initialData = [

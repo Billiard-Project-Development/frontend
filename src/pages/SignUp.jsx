@@ -9,10 +9,10 @@ import { useForm } from "react-hook-form";
 // import { getToken } from "@/helpers/helpers";
 // import { resetSuccessState } from "@/redux/features/userSignUp/signup-slice";
 import { CaretLeft } from "@phosphor-icons/react";
+import { useDispatch, useSelector } from "react-redux";
 import registerimg from "../assets/Signin-Signup/register.webp";
 import InputText from "../components/InputText";
 import SuccessRegistration from "../components/popup/successRegistration";
-import { useDispatch, useSelector } from "react-redux";
 import { userRegister } from "../redux/actions/auth/userAuth";
 
 const SignUp = () => {
