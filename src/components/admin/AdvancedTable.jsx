@@ -16,7 +16,7 @@ import {
   getSortedRowModel,
   useReactTable
 } from "@tanstack/react-table";
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import * as XLSX from "xlsx";
@@ -35,6 +35,7 @@ export default function AdvancedTable({
   const [sorting, setSorting] = useState([]);
   const [filtering, setFiltering] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
+  const [filteredData, setFilteredData] = useState(data);
   const [selectedRows, setSelectedRows] = useState(new Set());
 
   const [selectAll, setSelectAll] = useState(false);
@@ -44,7 +45,7 @@ export default function AdvancedTable({
   });
 
   const handleExport = () => {
-    const ws = XLSX.utils.json_to_sheet(data);
+    const ws = XLSX.utils.json_to_sheet(filteredData);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Data");
     XLSX.writeFile(wb, "data.xlsx");
@@ -81,8 +82,8 @@ export default function AdvancedTable({
       setSelectedRows(new Set());
       setSelectedId([]);
     } else {
-      const allRowIds = new Set(data.map((_, index) => index));
-      const allIds = data.map((item) => item?.[idNameToSelect]);
+      const allRowIds = new Set(filteredData.map((_, index) => index));
+      const allIds = filteredData.map((item) => item?.[idNameToSelect]);
 
       setSelectedRows(allRowIds);
       setSelectedId(allIds);
@@ -93,6 +94,28 @@ export default function AdvancedTable({
   console.log("selectedId", selectedId);
 
   const handleDeleteById = () => {};
+
+  const filterDataByDate = () => {
+    if (!selectedDate) {
+      setFilteredData(data);
+      return;
+    }
+
+    const filtered = data.filter((item) => {
+      const itemDate = new Date(item.tanggalBooking);
+      return (
+        itemDate.getFullYear() === selectedDate.getFullYear() &&
+        itemDate.getMonth() === selectedDate.getMonth() &&
+        itemDate.getDate() === selectedDate.getDate()
+      );
+    });
+
+    setFilteredData(filtered);
+  };
+
+  useEffect(() => {
+    filterDataByDate();
+  }, [selectedDate, data]);
 
   console.log("yas data:", data);
   console.log("yas selectAll:", selectAll);
@@ -138,7 +161,7 @@ export default function AdvancedTable({
     };
   }
   const table = useReactTable({
-    data,
+    data: filteredData,
     columns: useMemo(
       () =>
         selectColumn ? [selectColumn, ...columnsWithImage] : columnsWithImage,

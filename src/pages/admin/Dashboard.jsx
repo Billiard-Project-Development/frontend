@@ -1,6 +1,12 @@
 // Dashboard.js
 
-import { Calendar, Table, VectorTwo, Wallet } from "@phosphor-icons/react";
+import {
+  Calendar,
+  Desk,
+  Table,
+  VectorTwo,
+  Wallet
+} from "@phosphor-icons/react";
 import React, { useEffect, useMemo } from "react";
 import bookingList from "../../booking_list.json";
 import BasicTable from "../../components/admin/BasicTable";
@@ -67,6 +73,29 @@ const Dashboard = () => {
     {
       header: "Metode Bayar",
       accessorKey: "paymentMethod"
+    },
+    {
+      header: "Bayar",
+      accessorKey: "statusTransaksi",
+      cell: ({ row }) => {
+        return (
+          <>
+            {row.original.statusTransaksi === "Success" ? (
+              <div className="flex items-center justify-center text-accentGreen bg-accentSoftGreen rounded-lg text-center py-2 w-full">
+                Sudah
+              </div>
+            ) : row.original.statusTransaksi === "Pending" ? (
+              <div className="flex items-center justify-center text-accentGreen bg-accentSoftGreen rounded-lg text-center py-2 w-full">
+                Pending
+              </div>
+            ) : (
+              <div className="flex items-center justify-center text-accentGreen bg-accentSoftGreen rounded-lg text-center py-2 w-full">
+                Batal
+              </div>
+            )}
+          </>
+        );
+      }
     }
   ];
 
@@ -142,7 +171,7 @@ const Dashboard = () => {
         </div>
         <div className="flex p-3 gap-3 bg-white rounded-lg border border-primarySoftGray w-full">
           <div className="p-2 rounded-lg bg-accentSoftOrange2 text-primaryOrange">
-            <Table size={24} />
+            <Desk size={24} />
           </div>
           <div className="flex flex-col justify-between">
             <p className="text-12">Meja Tersedia</p>
