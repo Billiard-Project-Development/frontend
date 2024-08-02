@@ -48,11 +48,25 @@ const Transaction = () => {
     {
       header: "Bayar",
       accorsorKey: "statusTransaksi",
-      cell: (props) => (
-        <div className="flex items-center justify-center text-accentGreen bg-accentSoftGreen rounded-lg text-center py-2 w-full">
-          Sudah
-        </div>
-      )
+      cell: ({ row }) => {
+        return (
+          <>
+            {row.original.statusTransaksi === "Success" ? (
+              <div className="flex items-center justify-center text-accentGreen bg-accentSoftGreen rounded-lg text-center py-2 w-full">
+                Sudah
+              </div>
+            ) : row.original.statusTransaksi === "Pending" ? (
+              <div className="flex items-center justify-center text-accentGreen bg-accentSoftGreen rounded-lg text-center py-2 w-full">
+                Pending
+              </div>
+            ) : (
+              <div className="flex items-center justify-center text-accentGreen bg-accentSoftGreen rounded-lg text-center py-2 w-full">
+                Batal
+              </div>
+            )}
+          </>
+        );
+      }
     },
     {
       header: "Aksi",

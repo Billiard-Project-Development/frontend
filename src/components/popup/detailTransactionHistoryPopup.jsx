@@ -91,12 +91,11 @@ export default function DetailTransactionHistoryPopup(props) {
                                 weight="fill"
                               />
                             </div>
-
                             <h1 className="text-20 font-semibold">
                               Transaksi Berhasil
                             </h1>
                           </div>
-                        ) : data?.statusTransaksi ? (
+                        ) : data?.statusTransaksi === "pending" ? (
                           <div className="flex items-center gap-3">
                             <div className="flex items-center justify-center rounded-full">
                               <MinusCircle
@@ -105,7 +104,6 @@ export default function DetailTransactionHistoryPopup(props) {
                                 weight="fill"
                               />
                             </div>
-
                             <p className="text-16 font-semibold">
                               Transaksi Pending
                             </p>
