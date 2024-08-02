@@ -5,13 +5,12 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import successState from "../../assets/StateImage/success_state.webp";
 import {
-  addProduct,
   getAllProduct,
   updateProduct
 } from "../../redux/actions/product/product";
 import { resetStateAddProduct } from "../../redux/features/product/addProductSlice";
-import ContinueLoader1 from "../loaders/ContinueLoader1";
 import { resetStateUpdateProduct } from "../../redux/features/product/updateProductSlice";
+import ContinueLoader1 from "../loaders/ContinueLoader1";
 
 export default function UpdateTablePopup(props) {
   const {

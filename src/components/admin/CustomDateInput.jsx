@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { Calendar } from "@phosphor-icons/react";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
-import { Calendar } from "@phosphor-icons/react";
+import React, { useEffect, useState } from "react";
+import "react-datepicker/dist/react-datepicker.css";
 
 const CustomDateInput = ({ value, onClick }) => {
   const [currentDate, setCurrentDate] = useState("");

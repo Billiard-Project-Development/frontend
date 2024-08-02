@@ -1,9 +1,9 @@
 import React from "react";
 
-import Facility1 from "../assets/Facility/ruang_tunggu.webp";
 import Facility2 from "../assets/Facility/food_and_beverage.webp";
-import Facility3 from "../assets/Facility/tournament.webp";
 import Facility4 from "../assets/Facility/receptionist.webp";
+import Facility1 from "../assets/Facility/ruang_tunggu.webp";
+import Facility3 from "../assets/Facility/tournament.webp";
 
 const data = [
   {

@@ -1,15 +1,14 @@
+import { TrashSimple } from "@phosphor-icons/react";
 import React, { useEffect, useState } from "react";
-import AdvancedTable from "../../components/admin/AdvancedTable";
-import mData from "../../MOCK_DATA.json"; // Import the data here
-import AddTablePopup from "../../components/popup/addTablePopup";
 import { useDispatch, useSelector } from "react-redux";
+import AdvancedTable from "../../components/admin/AdvancedTable";
+import ContinueLoader1 from "../../components/loaders/ContinueLoader1";
+import AddTablePopup from "../../components/popup/addTablePopup";
 import {
   deleteTransactionById,
   getAllTransaction
 } from "../../redux/actions/transaction/transaction";
-import ContinueLoader1 from "../../components/loaders/ContinueLoader1";
 import { resetStateGetAllTransaction } from "../../redux/features/transaction/getAllTransactionSlice";
-import { TrashSimple } from "@phosphor-icons/react";
 
 const Transaction = () => {
   const transactionColumns = [
@@ -103,12 +102,10 @@ const Transaction = () => {
     useSelector((state) => state.deleteTransactionById);
 
   const [openAddTablePopup, setOpenAddTablePopup] = useState(false);
-  const [selectedTransactionId, setSelectedTransactionId] = useState([]);
   const [selectedId, setSelectedId] = useState([]);
-  const [selectedBookingId, setSelectedBookingId] = useState([]);
 
   const dispatch = useDispatch();
-  const handleOpentablePopup = () => {
+  const handleOpenAddtablePopup = () => {
     setOpenAddTablePopup(true);
   };
 
@@ -122,7 +119,7 @@ const Transaction = () => {
   }, [dispatch, deleteTransactionByIdSuccess]);
 
   const handleDeleteSelected = () => {
-    selectedTransactionId?.forEach((element, i) => {
+    selectedId?.forEach((element, i) => {
       dispatch(deleteTransactionById(element));
     });
   };
@@ -151,7 +148,7 @@ const Transaction = () => {
             columns={transactionColumns}
             data={data}
             tableName={"Transaksi Masuk"}
-            handleOpentablePopup={handleOpentablePopup}
+            handleOpenAddtablePopup={handleOpenAddtablePopup}
             handleDeleteSelected={handleDeleteSelected}
             idNameToSelect={"transaksiId"}
             selectedId={selectedId}

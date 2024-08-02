@@ -7,10 +7,10 @@ import {
   XCircle
 } from "@phosphor-icons/react";
 import { format } from "date-fns";
-import React, { Fragment, useRef } from "react";
+import html2canvas from "html2canvas";
+import React, { Fragment } from "react";
 import { useDispatch } from "react-redux";
 import { parseCustomDate } from "../../utils/dateUtils";
-import html2canvas from "html2canvas";
 
 export default function DetailTransactionHistoryPopup(props) {
   const { isOpen, onClose, data } = props;

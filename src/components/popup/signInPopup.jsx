@@ -1,13 +1,12 @@
 import { Dialog, Transition } from "@headlessui/react";
+import { X } from "@phosphor-icons/react";
 import React, { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
-import Logo from "../../assets/Signin-Signup/billiard_logo.webp";
-import InputText from "../InputText";
-import { X } from "@phosphor-icons/react";
-import { userLogin } from "../../redux/actions/auth/userAuth";
 import { useDispatch, useSelector } from "react-redux";
+import Logo from "../../assets/Signin-Signup/billiard_logo.webp";
+import { userLogin } from "../../redux/actions/auth/userAuth";
 import { resetStateAuth } from "../../redux/features/auth/authSlice";
+import InputText from "../InputText";
 
 export default function SignInPopup(props) {
   const { isOpen, onClose, data, handleSwitchSignUp, handleSwitchDetail } =

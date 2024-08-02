@@ -1,8 +1,8 @@
+import { Coins, SignOut, User } from "@phosphor-icons/react";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../assets/Logo/billiard_logo.webp";
 import { getUserInfo, handleLogout } from "../utils/auth";
-import { Coins, SignOut, User } from "@phosphor-icons/react";
 import { scrollToSection } from "../utils/scrollUtils";
 const NavigationBar = () => {
   // const [prevScrollPosition, setPrevScrollPosition] = useState(0);

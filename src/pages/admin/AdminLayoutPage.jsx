@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Routes, Route } from "react-router-dom";
-import Dashboard from "./Dashboard";
-import Transaction from "./Transaction";
-import BookingList from "./BookingList";
-import Tables from "./Tables";
-import Sidebar from "../../components/admin/Sidebar";
+import { Route, Routes } from "react-router-dom";
 import NavAdmin from "../../components/admin/NavAdmin";
+import Sidebar from "../../components/admin/Sidebar";
+import BookingList from "./BookingList";
+import Dashboard from "./Dashboard";
+import Tables from "./Tables";
+import Transaction from "./Transaction";
 
 const AdminLayoutPage = () => {
   const [isOpenSidebar, setIsOpenSidebar] = useState(true);

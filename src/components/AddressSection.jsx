@@ -1,7 +1,7 @@
-import React from "react";
-import mapsDummy from "../assets/Address/card_maps.webp";
 import { Envelope, InstagramLogo, WhatsappLogo } from "@phosphor-icons/react";
 import { YoutubeLogo } from "@phosphor-icons/react/dist/ssr";
+import React from "react";
+import mapsDummy from "../assets/Address/card_maps.webp";
 const Address = () => {
   return (
     <div id="kontak" className="flex flex-col items-center gap-10">

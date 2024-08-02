@@ -1,12 +1,12 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Plus, UploadSimple, X } from "@phosphor-icons/react";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { addProduct, getAllProduct } from "../../redux/actions/product/product";
-import ContinueLoader1 from "../loaders/ContinueLoader1";
 import successState from "../../assets/StateImage/success_state.webp";
+import { addProduct, getAllProduct } from "../../redux/actions/product/product";
 import { resetStateAddProduct } from "../../redux/features/product/addProductSlice";
+import ContinueLoader1 from "../loaders/ContinueLoader1";
 
 export default function AddTablePopup(props) {
   const { isOpen, onClose, data, handleSwitchSignUp } = props;

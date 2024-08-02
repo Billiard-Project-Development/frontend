@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
-import success from "../../../src/assets/Signin-Signup/success.webp";
+import React, { Fragment, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import success from "../../../src/assets/Signin-Signup/success.webp";
 import { resetStateRegister } from "../../redux/features/auth/registerSlice";
 
 export default function SuccessRegistration(props) {

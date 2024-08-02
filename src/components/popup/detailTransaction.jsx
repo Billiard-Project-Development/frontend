@@ -1,12 +1,11 @@
-import React, { useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
-import { getUserInfo } from "../../utils/auth";
 import { format } from "date-fns";
+import React, { Fragment, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createTransaction } from "../../redux/actions/transaction/transaction";
-import ContinueLoader1 from "../loaders/ContinueLoader1";
 import { resetStateCreateTransaction } from "../../redux/features/transaction/createTransactionSlice";
+import { getUserInfo } from "../../utils/auth";
+import ContinueLoader1 from "../loaders/ContinueLoader1";
 
 export default function DetailTransaction(props) {
   const { isOpen, onClose, data, bookingData } = props;
