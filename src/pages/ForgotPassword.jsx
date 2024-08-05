@@ -10,7 +10,7 @@ import { userLogin } from "../redux/actions/auth/userAuth";
 import { resetStateAuth } from "../redux/features/auth/authSlice";
 import { getUserInfo } from "../utils/auth";
 
-const SignIn = () => {
+const ForgotPassword = () => {
   const {
     register,
     handleSubmit,
@@ -38,16 +38,6 @@ const SignIn = () => {
       console.error("Form submission error:", error);
     }
   };
-
-  // useEffect(() => {
-  //   if (userInfo !== null) {
-  //     if (userInfo?.role === 1) {
-  //       navigate("/admin");
-  //     } else if (userInfo?.role !== 1) {
-  //       navigate("/");
-  //     }
-  //   }
-  // }, [userInfo]);
 
   console.log("authSuccess:", authSuccess);
 
@@ -122,46 +112,14 @@ const SignIn = () => {
             {errors.email && (
               <p className="text-red-500">{errors.email.message}</p>
             )}
-            <InputText
-              label="Password"
-              name="password"
-              type={visiblePassword ? "text" : "password"}
-              register={register}
-              validation={{
-                required: {
-                  value: true,
-                  message: "Password Input Required"
-                },
-                minLength: {
-                  value: 8,
-                  message: "Password length 8 characters minimum"
-                },
-                maxLength: {
-                  value: 50,
-                  message: "Password length 50 characters maximum"
-                }
-                // pattern: {
-                //   value: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
-                //   message:
-                //     "Password must include an uppercase letter, a number, and a special character"
-                // }
-              }}
-              visiblePassword={visiblePassword}
-              toggleShowPassword={toggleShowPassword}
-            />
-            {errors.password && (
-              <p className="text-red-500">{errors.password.message}</p>
-            )}
-            {/* <div className="w-full flex justify-end">
-              <Link to={"/forgot-password"} className="text-primaryOrange">Lupa Password?</Link>
-            </div> */}
+
             <button
               id="signUpSubmitButton"
               className="flex items-center justify-center bg-primaryOrange py-3 text-center text-white rounded-lg w-full hover:bg-accentDarkOrange transition duration-300 delay-100"
               aria-label="Toggle Submit"
               type="submit"
             >
-              Masuk
+              Lanjutkan
             </button>
           </form>
           <div className="flex flex-row gap-2 items-center justify-center font-medium">
@@ -176,4 +134,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default ForgotPassword;

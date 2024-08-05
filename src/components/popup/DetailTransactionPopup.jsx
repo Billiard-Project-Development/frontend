@@ -48,6 +48,7 @@ export default function DetailTransactionPopup(props) {
         createTransactionData?.responseMidtrans?.response?.redirect_url;
       // window.open(url, "blank", "noreferrer");
       setPaymentLink(url);
+      onClose();
       setPaymentPopup(true);
       dispatch(resetStateCreateTransaction());
     } else if (createTransactionError) {
@@ -89,6 +90,12 @@ export default function DetailTransactionPopup(props) {
                   <Dialog.Panel className="w-full max-w-[600px] transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                     <div className="w-full h-full flex items-center justify-center">
                       <ContinueLoader1 />
+                    </div>
+                  </Dialog.Panel>
+                ) : createTransactionError ? (
+                  <Dialog.Panel className="w-full max-w-[600px] max-h-[600px] transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                    <div className="w-full h-full flex items-center justify-center">
+                      createTransactionError
                     </div>
                   </Dialog.Panel>
                 ) : (
