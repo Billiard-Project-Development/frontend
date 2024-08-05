@@ -4,11 +4,12 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import ContinueLoader1 from "../components/loaders/ContinueLoader1";
-import DetailTransaction from "../components/popup/detailTransaction";
+import DetailTransactionPopup from "../components/popup/DetailTransactionPopup";
 import SignInPopup from "../components/popup/signInPopup";
 import SignUpPopup from "../components/popup/signUpPopup";
 import { productAvailable } from "../redux/actions/product/product";
 import { getUserInfo } from "../utils/auth";
+import PaymentPopup from "../components/popup/PaymentPopup";
 
 const BookingTable = () => {
   const initialData = [
@@ -115,6 +116,8 @@ const BookingTable = () => {
   const [signInPopup, setSignInPopup] = useState(false);
   const [signUpPopup, setSignUpPopup] = useState(false);
   const [detailTransactionPopup, setDetailTransactionPopup] = useState(false);
+  const [paymentPopup, setPaymentPopup] = useState(false);
+  const [paymentLink, setPaymentLink] = useState(null);
   const [bookingData, setBookingData] = useState(null);
   const [errorSelect, setErrorSelect] = useState(null);
 
@@ -236,13 +239,23 @@ const BookingTable = () => {
         }}
         handleSwitchSignIn={handleSwitchSignIn}
       />
-      <DetailTransaction
+      <DetailTransactionPopup
         isOpen={detailTransactionPopup}
         onClose={() => {
           setDetailTransactionPopup(false);
         }}
         bookingData={bookingData}
         handleSwitchDetail={handleSwitchDetail}
+        setPaymentPopup={setPaymentPopup}
+        setPaymentLink={setPaymentLink}
+      />
+      <PaymentPopup
+        isOpen={paymentPopup}
+        onClose={() => {
+          setPaymentPopup(false);
+          // setPaymentLink(null);
+        }}
+        paymentLink={paymentLink}
       />
       <div className="px-4 md:px-20 text-primaryBlack">
         {productAvailableLoading ? (
