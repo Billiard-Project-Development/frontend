@@ -4,11 +4,12 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import ContinueLoader1 from "../components/loaders/ContinueLoader1";
-import DetailTransaction from "../components/popup/detailTransaction";
+import DetailTransactionPopup from "../components/popup/DetailTransactionPopup";
 import SignInPopup from "../components/popup/signInPopup";
 import SignUpPopup from "../components/popup/signUpPopup";
 import { productAvailable } from "../redux/actions/product/product";
 import { getUserInfo } from "../utils/auth";
+import PaymentPopup from "../components/popup/PaymentPopup";
 
 const BookingTable = () => {
   const initialData = [
@@ -115,6 +116,8 @@ const BookingTable = () => {
   const [signInPopup, setSignInPopup] = useState(false);
   const [signUpPopup, setSignUpPopup] = useState(false);
   const [detailTransactionPopup, setDetailTransactionPopup] = useState(false);
+  const [paymentPopup, setPaymentPopup] = useState(false);
+  const [paymentLink, setPaymentLink] = useState(null);
   const [bookingData, setBookingData] = useState(null);
   const [errorSelect, setErrorSelect] = useState(null);
 
@@ -236,15 +239,25 @@ const BookingTable = () => {
         }}
         handleSwitchSignIn={handleSwitchSignIn}
       />
-      <DetailTransaction
+      <DetailTransactionPopup
         isOpen={detailTransactionPopup}
         onClose={() => {
           setDetailTransactionPopup(false);
         }}
         bookingData={bookingData}
         handleSwitchDetail={handleSwitchDetail}
+        setPaymentPopup={setPaymentPopup}
+        setPaymentLink={setPaymentLink}
       />
-      <div className="px-20 text-primaryBlack">
+      <PaymentPopup
+        isOpen={paymentPopup}
+        onClose={() => {
+          setPaymentPopup(false);
+          // setPaymentLink(null);
+        }}
+        paymentLink={paymentLink}
+      />
+      <div className="px-4 md:px-20 text-primaryBlack">
         {productAvailableLoading ? (
           <div className="flex justify-center items-center h-screen">
             <ContinueLoader1 />
@@ -262,7 +275,7 @@ const BookingTable = () => {
 
             <h2 className="mt-10 text-24 font-semibold">Pilih Waktu</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 mt-4 mx-auto">
+            <div className="grid grid-cols-2 lg:grid-cols-6 gap-4 mt-4 mx-auto">
               {updatedInitialData?.map((table, index) => {
                 const isBooked = table?.status === "booked";
                 const isSelected = selectedCardIndices.includes(index);

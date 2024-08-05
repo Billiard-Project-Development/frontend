@@ -14,7 +14,11 @@ const AdminLayoutPage = () => {
   };
   return (
     <div className="flex">
-      <Sidebar isOpen={isOpenSidebar} setIsOpen={setIsOpenSidebar} />
+      <Sidebar
+        isOpen={isOpenSidebar}
+        setIsOpen={setIsOpenSidebar}
+        handleSidebar={handleSidebar}
+      />
       <div className="flex-1 h-screen overflow-y-auto">
         <NavAdmin isOpenSidebar={isOpenSidebar} handleSidebar={handleSidebar} />
         <div className="p-8">

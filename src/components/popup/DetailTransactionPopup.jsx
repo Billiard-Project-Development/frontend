@@ -7,8 +7,15 @@ import { resetStateCreateTransaction } from "../../redux/features/transaction/cr
 import { getUserInfo } from "../../utils/auth";
 import ContinueLoader1 from "../loaders/ContinueLoader1";
 
-export default function DetailTransaction(props) {
-  const { isOpen, onClose, data, bookingData } = props;
+export default function DetailTransactionPopup(props) {
+  const {
+    isOpen,
+    onClose,
+    data,
+    bookingData,
+    setPaymentPopup,
+    setPaymentLink
+  } = props;
   const {
     createTransactionResponse,
     createTransactionLoading,
@@ -39,7 +46,9 @@ export default function DetailTransaction(props) {
     if (createTransactionData !== null && createTransactionSuccess) {
       const url =
         createTransactionData?.responseMidtrans?.response?.redirect_url;
-      window.open(url, "blank", "noreferrer");
+      // window.open(url, "blank", "noreferrer");
+      setPaymentLink(url);
+      setPaymentPopup(true);
       dispatch(resetStateCreateTransaction());
     } else if (createTransactionError) {
       alert(createTransactionError);

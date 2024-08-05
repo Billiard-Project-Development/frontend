@@ -21,7 +21,7 @@ function App() {
   const userInfo = getUserInfo();
   const userRole = userInfo?.role;
   console.log("userRole app.js:", userRole);
-
+  // 1 = superAdmin, 2 = admin, 3 = user
   return (
     <div className="z-auto mx-auto font-body bg-bgWhite min-h-screen">
       <Router>

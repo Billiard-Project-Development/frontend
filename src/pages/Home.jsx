@@ -24,7 +24,7 @@ const Home = () => {
           className="flex items-center justify-center border-white h-screen bg-black "
         >
           <div className="flex flex-col gap-5 items-center justify-center max-w-[720px]">
-            <h1 className="text-40 font-bold text-primaryOrange text-center uppercase">
+            <h1 className="text-28 sm:text-40 font-bold text-primaryOrange text-center uppercase">
               Shoot and Score!
               <br />
               Reserve Your Table Now
