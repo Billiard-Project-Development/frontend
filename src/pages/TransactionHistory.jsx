@@ -94,7 +94,7 @@ const TransactionHistory = () => {
             <div className="flex items-center justify-center h-screen">
               <ContinueLoader1 />
             </div>
-          ) : (
+          ) : dataTransactionHistory?.data?.length > 0 ? (
             <div className="w-full max-w-[1024px] h-fit mx-auto rounded-lg bg-white p-10">
               <div className="flex flex-col lg:flex-row gap-3 lg:justify-between">
                 <h2 className="text-24 font-semibold w-full">
@@ -214,6 +214,10 @@ const TransactionHistory = () => {
                   </>
                 ))}
               </div>
+            </div>
+          ) : (
+            <div className="flex items-center justify-center h-screen">
+              Belum ada transaksi
             </div>
           )}
         </div>

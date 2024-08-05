@@ -16,6 +16,8 @@ import SignUp from "./pages/SignUp";
 import TransactionHistory from "./pages/TransactionHistory";
 import AdminLayoutPage from "./pages/admin/AdminLayoutPage";
 import { getUserInfo } from "./utils/auth";
+import NotFound from "./pages/NotFound";
+import NotAuthorized from "./pages/NotAuthorized";
 
 function App() {
   const userInfo = getUserInfo();
@@ -43,15 +45,20 @@ function App() {
             />
           )}
           {/* Redirect to admin dashboard if authenticated as admin */}
-          {userRole === 1 && (
-            <Route path="/admin" element={<Navigate to="/admin/dashboard" />} />
-          )}
+          {userRole === 1 ||
+            (userRole === 2 && (
+              <Route
+                path="/admin"
+                element={<Navigate to="/admin/dashboard" />}
+              />
+            ))}
           {/* Conditional rendering for admin dashboard */}
-          {userRole === 1 ? (
+          {userRole === 1 || userRole === 2 ? (
             <Route path="/admin/*" element={<AdminLayoutPage />} />
           ) : (
             <Route path="/admin/*" element={<Navigate to="/sign-in" />} />
           )}
+          <Route path="*" element={<NotFound />}></Route>
         </Routes>
       </Router>
     </div>
@@ -83,6 +90,20 @@ function TransactionHistoryNav() {
       <TransactionHistory />
     </>
   );
+}
+
+function withRole(Component, allowedRoles) {
+  return class WithRole extends React.Component {
+    render() {
+      const userRole = this.props.userRole;
+
+      if (allowedRoles.includes(userRole)) {
+        return <Component {...this.props} />;
+      } else {
+        return <NotAuthorized />;
+      }
+    }
+  };
 }
 
 export default App;

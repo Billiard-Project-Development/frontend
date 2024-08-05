@@ -1,4 +1,4 @@
-import { Coins, List, SignOut, User, X } from "@phosphor-icons/react";
+import { Coins, House, List, SignOut, User, X } from "@phosphor-icons/react";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Logo from "../assets/Logo/billiard_logo.webp";
@@ -161,14 +161,26 @@ const NavigationBar = () => {
             {userDropDown && (
               <div className="absolute right-0 top-8 mt-2 w-64 bg-white rounded-md shadow-lg px-2 py-4 text-16 font-semibold text-primaryOrange">
                 <div className="flex flex-col gap-3">
-                  <Link
-                    to="/transaction-history"
-                    onClick={() => setUserDropDown(false)}
-                    className="flex items-center py-1 px-2 gap-3 hover:bg-primarySoftgray transition-all ease-in-out rounded-lg"
-                  >
-                    <Coins size={24} />
-                    <p>Riwayat Transaksi</p>
-                  </Link>
+                  {(userInfo?.role === 1 || userInfo?.role === 2) && (
+                    <Link
+                      to="/admin"
+                      onClick={() => setUserDropDown(false)}
+                      className="flex items-center py-1 px-2 gap-3 hover:bg-primarySoftgray transition-all ease-in-out rounded-lg"
+                    >
+                      <House size={24} />
+                      <p>Dashboard Admin</p>
+                    </Link>
+                  )}
+                  {(userInfo?.role === 1 || userInfo?.role === 3) && (
+                    <Link
+                      to="/transaction-history"
+                      onClick={() => setUserDropDown(false)}
+                      className="flex items-center py-1 px-2 gap-3 hover:bg-primarySoftgray transition-all ease-in-out rounded-lg"
+                    >
+                      <Coins size={24} />
+                      <p>Riwayat Transaksi</p>
+                    </Link>
+                  )}
                   <button
                     onClick={logout}
                     className="flex items-center py-1 px-2 gap-3 w-full text-left hover:bg-primarySoftgray transition-all ease-in-out rounded-lg"
