@@ -62,10 +62,10 @@ const BookTable = () => {
     <>
       <div id="booking" className="flex flex-col items-center gap-10">
         <div className="flex flex-col gap-5 items-center justify-center">
-          <h1 className="font-bold text-32 text-primaryBlack pt-32">
+          <h1 className="font-bold text-24 md:text-32 text-primaryBlack pt-32">
             BOOKING MEJA
           </h1>
-          <h2 className="text-24 text-center max-w-[1200px]">
+          <h2 className="text-18 md:text-24 text-center max-w-[1200px]">
             Pesan meja Anda dengan mudah dan cepat, pilih waktu Anda, dan kami
             akan menyiapkan semuanya
           </h2>
@@ -81,7 +81,7 @@ const BookTable = () => {
               <p>no data found</p>
             </div>
           ) : (
-            <div className="grid grid-cols-3 gap-x-32 gap-y-16 mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 sm:gap-x-16 gap-y-8 lg:gap-x-32 lg:gap-y-16 mx-auto">
               {" "}
               {dataProductByDate?.map((table, index) => (
                 <div

@@ -91,9 +91,9 @@ export default function DetailTransactionHistoryPopup(props) {
                                 weight="fill"
                               />
                             </div>
-                            <h1 className="text-20 font-semibold">
+                            <p className="text-12 md:text-20 font-semibold">
                               Transaksi Berhasil
-                            </h1>
+                            </p>
                           </div>
                         ) : data?.statusTransaksi === "pending" ? (
                           <div className="flex items-center gap-3">
@@ -104,7 +104,7 @@ export default function DetailTransactionHistoryPopup(props) {
                                 weight="fill"
                               />
                             </div>
-                            <p className="text-16 font-semibold">
+                            <p className="text-12 md:text-20 font-semibold">
                               Transaksi Pending
                             </p>
                           </div>
@@ -144,7 +144,9 @@ export default function DetailTransactionHistoryPopup(props) {
                     </div>
 
                     <div className="flex flex-col gap-3">
-                      <p className="text-16 font-semibold">Rincian Order</p>
+                      <p className="text-12 md:text-20 font-semibold">
+                        Rincian Order
+                      </p>
 
                       <div className="flex flex-col gap-4 divide-y-2 divide-primarySoftgray border border-primaryOrange rounded-lg p-3">
                         <div className="flex flex-col gap-3">
@@ -160,8 +162,10 @@ export default function DetailTransactionHistoryPopup(props) {
                           </div>
                         </div>
                         <div className="flex flex-col gap-3 pt-4">
-                          <p className="text-12">Biaya Sewa</p>
-                          <div className="flex items-center justify-between ">
+                          <p className="text-12 text-black font-semibold">
+                            Biaya Sewa
+                          </p>
+                          <div className="flex flex-col gap-3 lg:flex-row lg:items-center justify-between ">
                             <div className="flex items-center gap-3">
                               <Coins className="text-primaryOrange" size={12} />
                               <img
@@ -169,10 +173,10 @@ export default function DetailTransactionHistoryPopup(props) {
                                 src={`data:image/jpeg;base64,${data?.fotoProduct}`}
                               />
                               <div className="flex flex-col gap-1">
-                                <p className="text-12">
-                                  Meja {data?.productId}
+                                <p className="text-12 text-black">
+                                  {data?.namaMeja}
                                 </p>
-                                <p className="text-12 font-medium text-primaryDarkgray">
+                                <p className="text-10 sm:text-12 font-medium text-primaryDarkgray">
                                   {format(
                                     parseCustomDate(data?.tanggalTransaksi),
                                     "dd MMM yyyy"
@@ -183,7 +187,7 @@ export default function DetailTransactionHistoryPopup(props) {
                                 </p>
                               </div>
                             </div>
-                            <p className="text-16 font-semibold">
+                            <p className="text-12 md:text-20 font-semibold">
                               Rp. {data?.totalHarga}
                             </p>
                           </div>
@@ -196,7 +200,7 @@ export default function DetailTransactionHistoryPopup(props) {
                               <p className="text-12">Biaya Transaksi</p>
                             </div>
 
-                            <p className="text-16 font-semibold">
+                            <p className="text-12 md:text-20 font-semibold">
                               Rp. {biayaTransaksi}
                             </p>
                           </div>
@@ -205,8 +209,8 @@ export default function DetailTransactionHistoryPopup(props) {
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <p className="text-16 font-semibold">Total</p>
-                      <p className="text-16 font-semibold">
+                      <p className="text-12 md:text-20 font-semibold">Total</p>
+                      <p className="text-12 md:text-20 font-semibold">
                         Rp. {data?.totalHarga + biayaTransaksi}
                       </p>
                     </div>

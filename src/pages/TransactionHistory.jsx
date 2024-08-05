@@ -2,6 +2,7 @@ import {
   CaretLeft,
   CheckCircle,
   Coins,
+  MagnifyingGlass,
   MinusCircle,
   XCircle
 } from "@phosphor-icons/react";
@@ -77,7 +78,7 @@ const TransactionHistory = () => {
         }}
         data={selectedTransactionData}
       />
-      <div className="px-20 text-primaryBlack">
+      <div className="px-4 md:px-20 text-primaryBlack">
         <div className="p-4 w-full">
           {/* Back Button */}
           <Link to={"/"} className=" flex gap-3 items-center ">
@@ -95,14 +96,24 @@ const TransactionHistory = () => {
             </div>
           ) : (
             <div className="w-full max-w-[1024px] h-fit mx-auto rounded-lg bg-white p-10">
-              <div className="flex  justify-between">
-                <h2 className="text-24 font-semibold">Pilih Waktu</h2>
-                <InputText
+              <div className="flex flex-col lg:flex-row gap-3 lg:justify-between">
+                <h2 className="text-24 font-semibold w-full">
+                  Semua Transaksi
+                </h2>
+
+                <div className="flex items-center gap-3 border-2 border-primarySoftgray bg-white px-6 py-3 w-full rounded-lg">
+                  <MagnifyingGlass className="text-primaryDarkgray" size={24} />
+                  <input
+                    className="w-full outline-none"
+                    placeholder="Cari Order ID"
+                  />
+                </div>
+                {/* <InputText
                   type="text"
                   maxWidth={400}
-                  label=""
+                  label="Cari Order ID"
                   name="searchTransaction"
-                />
+                /> */}
               </div>
 
               <div className="mt-10 flex flex-col gap-10 w-full">
@@ -128,7 +139,7 @@ const TransactionHistory = () => {
                                 />
                               </div>
 
-                              <p className="text-16 font-semibold">
+                              <p className="text-12 lg:text-16 font-semibold">
                                 Transaksi Berhasil
                               </p>
                             </div>
@@ -142,7 +153,7 @@ const TransactionHistory = () => {
                                 />
                               </div>
 
-                              <p className="text-16 font-semibold">
+                              <p className="text-12 lg:text-16 font-semibold">
                                 Transaksi Pending
                               </p>
                             </div>
@@ -155,18 +166,18 @@ const TransactionHistory = () => {
                                   weight="fill"
                                 />
                               </div>
-                              <p className="text-16 font-semibold">
+                              <p className="text-12 lg:text-16 font-semibold">
                                 Transaksi Dibatalkan
                               </p>
                             </div>
                           )}
 
-                          <p className="text-16 text-primaryDarkgray font-semibold">
+                          <p className="text-12 lg:text-16 text-primaryDarkgray font-semibold">
                             {history?.transaksiId}
                           </p>
                         </div>
                         <p className="text-20 font-medium">Biaya Sewa</p>
-                        <div className="flex items-center justify-between">
+                        <div className="flex flex-col lg:flex-row  gap-3 md:justify-between">
                           <div className="flex items-center gap-3">
                             <Coins className="text-primaryOrange" size={12} />
                             <img
@@ -174,10 +185,10 @@ const TransactionHistory = () => {
                               src={`data:image/jpeg;base64,${history?.fotoProduct}`}
                             />
                             <div className="flex flex-col gap-1">
-                              <p className="text-16 font-medium">
-                                Meja {history?.tableName}
+                              <p className="text-12 md:text-16 font-medium">
+                                {history?.namaMeja}
                               </p>
-                              <p className="text-16 font-medium text-primaryDarkgray">
+                              <p className="text-12 md:text-16 font-medium text-primaryDarkgray">
                                 {format(
                                   parseCustomDate(history?.tanggalTransaksi),
                                   "dd MMM yyyy"
@@ -193,7 +204,7 @@ const TransactionHistory = () => {
                             onClick={() => {
                               handleSelectTransaction(history);
                             }}
-                            className="flex bg-primaryOrange px-3 py-2 text-white hover:bg-accentDarkOrange transition-all ease-in-out duration-200 rounded-md"
+                            className="flex bg-primaryOrange px-3 py-3 text-white text-12 md:text-14 font-semibold hover:bg-accentDarkOrange transition-all ease-in-out duration-200 rounded-lg w-full lg:w-fit text-center items-center justify-center"
                           >
                             Lihat Detail Transaksi
                           </button>

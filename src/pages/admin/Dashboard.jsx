@@ -140,7 +140,7 @@ const Dashboard = () => {
           <p className="font-medium">{currentDateAndTime}</p>
         </div>
       </div>
-      <div className="flex gap-10 w-full">
+      <div className="flex flex-col md:flex-row gap-3 md:gap-10 w-full">
         <div className="flex p-3 gap-3 bg-white rounded-lg border border-primarySoftGray w-full">
           <div className="p-2 rounded-lg bg-accentSoftGreen text-accentGreen">
             <VectorTwo size={24} />

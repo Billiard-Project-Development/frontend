@@ -244,7 +244,7 @@ const BookingTable = () => {
         bookingData={bookingData}
         handleSwitchDetail={handleSwitchDetail}
       />
-      <div className="px-20 text-primaryBlack">
+      <div className="px-4 md:px-20 text-primaryBlack">
         {productAvailableLoading ? (
           <div className="flex justify-center items-center h-screen">
             <ContinueLoader1 />
@@ -262,7 +262,7 @@ const BookingTable = () => {
 
             <h2 className="mt-10 text-24 font-semibold">Pilih Waktu</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-4 mt-4 mx-auto">
+            <div className="grid grid-cols-2 lg:grid-cols-6 gap-4 mt-4 mx-auto">
               {updatedInitialData?.map((table, index) => {
                 const isBooked = table?.status === "booked";
                 const isSelected = selectedCardIndices.includes(index);

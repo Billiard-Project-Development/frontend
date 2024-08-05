@@ -32,14 +32,16 @@ const Facility = () => {
   return (
     <div id="fasilitas" className="flex flex-col items-center gap-10">
       <div className="flex flex-col gap-5 items-center justify-center">
-        <h1 className="font-bold text-32 text-primaryBlack pt-32">FASILITAS</h1>
-        <h2 className="text-24 text-center max-w-[1200px]">
+        <h1 className="font-bold text-24 md:text-32 text-primaryBlack pt-32">
+          FASILITAS
+        </h1>
+        <h2 className="text-18 md:text-24 text-center max-w-[1200px]">
           Dengan suasana yang ramah dan layanan yang prima, kami menawarkan
           fasilitas yang lengkap untuk memastikan pengalaman bermain Anda lebih
           dari sekadar permainan.
         </h2>
 
-        <div className="grid grid-cols-4 gap-x-32 gap-y-16 mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-12 gap-y-8 lg:gap-x-32 lg:gap-y-16 mx-auto">
           {data?.map((facility, index) => (
             <div
               key={index}

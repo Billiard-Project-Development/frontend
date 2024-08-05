@@ -37,15 +37,15 @@ const TimeFilter = ({ onDateSelect }) => {
 
   return (
     <div className="flex justify-center items-center">
-      <div className="flex items-center h-[87px] bg-primaryWhite rounded-xl shadow-lg font-semibold ">
-        <div className="flex items-center px-5">
+      <div className="flex items-center h-full lg:h-[87px] bg-primaryWhite rounded-xl shadow-lg font-semibold text-14 lgtext-16 py-2 lg:py-0">
+        <div className="flex items-center px-2 lg:px-5">
           <div className="relative">
             <button
               onClick={() => setDatePickerOpen(!datePickerOpen)}
               className="text-primaryOrange hover:bg-primaryOrange hover:text-white transition-all  ease-in-out duration-200 p-2 rounded-lg flex items-center gap-2"
             >
               {/* <FaCalendarAlt /> */}
-              <Calendar className="" size={32} />
+              <Calendar className="w-5 h-5 lg:w-8 lg:h-w-8 h-full" />
             </button>
             {datePickerOpen && (
               <div className="absolute top-full mt-2 bg-white shadow-lg rounded z-50">
@@ -58,14 +58,14 @@ const TimeFilter = ({ onDateSelect }) => {
             )}
           </div>
         </div>
-        <div className="flex items-center gap-3 border-l-2 border-r-2 border-primarySoftgray px-5">
+        <div className="flex items-center gap-3 border-l-2 border-r-2 border-primarySoftgray px-1 lg:px-5">
           <button
             onClick={handlePreviousWeek}
             className="p-1 rounded-lg text-primaryDarkgray hover:bg-primaryOrange hover:text-white transition-all ease-in-out duration-200"
           >
-            <CaretLeft size={32} />
+            <CaretLeft className="w-5 h-5 lg:w-8 lg:h-w-8 h-full" />
           </button>
-          <div className="grid grid-cols-7 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 md:gap-2">
             {daysOfWeek.map((date, index) => (
               <button
                 key={index}
@@ -85,12 +85,12 @@ const TimeFilter = ({ onDateSelect }) => {
             onClick={handleNextWeek}
             className="p-1 rounded-lg text-primaryDarkgray hover:bg-primaryOrange hover:text-white transition-all ease-in-out duration-200"
           >
-            <CaretRight size={32} />
+            <CaretRight className="w-5 h-5 lg:w-8 lg:h-w-8 h-full" />
           </button>
         </div>
-        <div className="flex gap-3 items-center px-5 text-primaryOrange">
-          <Clock size={32} />
-          <span>Filter Waktu</span>
+        <div className="flex flex-col lg:flex-row gap-1 lg:gap-3 items-center px-2 lg:px-5 text-primaryOrange max-w-[65px] sm:max-w-full text-center">
+          <Clock className="w-5 h-5 lg:w-8 lg:h-w-8 h-full" />
+          <span className="text-14 lg:text-16">Filter Waktu</span>
         </div>
       </div>
     </div>
