@@ -84,7 +84,9 @@ export default function SignUpPopup(props) {
                         }}
                       />
                       {errors.email && (
-                        <p className="text-red-500">{errors.email.message}</p>
+                        <p className="text-red-500 text-10">
+                          {errors.email.message}
+                        </p>
                       )}
                       <InputText
                         label="Nama"
@@ -107,7 +109,9 @@ export default function SignUpPopup(props) {
                         }}
                       />
                       {errors.nama && (
-                        <p className="text-red-500">{errors.nama.message}</p>
+                        <p className="text-red-500 text-10">
+                          {errors.nama.message}
+                        </p>
                       )}
                       <InputText
                         label="No HP"
@@ -122,7 +126,9 @@ export default function SignUpPopup(props) {
                         }}
                       />
                       {errors.noHp && (
-                        <p className="text-red-500">{errors.noHp.message}</p>
+                        <p className="text-red-500 text-10">
+                          {errors.noHp.message}
+                        </p>
                       )}
                       <InputText
                         label="Password"
@@ -152,7 +158,7 @@ export default function SignUpPopup(props) {
                         toggleShowPassword={toggleShowPassword}
                       />
                       {errors.password && (
-                        <p className="text-red-500">
+                        <p className="text-red-500 text-10">
                           {errors.password.message}
                         </p>
                       )}

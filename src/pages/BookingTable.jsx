@@ -348,7 +348,7 @@ const BookingTable = () => {
               Lanjutkan Pembayaran
             </button>
 
-            <p className="text-red-500">{errorSelect}</p>
+            <p className="text-red-500 text-10">{errorSelect}</p>
           </div>
         ) : (
           <div className="flex justify-center items-center h-screen">

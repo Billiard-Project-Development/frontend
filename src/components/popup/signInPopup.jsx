@@ -120,7 +120,9 @@ export default function SignInPopup(props) {
                         }}
                       />
                       {errors.email && (
-                        <p className="text-red-500">{errors.email.message}</p>
+                        <p className="text-red-500 text-10">
+                          {errors.email.message}
+                        </p>
                       )}
                       <InputText
                         label="Password"
@@ -150,7 +152,7 @@ export default function SignInPopup(props) {
                         toggleShowPassword={toggleShowPassword}
                       />
                       {errors.password && (
-                        <p className="text-red-500">
+                        <p className="text-red-500 text-10">
                           {errors.password.message}
                         </p>
                       )}
