@@ -2,17 +2,25 @@ import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import success from "../../../src/assets/Signin-Signup/success.webp";
-import { resetStateRegister } from "../../redux/features/auth/registerSlice";
 
 export default function SuccessPopup(props) {
-  const { isOpen, onClose, data, setPopupSuccess } = props;
+  const {
+    isOpen,
+    onClose,
+    text1,
+    text2,
+    setPopupSuccess,
+    resetState = null
+  } = props;
   const dispatch = useDispatch();
   useEffect(() => {
     if (isOpen) {
       setTimeout(() => {
         setPopupSuccess(false);
       }, 3000);
-      dispatch(resetStateRegister());
+      if (resetState !== null) {
+        dispatch(resetState());
+      }
     }
   }, [isOpen]);
 
@@ -51,9 +59,12 @@ export default function SuccessPopup(props) {
                       src={success}
                       alt="successImage"
                     />
-                    <p className="text-24 text-primaryBlack">
-                      selamat Akun kamu berhasil dibuat!
-                    </p>
+                    {text1 && (
+                      <p className="text-20 text-primaryBlack">{text1}</p>
+                    )}
+                    {text2 && (
+                      <p className="text-16 text-primaryDarkgray">{text2}</p>
+                    )}
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

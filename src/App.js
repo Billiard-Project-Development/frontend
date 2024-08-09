@@ -18,6 +18,7 @@ import AdminLayoutPage from "./pages/admin/AdminLayoutPage";
 import { getUserInfo } from "./utils/auth";
 import NotFound from "./pages/NotFound";
 import NotAuthorized from "./pages/NotAuthorized";
+import ForgotPassword from "./pages/ForgotPassword";
 
 function App() {
   const userInfo = getUserInfo();
@@ -31,6 +32,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomeNavFoot />} />
           <Route path="/sign-in" element={<SignIn />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/sign-up" element={<SignUp />} />
           <Route path="/booking-table" element={<BookTableNav />} />
           {userRole !== undefined ? (
@@ -45,13 +47,9 @@ function App() {
             />
           )}
           {/* Redirect to admin dashboard if authenticated as admin */}
-          {userRole === 1 ||
-            (userRole === 2 && (
-              <Route
-                path="/admin"
-                element={<Navigate to="/admin/dashboard" />}
-              />
-            ))}
+          {(userRole === 1 || userRole === 2) && (
+            <Route path="/admin" element={<Navigate to="/admin/dashboard" />} />
+          )}
           {/* Conditional rendering for admin dashboard */}
           {userRole === 1 || userRole === 2 ? (
             <Route path="/admin/*" element={<AdminLayoutPage />} />

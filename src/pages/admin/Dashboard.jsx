@@ -134,10 +134,10 @@ const Dashboard = () => {
   return (
     <div className="flex flex-col gap-10 w-full text-primaryBlack">
       <div className="flex items-center justify-between">
-        <h1 className="text-24 font-semibold">Dashboard</h1>
+        <h1 className="text-18 sm:text-24 font-semibold">Dashboard</h1>
         <div className="flex items-center gap-3 justify-center p-2 bg-white rounded-lg border border-primarySoftGray">
           <Calendar size={24} />
-          <p className="font-medium">{currentDateAndTime}</p>
+          <p className="font-medium text-12 sm:text-16">{currentDateAndTime}</p>
         </div>
       </div>
       <div className="flex flex-col md:flex-row gap-3 md:gap-10 w-full">

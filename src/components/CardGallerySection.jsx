@@ -67,10 +67,10 @@ const CardGallery = () => {
           {data.map((card, index) => (
             <div
               key={index}
-              className="flex h-[300px] w-[300px] xl:h-[400px] 2xl:w-[400px]"
+              className="flex h-[300px] w-[300px] xl:h-[400px] 2xl:w-[400px] items-center justify-center"
             >
               <img
-                className="object-contain"
+                className="object-contain p-4"
                 src={card.img}
                 alt={`Gallery Image ${index + 1}`}
                 style={{ maxHeight: "100%", maxWidth: "100%" }}

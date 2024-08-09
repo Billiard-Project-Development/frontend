@@ -14,6 +14,7 @@ import registerimg from "../assets/Signin-Signup/register.webp";
 import InputText from "../components/InputText";
 import SuccessRegistration from "../components/popup/successRegistration";
 import { userRegister } from "../redux/actions/auth/userAuth";
+import { resetStateRegister } from "../redux/features/auth/registerSlice";
 
 const SignUp = () => {
   const { registerSuccess, registerLoading, registerResponse, registerError } =
@@ -68,6 +69,7 @@ const SignUp = () => {
           setPopupSuccess(false);
         }}
         setPopupSuccess={setPopupSuccess}
+        resetState={resetStateRegister}
       />
       <div
         className={`flex flex-row lg:white  bg-bgWhite lg:bg-accentSoftOrange h-full w-full justify-center`}
@@ -129,7 +131,7 @@ const SignUp = () => {
                 }}
               />
               {errors.email && (
-                <p className="text-red-500">{errors.email.message}</p>
+                <p className="text-red-500 text-10">{errors.email.message}</p>
               )}
               <InputText
                 label="Nama"
@@ -152,7 +154,7 @@ const SignUp = () => {
                 }}
               />
               {errors.nama && (
-                <p className="text-red-500">{errors.nama.message}</p>
+                <p className="text-red-500 text-10">{errors.nama.message}</p>
               )}
               <InputText
                 label="No HP"
@@ -167,7 +169,7 @@ const SignUp = () => {
                 }}
               />
               {errors.noHp && (
-                <p className="text-red-500">{errors.noHp.message}</p>
+                <p className="text-red-500 text-10">{errors.noHp.message}</p>
               )}
               <InputText
                 label="Password"
@@ -197,7 +199,9 @@ const SignUp = () => {
                 toggleShowPassword={toggleShowPassword}
               />
               {errors.password && (
-                <p className="text-red-500">{errors.password.message}</p>
+                <p className="text-red-500 text-10">
+                  {errors.password.message}
+                </p>
               )}
               <button
                 id="signUpSubmitButton"

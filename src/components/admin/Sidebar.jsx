@@ -1,11 +1,11 @@
 import { ListChecks, Power, Table, VectorTwo, X } from "@phosphor-icons/react";
 import { SquaresFour } from "@phosphor-icons/react/dist/ssr";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom"; // Ensure you have React Router imported
 import Logo from "../../assets/Logo/billiard_logo_black.webp";
 import { handleLogout } from "../../utils/auth";
 const Sidebar = (props) => {
-  const { isOpen, handleSidebar } = props;
+  const { isOpen, handleSidebar, setIsOpen } = props;
   const [currentPage, setCurrentPage] = useState("/");
   const location = useLocation();
   const navigate = useNavigate();
@@ -17,9 +17,30 @@ const Sidebar = (props) => {
     handleLogout(navigate);
   };
 
+  const sidebarRef = useRef(null);
+  useEffect(() => {
+    function handleClickOutside(event) {
+      const isMobile = window.matchMedia("(max-width: 960px)").matches;
+      if (
+        isMobile &&
+        sidebarRef.current &&
+        !sidebarRef.current.contains(event.target)
+      ) {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [sidebarRef]);
+
   return (
     <div
-      className={`bg-white flex flex-col absolute md:static  gap-16 pt-6 px-8 py-8  text-primaryBlack h-screen w-[280px] top-0 left-0 overflow-y-auto transition-all duration-300 border-2 border-primarySoftGray shadow-2xl md:shadow-none ${
+      ref={sidebarRef}
+      className={`bg-white flex flex-col absolute lg:static  gap-16 pt-6 px-8 py-8  text-primaryBlack h-screen w-[280px] top-0 left-0 overflow-y-auto transition-all duration-300 border-2 border-primarySoftGray shadow-2xl md:shadow-none ${
         isOpen ? "ml-0" : "-ml-[280px]"
       }`}
     >
@@ -33,7 +54,7 @@ const Sidebar = (props) => {
           alt="Logo"
         />
         <button
-          className="p-2 border-2 border-primaryOrange rounded-xl md:hidden"
+          className="p-2 border-2 border-primaryOrange rounded-xl lg:hidden"
           onClick={handleSidebar}
         >
           <X className="text-primaryOrange" size={24} />

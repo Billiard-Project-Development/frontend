@@ -95,7 +95,7 @@ export const requestOTP = createAsyncThunk(
     try {
       const token = getToken();
       const { data } = await axios.post(
-        `${process.env.REACT_APP_API}/auth/requestOTP`,
+        `${process.env.REACT_APP_API}/user/requestOTP`,
         dataRequestOTP,
         {
           headers: {

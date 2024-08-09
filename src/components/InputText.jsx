@@ -11,6 +11,7 @@ const InputText = (props) => {
     type,
     visiblePassword,
     toggleShowPassword,
+    handleSendOTP,
     register,
     validation
   } = props;
@@ -38,12 +39,20 @@ const InputText = (props) => {
         >
           {label}
         </label>
-        {label === "Password" && (
+        {label.includes("Password") && (
           <span
             className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer"
             onClick={toggleShowPassword}
           >
             {visiblePassword ? <Eye /> : <EyeClosed />}
+          </span>
+        )}
+        {label.includes("OTP") && (
+          <span
+            onClick={handleSendOTP}
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer text-primaryOrange text-12"
+          >
+            Kirim Ulang
           </span>
         )}
       </div>

@@ -120,7 +120,7 @@ const SignIn = () => {
               }}
             />
             {errors.email && (
-              <p className="text-red-500">{errors.email.message}</p>
+              <p className="text-red-500 text-10">{errors.email.message}</p>
             )}
             <InputText
               label="Password"
@@ -150,11 +150,13 @@ const SignIn = () => {
               toggleShowPassword={toggleShowPassword}
             />
             {errors.password && (
-              <p className="text-red-500">{errors.password.message}</p>
+              <p className="text-red-500 text-10">{errors.password.message}</p>
             )}
-            {/* <div className="w-full flex justify-end">
-              <Link to={"/forgot-password"} className="text-primaryOrange">Lupa Password?</Link>
-            </div> */}
+            <div className="w-full flex justify-end">
+              <Link to={"/forgot-password"} className="text-primaryOrange">
+                Lupa Password?
+              </Link>
+            </div>
             <button
               id="signUpSubmitButton"
               className="flex items-center justify-center bg-primaryOrange py-3 text-center text-white rounded-lg w-full hover:bg-accentDarkOrange transition duration-300 delay-100"
