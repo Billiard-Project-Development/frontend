@@ -114,95 +114,108 @@ const SignUp = () => {
               onSubmit={handleSubmit(sumbitform)}
               className="flex flex-col gap-8 w-full"
             >
-              <InputText
-                label="Email"
-                name="email"
-                type="email"
-                register={register}
-                validation={{
-                  required: {
-                    value: true,
-                    message: "Input Email Required"
-                  },
-                  pattern: {
-                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                    message: "Email Format Wrong"
-                  }
-                }}
-              />
-              {errors.email && (
-                <p className="text-red-500 text-10">{errors.email.message}</p>
-              )}
-              <InputText
-                label="Nama"
-                name="nama"
-                type="name"
-                register={register}
-                validation={{
-                  required: {
-                    value: true,
-                    message: "Name Input Required"
-                  },
-                  maxLength: {
-                    value: 100,
-                    message: "Name length 100 character of max"
-                  },
-                  minLength: {
-                    value: 2,
-                    message: "Name length 2 character of min"
-                  }
-                }}
-              />
-              {errors.nama && (
-                <p className="text-red-500 text-10">{errors.nama.message}</p>
-              )}
-              <InputText
-                label="No HP"
-                name="noHp"
-                type="tel"
-                register={register}
-                validation={{
-                  required: {
-                    value: true,
-                    message: "phone Input Required"
-                  }
-                }}
-              />
-              {errors.noHp && (
-                <p className="text-red-500 text-10">{errors.noHp.message}</p>
-              )}
-              <InputText
-                label="Password"
-                name="password"
-                type={visiblePassword ? "text" : "password"}
-                visiblePassword={visiblePassword}
-                register={register}
-                validation={{
-                  required: {
-                    value: true,
-                    message: "Password Input Required"
-                  },
-                  minLength: {
-                    value: 8,
-                    message: "Password length 8 characters minimum"
-                  },
-                  maxLength: {
-                    value: 50,
-                    message: "Password length 50 characters maximum"
-                  }
-                  // pattern: {
-                  //   value: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
-                  //   message:
-                  //     "Password must include an uppercase letter, a number, and a special character"
-                  // }
-                }}
-                toggleShowPassword={toggleShowPassword}
-              />
-              {errors.password && (
-                <p className="text-red-500 text-10">
-                  {errors.password.message}
-                </p>
-              )}
+              <div className="flex flex-col gap-1 w-full">
+                {" "}
+                <InputText
+                  label="Email"
+                  name="email"
+                  type="email"
+                  register={register}
+                  validation={{
+                    required: {
+                      value: true,
+                      message: "Input Email Required"
+                    },
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: "Email Format Wrong"
+                    }
+                  }}
+                />
+                {errors.email && (
+                  <p className="text-red-500 text-10">{errors.email.message}</p>
+                )}
+              </div>
+              <div className="flex flex-col gap-1 w-full">
+                {" "}
+                <InputText
+                  label="Nama"
+                  name="nama"
+                  type="name"
+                  register={register}
+                  validation={{
+                    required: {
+                      value: true,
+                      message: "Name Input Required"
+                    },
+                    maxLength: {
+                      value: 100,
+                      message: "Name length 100 character of max"
+                    },
+                    minLength: {
+                      value: 2,
+                      message: "Name length 2 character of min"
+                    }
+                  }}
+                />
+                {errors.nama && (
+                  <p className="text-red-500 text-10">{errors.nama.message}</p>
+                )}
+              </div>
+              <div className="flex flex-col gap-1 w-full">
+                {" "}
+                <InputText
+                  label="No HP"
+                  name="noHp"
+                  type="tel"
+                  register={register}
+                  validation={{
+                    required: {
+                      value: true,
+                      message: "phone Input Required"
+                    }
+                  }}
+                />
+                {errors.noHp && (
+                  <p className="text-red-500 text-10">{errors.noHp.message}</p>
+                )}
+              </div>
+              <div className="flex flex-col gap-1 w-full">
+                {" "}
+                <InputText
+                  label="Password"
+                  name="password"
+                  type={visiblePassword ? "text" : "password"}
+                  visiblePassword={visiblePassword}
+                  register={register}
+                  validation={{
+                    required: {
+                      value: true,
+                      message: "Password Input Required"
+                    },
+                    minLength: {
+                      value: 8,
+                      message: "Password length 8 characters minimum"
+                    },
+                    maxLength: {
+                      value: 50,
+                      message: "Password length 50 characters maximum"
+                    }
+                    // pattern: {
+                    //   value: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
+                    //   message:
+                    //     "Password must include an uppercase letter, a number, and a special character"
+                    // }
+                  }}
+                  toggleShowPassword={toggleShowPassword}
+                />
+                {errors.password && (
+                  <p className="text-red-500 text-10">
+                    {errors.password.message}
+                  </p>
+                )}
+              </div>
+
               <button
                 id="signUpSubmitButton"
                 className="flex items-center justify-center bg-primaryOrange py-3 text-center text-white rounded-lg w-full hover:bg-accentDarkOrange transition duration-300 delay-100"

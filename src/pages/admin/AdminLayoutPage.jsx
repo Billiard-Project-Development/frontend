@@ -6,6 +6,7 @@ import BookingList from "./BookingList";
 import Dashboard from "./Dashboard";
 import Tables from "./Tables";
 import Transaction from "./Transaction";
+import NotFound from "../NotFound";
 
 const AdminLayoutPage = () => {
   const [isOpenSidebar, setIsOpenSidebar] = useState(true);
@@ -26,7 +27,8 @@ const AdminLayoutPage = () => {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="transaction" element={<Transaction />} />
             <Route path="booking-list" element={<BookingList />} />
-            <Route path="tables" element={<Tables />} />
+            <Route path="tables" element={<Tables />} />{" "}
+            <Route path="*" element={<NotFound />}></Route>
           </Routes>
         </div>
       </div>

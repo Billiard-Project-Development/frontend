@@ -9,8 +9,15 @@ import {
   deleteProduct,
   getAllProduct
 } from "../../redux/actions/product/product";
+import RemoveConfirmationPopup from "../../components/popup/removeConfirmationPopup";
+import SuccessRegistration from "../../components/popup/successRegistration";
+import { resetStateDeleteProduct } from "../../redux/features/product/deleteProductSlice";
+import SuccessPopup from "../../components/popup/successPopup";
+import { resetStateAddProduct } from "../../redux/features/product/addProductSlice";
 
 const Tables = () => {
+  const { deleteProductSuccess } = useSelector((state) => state.deleteProduct);
+  const { addProductSuccess } = useSelector((state) => state.addProduct);
   const dispatch = useDispatch();
 
   const tablesColumns = [
@@ -46,7 +53,7 @@ const Tables = () => {
             <PencilSimple className="text-primaryBlack" size={24} />
           </button>
           <button
-            onClick={() => handleDeleteRow(row.original.product_id)}
+            onClick={() => handleDelteRowOpen(row.original.product_id)}
             className="flex items-center justify-center px-3 py-2 rounded-xl border-2 border-primarySoftgray"
           >
             <TrashSimple className="text-accentRed" size={24} />
@@ -56,12 +63,27 @@ const Tables = () => {
     }
   ];
 
-  const handleDeleteRow = async (rowId) => {
-    console.log("dis row:", rowId);
+  const [openAddTablePopup, setOpenAddTablePopup] = useState(false);
+  const [openUpdateTablePopup, setOpenUpdateTablePopup] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState(null);
+  const [selectedData, setSelectedData] = useState(null);
+
+  const [popupDeleteRow, setPopupDeleteRow] = useState(false);
+  const [popupDeleteSelected, setPopupDeleteSelected] = useState(false);
+  const [popupDeleteSuccess, setPopupDeleteSuccess] = useState(false);
+  const [popupAddSuccess, setPopupAddSuccess] = useState(false);
+
+  const [selectedId, setSelectedId] = useState([]);
+  const [rowIdDelete, setRowIdDelete] = useState(null);
+
+  const handleDeleteRow = async () => {
+    console.log("dis row:", rowIdDelete);
     const deleteBody = {
-      produkId: rowId
+      produkId: rowIdDelete
     };
+    setPopupDeleteRow(false);
     await dispatch(deleteProduct(deleteBody));
+
     setTimeout(() => {
       dispatch(getAllProduct());
     }, 1000);
@@ -75,15 +97,19 @@ const Tables = () => {
 
       console.log("element:", element);
       dispatch(deleteProduct(deleteBody));
+      setPopupDeleteSelected(false);
     });
   };
 
-  const [openAddTablePopup, setOpenAddTablePopup] = useState(false);
-  const [openUpdateTablePopup, setOpenUpdateTablePopup] = useState(false);
-  const [selectedProductId, setSelectedProductId] = useState(null);
-  const [selectedData, setSelectedData] = useState(null);
+  const handleDelteRowOpen = (rowId) => {
+    setRowIdDelete(rowId);
+    setPopupDeleteRow(true);
+  };
 
-  const [selectedId, setSelectedId] = useState([]);
+  const handleDeleteSelectedOpen = () => {
+    //show confirmation delete selected
+    setPopupDeleteSelected(true);
+  };
 
   const handleOpenAddtablePopup = () => {
     setOpenAddTablePopup(true);
@@ -108,8 +134,66 @@ const Tables = () => {
     dispatch(getAllProduct());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (deleteProductSuccess === true) {
+      setPopupDeleteSuccess(true);
+      dispatch(resetStateDeleteProduct());
+      dispatch(getAllProduct());
+    }
+  }, [deleteProductSuccess]);
+
+  useEffect(() => {
+    if (addProductSuccess === true) {
+      setPopupAddSuccess(true);
+      dispatch(resetStateAddProduct());
+      dispatch(getAllProduct());
+    }
+  }, [addProductSuccess]);
+
   return (
     <div>
+      {/* remove confirmation popup per row */}
+      <RemoveConfirmationPopup
+        isOpen={popupDeleteRow}
+        onClose={() => {
+          setPopupDeleteRow(false);
+        }}
+        handleAction={handleDeleteRow}
+        setPopup={setPopupDeleteRow}
+        text1={"Hapus Meja"}
+        text2={"Apakah kamu yakin ingin menghapus Meja?"}
+      />
+      {/* remove confirmation popup per selected */}
+      <RemoveConfirmationPopup
+        isOpen={popupDeleteSelected}
+        onClose={() => {
+          setPopupDeleteSelected(false);
+        }}
+        handleAction={handleDeleteSelected}
+        setPopup={setPopupDeleteSelected}
+        text1={"Hapus Meja"}
+        text2={"Apakah kamu yakin ingin menghapus Meja?"}
+      />
+      {/* success popup delete table */}
+      <SuccessPopup
+        isOpen={popupDeleteSuccess}
+        onClose={() => setPopupDeleteSuccess(false)}
+        setPopupSuccess={setPopupDeleteSuccess}
+        text1={"Berhasil Menghapus Meja!"}
+        text2={"Cek lebih lanjut pada tabel Meja Billiard"}
+        showButtonOk={true}
+        timeout={8000}
+      />
+      {/* success popup add table */}
+      <SuccessPopup
+        isOpen={popupAddSuccess}
+        onClose={() => setPopupAddSuccess(false)}
+        setPopupSuccess={setPopupAddSuccess}
+        text1={"Berhasil Menambahkan Meja!"}
+        text2={"Cek lebih lanjut pada tabel Meja Billiard"}
+        showButtonOk={true}
+        timeout={8000}
+      />
       <AddTablePopup
         isOpen={openAddTablePopup}
         onClose={() => {
@@ -143,7 +227,7 @@ const Tables = () => {
             idNameToSelect={"product_id"}
             selectedId={selectedId}
             setSelectedId={setSelectedId}
-            handleDeleteSelected={handleDeleteSelected}
+            handleDeleteSelected={handleDeleteSelectedOpen}
           />
         ) : (
           <></>

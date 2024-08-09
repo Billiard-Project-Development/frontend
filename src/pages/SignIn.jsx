@@ -103,55 +103,64 @@ const SignIn = () => {
             onSubmit={handleSubmit(submitForm)}
             className="flex flex-col gap-8 w-full"
           >
-            <InputText
-              label="Email"
-              name="email"
-              type="email"
-              register={register}
-              validation={{
-                required: {
-                  value: true,
-                  message: "Input Email Required"
-                },
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "Email Format Wrong"
-                }
-              }}
-            />
-            {errors.email && (
-              <p className="text-red-500 text-10">{errors.email.message}</p>
-            )}
-            <InputText
-              label="Password"
-              name="password"
-              type={visiblePassword ? "text" : "password"}
-              register={register}
-              validation={{
-                required: {
-                  value: true,
-                  message: "Password Input Required"
-                },
-                minLength: {
-                  value: 8,
-                  message: "Password length 8 characters minimum"
-                },
-                maxLength: {
-                  value: 50,
-                  message: "Password length 50 characters maximum"
-                }
-                // pattern: {
-                //   value: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
-                //   message:
-                //     "Password must include an uppercase letter, a number, and a special character"
-                // }
-              }}
-              visiblePassword={visiblePassword}
-              toggleShowPassword={toggleShowPassword}
-            />
-            {errors.password && (
-              <p className="text-red-500 text-10">{errors.password.message}</p>
-            )}
+            <div className="flex flex-col gap-1 w-full">
+              {" "}
+              <InputText
+                label="Email"
+                name="email"
+                type="email"
+                register={register}
+                validation={{
+                  required: {
+                    value: true,
+                    message: "Input Email Required"
+                  },
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: "Email Format Wrong"
+                  }
+                }}
+              />
+              {errors.email && (
+                <p className="text-red-500 text-10">{errors.email.message}</p>
+              )}
+            </div>
+            <div className="flex flex-col gap-1 w-full">
+              {" "}
+              <InputText
+                label="Password"
+                name="password"
+                type={visiblePassword ? "text" : "password"}
+                register={register}
+                validation={{
+                  required: {
+                    value: true,
+                    message: "Password Input Required"
+                  },
+                  minLength: {
+                    value: 8,
+                    message: "Password length 8 characters minimum"
+                  },
+                  maxLength: {
+                    value: 50,
+                    message: "Password length 50 characters maximum"
+                  }
+                  // pattern: {
+                  //   value: /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/,
+                  //   message:
+                  //     "Password must include an uppercase letter, a number, and a special character"
+                  // }
+                }}
+                visiblePassword={visiblePassword}
+                toggleShowPassword={toggleShowPassword}
+              />
+              {errors.password && (
+                <p className="text-red-500 text-10">
+                  {errors.password.message}
+                </p>
+              )}
+            </div>
+
             <div className="w-full flex justify-end">
               <Link to={"/forgot-password"} className="text-primaryOrange">
                 Lupa Password?

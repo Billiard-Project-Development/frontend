@@ -1,6 +1,6 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Plus, UploadSimple, X } from "@phosphor-icons/react";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import successState from "../../assets/StateImage/success_state.webp";
@@ -27,8 +27,12 @@ export default function AddTablePopup(props) {
     formState: { errors }
   } = useForm();
 
-  const { addProductResponse, addProductLoading, addProductSuccess } =
-    useSelector((state) => state.addProduct);
+  const {
+    addProductResponse,
+    addProductLoading,
+    addProductSuccess,
+    addProductError
+  } = useSelector((state) => state.addProduct);
 
   const submitForm = (dataAddProduct) => {
     dataAddProduct.foto_produk = selectedFile;
@@ -57,7 +61,7 @@ export default function AddTablePopup(props) {
 
   console.log("pricePerHour:", pricePerHour);
 
-  const handleOkeSuccess = () => {
+  const handleOke = () => {
     dispatch(getAllProduct());
     onClose();
     setTimeout(() => {
@@ -65,8 +69,13 @@ export default function AddTablePopup(props) {
     }, 1000);
   };
 
+  useEffect(() => {
+    if (addProductSuccess === true) {
+      onClose();
+    }
+  }, [addProductSuccess]);
   console.log("addProductSuccess:", addProductSuccess);
-  console.log("addProductLoading:", addProductLoading);
+  console.log("addProductError:", addProductError);
 
   if (!isOpen) return null;
   return (
@@ -101,7 +110,11 @@ export default function AddTablePopup(props) {
                     addProductSuccess ? "max-w-[600px]" : "max-w-[400px]"
                   }  transform overflow-hidden rounded-2xl bg-white p-5 text-left align-middle shadow-xl transition-all`}
                 >
-                  {!(addProductLoading || addProductSuccess) && (
+                  {!(
+                    addProductLoading ||
+                    addProductSuccess ||
+                    addProductError !== false
+                  ) && (
                     <div className="flex items-center  justify-between">
                       <div className="flex items-center gap-3">
                         <Plus size={24} />
@@ -123,25 +136,18 @@ export default function AddTablePopup(props) {
                       <div className="w-full h-full flex items-center justify-center">
                         <ContinueLoader1 />
                       </div>
-                    ) : addProductSuccess ? (
-                      <div className="flex flex-col items-center justify-center text-center gap-10">
-                        <img
-                          className="w-[320px] h-[320px]"
-                          src={successState}
-                        />
-                        <div className="flex flex-col gap-3">
-                          <p className="text-20 font-semibold">
-                            Berhasil Menambahkan Meja!
-                          </p>
-                          <p className="text-20">
-                            Cek lebih lanjut pada tabel Meja Billiard
-                          </p>
-                        </div>
+                    ) : addProductError !== false ? (
+                      <div className="w-full h-full flex flex-col gap-3 items-center justify-center">
+                        <p className="py-10">
+                          {addProductError ||
+                            addProductError?.message ||
+                            "Gagal menambahkan meja"}
+                        </p>
                         <button
-                          onClick={handleOkeSuccess}
-                          className="flex items-center justify-center w-full rounded-xl bg-primaryOrange text-white py-2"
+                          className="bg-primaryOrange text-white text-16 w-full py-2 rounded-lg"
+                          onClick={handleOke}
                         >
-                          Oke
+                          Kembali
                         </button>
                       </div>
                     ) : (

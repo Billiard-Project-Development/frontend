@@ -2,29 +2,19 @@ import { Dialog, Transition } from "@headlessui/react";
 import React, { Fragment, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import success from "../../../src/assets/Signin-Signup/success.webp";
+import confirmation from "../../../src/assets/popup/confirmation.webp";
 
-export default function SuccessPopup(props) {
+export default function RemoveConfirmationPopup(props) {
   const {
     isOpen,
     onClose,
     text1,
     text2,
-    setPopupSuccess,
-    showButtonOk = false,
-    resetState = null,
-    timeout = 3000
+    setPopup,
+    handleAction,
+    resetState = null
   } = props;
   const dispatch = useDispatch();
-  useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => {
-        setPopupSuccess(false);
-      }, timeout);
-      if (resetState !== null) {
-        dispatch(resetState());
-      }
-    }
-  }, [isOpen]);
 
   if (!isOpen) return null;
   return (
@@ -58,8 +48,8 @@ export default function SuccessPopup(props) {
                   <div className="flex flex-col items-center justify-center gap-5 text-center">
                     <img
                       className="max-h-[280px] max-w-[280px]"
-                      src={success}
-                      alt="successImage"
+                      src={confirmation}
+                      alt="confirmationImage"
                     />
                     {text1 && (
                       <p className="text-20 text-primaryBlack">{text1}</p>
@@ -67,14 +57,21 @@ export default function SuccessPopup(props) {
                     {text2 && (
                       <p className="text-16 text-primaryDarkgray">{text2}</p>
                     )}
-                    {showButtonOk && (
+
+                    <div className="flex justify-between items-center w-full gap-5">
                       <button
-                        onClick={onClose}
-                        className="bg-primaryOrange text-white text-16 w-full py-2 rounded-lg"
+                        className="w-full flex items-center justify-center rounded-lg bg-accentRed hover:bg-opacity-85 transition-all ease-in-out duration-200 text-16 py-2 text-primaryWhite"
+                        onClick={handleAction}
                       >
-                        Oke
+                        Ya, Hapus
                       </button>
-                    )}
+                      <button
+                        className="w-full flex items-center justify-center rounded-lg bg-primaryWhite hover:bg-opacity-85 transition-all ease-in-out duration-200 border border-primaryBlack text-16 py-2"
+                        onClick={onClose}
+                      >
+                        Batalkan
+                      </button>
+                    </div>
                   </div>
                 </Dialog.Panel>
               </Transition.Child>

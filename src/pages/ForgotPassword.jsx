@@ -116,7 +116,7 @@ const ForgotPassword = () => {
                 Masukkan email untuk menerima kode OTP sebelum mengatur ulang
                 kata sandi
               </p>
-              {requestOTPSuccess && (
+              {requestOTPSuccess === true && requestOTPResponse !== null && (
                 <div className="text-accentGreen font-semibold text-16">
                   {requestOTPResponse?.message}
                 </div>
@@ -242,6 +242,8 @@ const ResetPassword = (props) => {
   };
 
   const submitForm = async (data) => {
+    dispatch(resetStateRequestOTP());
+    dispatch(resetStateResetPassword());
     try {
       const { confirmPassword, ...submitData } = data;
       dispatch(resetPassword(submitData));
@@ -254,6 +256,8 @@ const ResetPassword = (props) => {
   const handleSendOTP = async () => {
     dispatch(resetStateRequestOTP());
     dispatch(resetStateResetPassword());
+
+    console.log("ini ke reset");
     try {
       dispatch(requestOTP({ email: emailSent }));
       console.log("Form data submitted:", { email: emailSent });

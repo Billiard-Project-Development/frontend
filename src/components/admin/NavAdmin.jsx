@@ -44,7 +44,9 @@ const NavAdmin = (props) => {
             <p className="text-20 font-bold text-primaryOrange">
               {userInfo?.nama}
             </p>
-            <p className="text-14 font-semibold text-accentSoftOrange">kasir</p>
+            <p className="text-14 font-semibold text-accentSoftOrange">
+              {userInfo?.role === 1 ? "Super Admin" : "Admin"}
+            </p>
           </div>
         </div>
       </div>

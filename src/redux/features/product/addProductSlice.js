@@ -32,7 +32,7 @@ const addProductSlice = createSlice({
         state.addProductLoading = false;
         state.addProductResponse = null;
         state.addProductSuccess = false;
-        state.addProductError = false;
+        state.addProductError = action.payload;
       });
   }
 });
